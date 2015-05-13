@@ -1,0 +1,35 @@
+{
+  "name": "eslint-watch",
+  "version": "0.0.0",
+  "description": "Run eslint with watch mode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rizowski/eslint-watch.git"
+  },
+  "bin": {
+    "es": "./bin/es"
+  },
+  "keywords": [
+    "eslint",
+    "watch"
+  ],
+  "author": {
+    "name": "Colten Rouska",
+    "email": "c.rouska@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rizowski/eslint-watch/issues"
+  },
+  "homepage": "https://github.com/rizowski/eslint-watch",
+  "dependencies": {
+    "chokidar": "^1.0.1",
+    "eslint": "^0.21.0",
+    "optionator": "^0.6.0"
+  },
+  "devDependencies": { }
+}

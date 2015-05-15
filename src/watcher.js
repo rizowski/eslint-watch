@@ -14,6 +14,12 @@ function watcher(){
 
   function lintFile(path, config){
     var results = cli.executeOnFiles([path], config).results;
+    var errorCount = results[0].errorCount;
+    if (errorCount === 0) {
+      var message = chalk.underline(path) + ' ';
+      message += chalk.green('Woo! No Errors or warnings!');
+      console.log(message);
+    }
     console.log(formatter(results));
   }
 

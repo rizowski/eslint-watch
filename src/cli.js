@@ -1,19 +1,21 @@
 'use strict';
 var options = require('./options'),
   cli = require('./eslint-cli'),
-  watcher = require('./watcher');
+  watcher = require('./watcher'),
+  parser = require('./arg-parser');
+function command() {
+  var currentOptions;
+  var args;
 
-var currentOptions;
-
-try {
   currentOptions = options.parse(process.argv);
-  if (currentOptions.watch){
-    cli.execute('./');
+
+  args = parser.parse(process.argv);
+
+  cli.execute(args);
+  if (currentOptions.watch) {
     watcher();
-  } else {
-    cli.execute(process.argv);
   }
-} catch (error) {
-  console.log(error);
-  return 1;
 }
+
+command();
+

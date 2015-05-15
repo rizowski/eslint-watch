@@ -11,7 +11,7 @@
     "url": "https://github.com/rizowski/eslint-watch.git"
   },
   "bin": {
-    "es": "./bin/es"
+    "esw": "./bin/esw"
   },
   "keywords": [
     "eslint",
@@ -27,9 +27,10 @@
   },
   "homepage": "https://github.com/rizowski/eslint-watch",
   "dependencies": {
+    "chalk": "^1.0.0",
     "chokidar": "^1.0.1",
     "eslint": "^0.21.0",
     "optionator": "^0.6.0"
   },
-  "devDependencies": { }
+  "devDependencies": {}
 }

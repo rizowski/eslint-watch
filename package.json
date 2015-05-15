@@ -1,6 +1,6 @@
 {
   "name": "eslint-watch",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Run eslint with watch mode",
   "main": "index.js",
   "scripts": {

@@ -2,18 +2,19 @@
 var options = require('./options'),
   cli = require('./eslint-cli'),
   watcher = require('./watcher'),
-  parser = require('./arg-parser');
+  argParser = require('./arg-parser');
+
 function command() {
   var currentOptions;
-  var args;
+  var eslArgs;
 
   currentOptions = options.parse(process.argv);
+  eslArgs = argParser.parse(process.argv, currentOptions);
 
-  args = parser.parse(process.argv);
+  cli.execute(eslArgs);
 
-  cli.execute(args);
   if (currentOptions.watch) {
-    watcher();
+    watcher(currentOptions._);
   }
 }
 

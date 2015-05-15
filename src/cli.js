@@ -1,8 +1,8 @@
 'use strict';
-var options = require('./options'),
-  cli = require('./eslint-cli'),
-  watcher = require('./watcher'),
-  argParser = require('./arg-parser');
+var options = require('./options');
+var cli = require('./eslint-cli');
+var watcher = require('./watcher');
+var argParser = require('./arg-parser');
 
 function command() {
   var currentOptions;

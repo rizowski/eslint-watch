@@ -1,15 +1,24 @@
 # Eslint Watch
+[![NPM version](https://badge.fury.io/js/eslint-watch.svg)](http://badge.fury.io/js/eslint-watch)
+[![Dependancies](https://david-dm.org/rizowski/eslint-watch.svg)](https://david-dm.org/rizowski/eslint-watch#info=dependencies)
+[![devDependency Status](https://david-dm.org/rizowski/eslint-watch/dev-status.svg)](https://david-dm.org/rizowski/eslint-watch#info=devDependencies)
+[![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
+
 [![Join the chat at https://gitter.im/rizowski/eslint-watch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rizowski/eslint-watch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Eslint Watch is a simple file watcher that wraps eslint. All commands that eslint offers can be used with the addition of a watch command. The command will run based on the current directory.
 
+## Getting started
+To run this eslint-watch without the global install, make an npm script.
+  - `npm install eslint-watch [-g]`
+
 ## Features added
-  - Directory Watching
-  - Lints working directory by default 
+  - Directory watching
+  - Lints working directory by default.
     - `esw` will lint `./` by default
     - `esw src/` will lint `src/`
-    - `esw -w` will watch lint `./`
-    - `esw -w src/` will watch lint `src/`
+    - `esw -w` will watch `./`
+    - `esw -w src/` will watch `src/`
 
 ## Options
 ```

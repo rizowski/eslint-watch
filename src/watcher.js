@@ -1,7 +1,7 @@
 'use strict';
-var chokidar = require('chokidar'),
-  chalk = require('chalk'),
-  eslint = require('eslint');
+var chokidar = require('chokidar');
+var chalk = require('chalk');
+var eslint = require('eslint');
 
 var defaultPath = './';
 var jsFileRules = ['*.js$', '**/*.js$'];
@@ -32,9 +32,7 @@ function watcher(specifiedPath) {
   function printSuccess(path, results) {
     var errorCount = results[0].errorCount;
     if (errorCount === 0) {
-      var message = chalk.underline(path) + ' ';
-      message += chalk.green('Woo! No Errors or warnings!');
-      console.log(message);
+      console.log(chalk.underline(path), ' ', chalk.green('Woo! No Errors or warnings!'));
     }
   }
 

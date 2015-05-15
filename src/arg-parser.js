@@ -2,6 +2,7 @@
 
 var watch = '--watch';
 var w = '-w';
+var defaultPath = './';
 
 module.exports = {
   parse: function (args, options) {
@@ -18,7 +19,7 @@ module.exports = {
     arrLength = arr.length;
 
     if (!dirs.length) {
-      arr[arrLength] = './';
+      arr[arrLength] = defaultPath;
     }
 
     return arr;

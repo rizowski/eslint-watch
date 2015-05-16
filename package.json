@@ -4,6 +4,8 @@
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
+    "start": "node ./bin/esw",
+    "watch": "node ./bin/esw -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

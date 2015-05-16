@@ -9,8 +9,9 @@ var events = {
   change: 'change'
 };
 
-function watcher(specifiedPath) {
+function watcher(options) {
   var cli = new eslint.CLIEngine();
+  var specifiedPath = options._;
   var formatter = cli.getFormatter();
 
   var watch = chokidar.watch(specifiedPath);

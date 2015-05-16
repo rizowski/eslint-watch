@@ -9,7 +9,7 @@
 Eslint Watch is a simple file watcher that wraps eslint. All commands that eslint offers can be used with the addition of a watch command. The command will run based on the current directory.
 
 ## Getting started
-To run this eslint-watch without the global install, make an npm script.
+To run eslint-watch without the global install, make an npm script.
   - `npm install eslint-watch [-g]`
 
 ## Features added

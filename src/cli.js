@@ -1,24 +1,27 @@
+/// <reference path="../typings/node/node.d.ts"/>
 'use strict';
 var options = require('./options');
 var cli = require('./eslint-cli');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
 
-function command() {
-  var currentOptions;
-  var eslArgs;
+var currentOptions;
+var eslArgs;
+var exitCode;
 
-  currentOptions = options.parse(process.argv);
-  eslArgs = argParser.parse(process.argv, currentOptions);
+currentOptions = options.parse(process.argv);
+eslArgs = argParser.parse(process.argv, currentOptions);
 
-  if (!currentOptions.help) {
-    cli.execute(eslArgs);
-    if (currentOptions.watch) {
-      watcher(currentOptions._);
-    }
-  } else {
-    console.log(options.generateHelp());
+if (!currentOptions.help) {
+  exitCode = cli.execute(eslArgs);
+
+  if (currentOptions.watch) {
+    watcher(currentOptions);
   }
+} else {
+  console.log(options.generateHelp());
 }
 
-command();
+process.on("exit", function () {
+  process.exit(exitCode);
+});

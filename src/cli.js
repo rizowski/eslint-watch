@@ -11,12 +11,14 @@ function command() {
   currentOptions = options.parse(process.argv);
   eslArgs = argParser.parse(process.argv, currentOptions);
 
-  cli.execute(eslArgs);
-
-  if (currentOptions.watch) {
-    watcher(currentOptions._);
+  if (!currentOptions.help) {
+    cli.execute(eslArgs);
+    if (currentOptions.watch) {
+      watcher(currentOptions._);
+    }
+  } else {
+    console.log(options.generateHelp());
   }
 }
 
 command();
-

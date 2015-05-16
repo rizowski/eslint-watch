@@ -7,7 +7,6 @@ var defaultPath = './';
 module.exports = {
   parse: function (args, options) {
     var arr = [];
-    var arrLength;
     var dirs = options._;
 
     for (var i = 0; i < args.length; i++) {
@@ -16,10 +15,9 @@ module.exports = {
         arr.push(item);
       }
     }
-    arrLength = arr.length;
 
     if (!dirs.length) {
-      arr[arrLength] = defaultPath;
+      arr[arr.length] = defaultPath;
     }
 
     return arr;

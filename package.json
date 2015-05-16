@@ -2,7 +2,7 @@
   "name": "eslint-watch",
   "version": "1.0.2",
   "description": "Run eslint with watch mode",
-  "main": "index.js",
+  "main": "./src/cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +15,9 @@
   },
   "keywords": [
     "eslint",
-    "watch"
+    "watch",
+    "javascript",
+    "linter"
   ],
   "author": {
     "name": "Colten Rouska",

@@ -5,6 +5,9 @@ var eslint = require('eslint');
 
 var defaultPath = './';
 var jsFileRules = ['*.js$', '**/*.js$'];
+var events = {
+  change: 'change'
+};
 
 function watcher(specifiedPath) {
   var cli = new eslint.CLIEngine();
@@ -36,7 +39,7 @@ function watcher(specifiedPath) {
     }
   }
 
-  watch.on('change', function (path) {
+  watch.on(events.change, function (path) {
     var config = cli.getConfigForFile(path);
     lintFile(path, config);
   });

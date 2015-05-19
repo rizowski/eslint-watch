@@ -1,4 +1,3 @@
-/// <reference path="../typings/node/node.d.ts"/>
 'use strict';
 var options = require('./options');
 var cli = require('./eslint-cli');

@@ -29,14 +29,15 @@ function watcher(options) {
 
   function lintFile(path, config) {
     var results = cli.executeOnFiles([path], config).results;
-    printSuccess(path, results);
     console.log(formatter(results));
+    printSuccess(path, results);
   }
 
   function printSuccess(path, results) {
     var errorCount = results[0].errorCount;
-    if (errorCount === 0) {
-      console.log(chalk.underline(path), ' ', chalk.green('Woo! No Errors or warnings!'));
+    var warningCount = results[0].warningCount;
+    if (errorCount === 0 && warningCount === 0) {
+      console.log(chalk.underline(path), chalk.green('(0) Errors | (0) Warnings'));
     }
   }
 

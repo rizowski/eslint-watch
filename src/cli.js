@@ -1,4 +1,4 @@
-/// <reference path="../typings/node/node.d.ts"/>
+/* eslint no-process-exit: 0*/
 'use strict';
 var options = require('./options');
 var cli = require('./eslint-cli');
@@ -22,6 +22,6 @@ if (!currentOptions.help) {
   console.log(options.generateHelp());
 }
 
-process.on("exit", function () {
+process.on('exit', function () {
   process.exit(exitCode);
 });

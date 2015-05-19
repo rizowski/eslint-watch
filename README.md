@@ -1,4 +1,5 @@
 # Eslint Watch
+[![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg)](https://travis-ci.org/rizowski/eslint-watch)
 [![NPM version](https://badge.fury.io/js/eslint-watch.svg)](http://badge.fury.io/js/eslint-watch)
 [![Dependancies](https://david-dm.org/rizowski/eslint-watch.svg)](https://david-dm.org/rizowski/eslint-watch#info=dependencies)
 [![devDependency Status](https://david-dm.org/rizowski/eslint-watch/dev-status.svg)](https://david-dm.org/rizowski/eslint-watch#info=devDependencies)

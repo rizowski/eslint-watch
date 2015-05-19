@@ -22,7 +22,7 @@ To run eslint-watch without the global install, make an npm script.
 
 ## Options
 ```
-esw [options] file.js [file.js] [dir]
+esw [options] [file.js, ...] [dir]
 
 Options:
   -h, --help                  Show help

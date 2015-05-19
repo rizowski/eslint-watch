@@ -1,1 +1,10 @@
 text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+.editorconfig eol=lf
+.eslintrc eol=lf
+.gitignore eol=lf
+.gitattributes eol=lf
+LICENSE text

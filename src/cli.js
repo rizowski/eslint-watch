@@ -13,7 +13,7 @@ var args = process.argv;
 
 currentOptions = options.parse(args);
 eslArgs = argParser.parse(args, currentOptions);
-
+console.log(currentOptions, eslArgs, args);
 if (!currentOptions.help) {
   exitCode = cli.execute(eslArgs);
 

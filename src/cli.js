@@ -9,8 +9,10 @@ var currentOptions;
 var eslArgs;
 var exitCode;
 
-currentOptions = options.parse(process.argv);
-eslArgs = argParser.parse(process.argv, currentOptions);
+var args = process.argv;
+
+currentOptions = options.parse(args);
+eslArgs = argParser.parse(args, currentOptions);
 
 if (!currentOptions.help) {
   exitCode = cli.execute(eslArgs);

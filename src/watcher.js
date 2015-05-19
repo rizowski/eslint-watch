@@ -2,6 +2,7 @@
 var chokidar = require('chokidar');
 var chalk = require('chalk');
 var eslint = require('eslint');
+var successFormatter = require('./formatters/simple-success');
 
 var defaultPath = './';
 var jsFileRules = ['*.js$', '**/*.js$'];
@@ -15,6 +16,7 @@ var cli = new eslint.CLIEngine();
 function watcher(options) {
   var specifiedPath = options._;
   var formatter = cli.getFormatter();
+  console.log(formatter);
 
   var watch = chokidar.watch(specifiedPath);
 

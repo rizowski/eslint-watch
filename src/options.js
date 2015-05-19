@@ -25,7 +25,7 @@ module.exports = optionator({
       option: 'format',
       alias: 'f',
       type: 'String',
-      default: 'stylish',
+      default: 'simple',
       description: 'Use a specific output format'
     }, {
       option: 'version',

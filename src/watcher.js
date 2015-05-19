@@ -8,9 +8,11 @@ var jsFileRules = ['*.js$', '**/*.js$'];
 var events = {
   change: 'change'
 };
+var successMessage = '(0) Errors | (0) Warnings';
+
+var cli = new eslint.CLIEngine();
 
 function watcher(options) {
-  var cli = new eslint.CLIEngine();
   var specifiedPath = options._;
   var formatter = cli.getFormatter();
 
@@ -37,7 +39,7 @@ function watcher(options) {
     var errorCount = results[0].errorCount;
     var warningCount = results[0].warningCount;
     if (errorCount === 0 && warningCount === 0) {
-      console.log(chalk.underline(path), chalk.green('(0) Errors | (0) Warnings'));
+      console.log(chalk.underline(path), chalk.green(successMessage));
     }
   }
 

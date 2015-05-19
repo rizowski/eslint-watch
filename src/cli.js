@@ -1,3 +1,4 @@
+/* eslint no-process-exit: 0*/
 'use strict';
 var options = require('./options');
 var cli = require('./eslint-cli');
@@ -8,8 +9,10 @@ var currentOptions;
 var eslArgs;
 var exitCode;
 
-currentOptions = options.parse(process.argv);
-eslArgs = argParser.parse(process.argv, currentOptions);
+var args = process.argv;
+
+currentOptions = options.parse(args);
+eslArgs = argParser.parse(args, currentOptions);
 
 if (!currentOptions.help) {
   exitCode = cli.execute(eslArgs);
@@ -21,6 +24,6 @@ if (!currentOptions.help) {
   console.log(options.generateHelp());
 }
 
-process.on("exit", function () {
+process.on('exit', function () {
   process.exit(exitCode);
 });

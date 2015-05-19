@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node ./bin/esw",
     "watch": "node ./bin/esw -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --bail --colors --reporter spec ./spec",
+    "tdd": "mocha --watch --bail --colors --reporter spec ./spec",
+    "ci": "npm start && npm run test"
   },
   "repository": {
     "type": "git",
@@ -36,5 +38,9 @@
     "eslint": "0.21.0",
     "optionator": "^0.6.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "istanbul": "^0.3.14",
+    "mocha": "^2.2.5"
+  }
 }

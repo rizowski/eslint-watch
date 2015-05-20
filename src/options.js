@@ -2,7 +2,7 @@
 var optionator = require('optionator');
 
 module.exports = optionator({
-  prepend: 'esw [options] [file.js, ...] [dir]',
+  prepend: 'esw [options] [file.js ...] [dir ...]',
   concatRepeatedArrays: true,
   mergeRepeatedObjects: true,
   options: [{

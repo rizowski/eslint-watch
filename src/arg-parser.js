@@ -1,8 +1,9 @@
 'use strict';
+var path = require('path');
 
 var simple = 'simple';
 var simpleSuccess = 'simple-success';
-var formatterPath = './src/formatters/';
+var formatterPath = 'formatters';
 
 var defaultPath = './';
 var rejected = {
@@ -22,7 +23,7 @@ module.exports = {
         arr.push(item);
       }
       if (item === simple || item === simpleSuccess) {
-        arr.push(formatterPath + options.format);
+        arr.push(path.join(__dirname, formatterPath, options.format));
       }
     }
     if (!dirs.length) {

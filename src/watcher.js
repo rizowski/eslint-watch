@@ -1,7 +1,7 @@
 'use strict';
 var chokidar = require('chokidar');
 var eslint = require('eslint');
-var success = require('./formatters/simple-success');
+var success = require('./formatters/helpers/success');
 
 var defaultPath = './';
 var jsFileRules = ['*.js$', '**/*.js$'];
@@ -12,32 +12,34 @@ var events = {
 var cli = new eslint.CLIEngine();
 
 function watcher(options) {
+  var pathToWatch;
   var specifiedPath = options._;
   var formatter = cli.getFormatter();
-
   var watch = chokidar.watch(specifiedPath);
 
   if (specifiedPath.length) {
     watch.unwatch(defaultPath);
     watch.add(specifiedPath);
     watch.add(jsFileRules[0]);
-    console.log('Watching', specifiedPath);
+    pathToWatch = specifiedPath;
   } else {
     watch.add(jsFileRules);
-    console.log('Watching', defaultPath);
+    pathToWatch = defaultPath;
   }
+
+  console.log('Watching', pathToWatch);
 
   function lintFile(path, config) {
     var results = cli.executeOnFiles([path], config).results;
     console.log(formatter(results));
-    printSuccess(path, results);
+    printSuccess(results[0]);
   }
 
-  function printSuccess(path, results) {
-    var errorCount = results[0].errorCount;
-    var warningCount = results[0].warningCount;
+  function printSuccess(result) {
+    var errorCount = result.errorCount;
+    var warningCount = result.warningCount;
     if (errorCount === 0 && warningCount === 0) {
-      console.log(success(results));
+      console.log(success(result));
     }
   }
 

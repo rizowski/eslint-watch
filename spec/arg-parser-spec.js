@@ -1,6 +1,7 @@
 'use strict';
 var chai = require('chai');
 var expect = chai.expect;
+var assert = chai.assert;
 
 describe('arg-parser', function(){
   var parser, options;
@@ -38,6 +39,19 @@ describe('arg-parser', function(){
       options._.push(path);
       var arr = parser.parse([], options);
       expect(arr).to.not.contain('./');
+    });
+  });
+
+  describe('foramtters', function(){
+    it('sets the full path to the formatters folder', function(){
+      options.format = 'simple';
+      var arr = parser.parse(['-f', 'simple'], options);
+      for(var i = 0; i < arr.length; i++){
+        if(arr[i].indexOf('formatters\\') > -1)
+        {
+          assert(true);
+        }
+      }
     });
   });
 

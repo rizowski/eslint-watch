@@ -1,17 +1,15 @@
 'use strict';
-var chalk = require('chalk');
+var success = require('./helpers/success');
+var error = require('./helpers/error-warning');
 
 module.exports = function (results) {
   var message = '';
   for (var i = 0; i < results.length; i++) {
     var result = results[i];
     if (result.errorCount === 0 && result.warningCount === 0) {
-      message += chalk.green('✓') + ' ' + chalk.white(result.filePath) + '\n';
+      message += success(result) + '\n';
     } else {
-      message += chalk.red(result.errorCount) + '/';
-      message += chalk.yellow('' + result.warningCount + ' ');
-      message += chalk.white(result.filePath);
-
+      message += error(result);
       message += '\n';
     }
   }

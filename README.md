@@ -15,16 +15,19 @@ To run eslint-watch without the global install, make an npm script.
   - `npm install eslint-watch [-g]`
 
 ## Features added
-  - (Multi) Directory watching
-    - `esw -w dir1/ dir2/`
-  - Eslint-Watch will lint the current working directory by default. A directory is no longer required.
-    - `esw [options] [file.js ...] [dir ...]`
+  - Watching
+    - (Multi) Directory watching
+      - `esw -w dir1/ dir2/`
+    - Runs a full directory lint before the watch
+  - Eslint Overrides
+    - Default directory linting. A directory is no longer required.
+      - `esw [options] [file.js ...] [dir ...]`
   - [Simple formatter](#new-formatters)
     - `esw -f simple[-success]`
-    
+
 ## Options
 ```
-esw [options] [file.js, ...] [dir]
+esw [options] [file.js ...] [dir ...]
 
 Options:
   -h, --help                  Show help

@@ -1,6 +1,6 @@
 {
   "name": "eslint-watch",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
@@ -35,7 +35,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "chokidar": "^1.0.1",
-    "eslint": "^0.21.0",
+    "eslint": "0.21.0",
     "optionator": "^0.6.0"
   },
   "devDependencies": {

@@ -1,14 +1,13 @@
 'use strict';
 var chokidar = require('chokidar');
-var chalk = require('chalk');
 var eslint = require('eslint');
+var success = require('./formatters/simple-success');
 
 var defaultPath = './';
 var jsFileRules = ['*.js$', '**/*.js$'];
 var events = {
   change: 'change'
 };
-var successMessage = '(0) Errors | (0) Warnings';
 
 var cli = new eslint.CLIEngine();
 
@@ -38,7 +37,7 @@ function watcher(options) {
     var errorCount = results[0].errorCount;
     var warningCount = results[0].warningCount;
     if (errorCount === 0 && warningCount === 0) {
-      console.log(chalk.underline(path), chalk.green(successMessage));
+      console.log(success(results));
     }
   }
 

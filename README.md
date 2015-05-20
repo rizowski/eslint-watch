@@ -50,6 +50,6 @@ Options:
 ```
 
 ## New Formatters
-[![simple-success with watch](http://i.imgur.com/fWArXcPl.png)](http://i.imgur.com/fWArXcP.png)
+[![simple with watch](http://i.imgur.com/Jci7PFvl.png)](http://i.imgur.com/Jci7PFv.png)
 
-[![simple with watch](http://i.imgur.com/bD8Lglsl.png)](http://i.imgur.com/bD8Lgls.png)
+[![simple-success with watch](http://i.imgur.com/pAYv9Lol.png)](http://i.imgur.com/pAYv9Lo.png)

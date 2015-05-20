@@ -8,9 +8,9 @@ module.exports = function (results) {
     if (result.errorCount === 0 && result.warningCount === 0) {
       continue;
     }
-    message += chalk.white(result.filePath) + ' ';
-    message += chalk.red('(' + result.errorCount + ') Errors') + ' | ';
-    message += chalk.yellow('(' + result.warningCount + ') Warnings');
+    message += chalk.red(result.errorCount) + '/';
+    message += chalk.yellow('' + result.warningCount + ' ');
+    message += chalk.white(result.filePath);
     message += '\n';
   }
   return message;

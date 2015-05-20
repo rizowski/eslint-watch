@@ -7,20 +7,21 @@
 
 [![Join the chat at https://gitter.im/rizowski/eslint-watch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rizowski/eslint-watch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Eslint Watch is a simple file watcher that wraps eslint. All commands that eslint offers can be used with the addition of a watch command. The command will run based on the current directory.
+Tired of typing `eslint ./` or `npm run lint` all the time? Don't want to import Webpack, Grunt, or some other task package into your project? Then this is the tool for you. In this repo we use [Chokidar](https://www.npmjs.com/package/chokidar) for file system watching. (All that means is it is fast)
+Eslint Watch is a simple file watcher that wraps [Eslint](https://www.npmjs.com/package/eslint). All commands that Eslint offers can be used with the addition of a watch command. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!
 
 ## Getting started
 To run eslint-watch without the global install, make an npm script.
   - `npm install eslint-watch [-g]`
 
 ## Features added
-  - Directory watching
-  - Lints working directory by default.
-    - `esw` will lint `./` by default
-    - `esw src/` will lint `src/`
-    - `esw -w` will watch `./`
-    - `esw -w src/` will watch `src/`
-
+  - (Multi) Directory watching
+    - `esw -w dir1/ dir2/`
+  - Eslint-Watch will lint the current working directory by default. A directory is no longer required.
+    - `esw [options] [file.js ...] [dir ...]`
+  - [Simple formatter](#new-formatters)
+    - `esw -f simple[-success]`
+    
 ## Options
 ```
 esw [options] [file.js, ...] [dir]
@@ -47,3 +48,8 @@ Options:
   --stdin-filename String     Specify filename to process STDIN as
   -w, --watch                 Enable file watch
 ```
+
+## New Formatters
+[![simple-success with watch](http://i.imgur.com/fWArXcPl.png)](http://i.imgur.com/fWArXcP.png)
+
+[![simple with watch](http://i.imgur.com/bD8Lglsl.png)](http://i.imgur.com/bD8Lgls.png)

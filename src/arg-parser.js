@@ -3,14 +3,16 @@ var path = require('path');
 
 var simple = 'simple';
 var simpleSuccess = 'simple-success';
+var simpleDetail = 'simple-detail';
 var formatterPath = 'formatters';
 
 var defaultPath = './';
-var rejected = {
+var rejected = { // todo: need to fix this
   '-w': true,
   '--watch': true,
   'simple': true,
-  'simple-success': true
+  'simple-success': true,
+  'simple-detail': true
 };
 
 module.exports = {
@@ -22,7 +24,7 @@ module.exports = {
       if (!rejected[item]) {
         arr.push(item);
       }
-      if (item === simple || item === simpleSuccess) {
+      if (item === simple || item === simpleSuccess || item === simpleDetail) {
         arr.push(path.join(__dirname, formatterPath, options.format));
       }
     }

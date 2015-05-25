@@ -43,6 +43,7 @@
     "istanbul": "^0.3.14",
     "mocha": "^2.2.5",
     "sinon": "^1.14.1",
-    "sinon-chai": "^2.7.0"
+    "sinon-chai": "^2.7.0",
+    "text-table": "^0.2.0"
   }
 }

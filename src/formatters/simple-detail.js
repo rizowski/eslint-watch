@@ -7,7 +7,6 @@ var table = require('text-table');
 var x = '✖';
 var ex = '!';
 var endLine = '\n';
-var successMessage = chalk.green('✓ Directory Clean \n');
 
 var tableSettings = {
   align: ['', '', 'r'],
@@ -63,7 +62,7 @@ function simpleDetail(results) {
 
   output += chalk.red(x + ' ' + total + ' ' + pluralize('problem', total) + endLine);
 
-  return total ? output : successMessage;
+  return total ? output : '';
 }
 
 module.exports = simpleDetail;

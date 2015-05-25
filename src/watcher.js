@@ -27,12 +27,12 @@ function watcher(options) {
     pathToWatch = defaultPath;
   }
 
-  console.log('Watching', pathToWatch);
+  console.log('Watching', pathToWatch, '\n');
 
   function lintFile(path, config) {
     var results = cli.executeOnFiles([path], config).results;
-    console.log(formatter(results));
     printSuccess(results[0]);
+    console.log(formatter(results));
   }
 
   function printSuccess(result) {

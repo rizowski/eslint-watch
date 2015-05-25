@@ -1,7 +1,8 @@
+/* eslint no-unused-expressions: 0 */
 'use strict';
 var chai = require('chai');
+
 var expect = chai.expect;
-var assert = chai.assert;
 
 describe('arg-parser', function(){
   var parser, options;
@@ -42,17 +43,43 @@ describe('arg-parser', function(){
     });
   });
 
-  describe('foramtters', function(){
+  describe('formatters', function(){
+    var find = function(arr, what){
+      var result = false;
+      for(var i = 0; i < arr.length; i++){
+        result = result || arr[i].indexOf(what) > -1;
+      }
+      return result;
+    };
+    var occurance = function(arr, what){
+      var result = 0;
+      for(var i = 0; i < arr.length; i++){
+        if(arr[i].indexOf(what) > -1){
+          result += 1;
+        }
+      }
+      return result;
+    };
+
     it('sets the full path to the formatters folder', function(){
       options.format = 'simple';
       var arr = parser.parse(['-f', 'simple'], options);
-      for(var i = 0; i < arr.length; i++){
-        if(arr[i].indexOf('formatters\\') > -1)
-        {
-          assert(true);
-        }
-      }
+      var result = find(arr, 'src\\formatters\\simple');
+      expect(result).to.be.true;
+    });
+
+    it('sets the default formatter to simple-detail using args', function(){
+      options.format = 'simple-detail';
+      var arr = parser.parse(['-f', 'simple-detail'], options);
+      var result = find(arr, 'formatters\\simple-detail');
+      expect(result).to.be.true;
+    });
+
+    it('handles passing in default', function(){
+      options.format = 'simple-detail';
+      var arr = parser.parse(['-f', 'simple-detail'], options);
+      var result = occurance(arr, 'formatters\\simple-detail');
+      expect(result).to.equal(1);
     });
   });
-
 });

@@ -26,19 +26,21 @@ function simpleDetail(results) {
 
   results.forEach(function (result) {
     var messages = result.messages;
+    var warnings = 0;
+    var errors = 0;
     if (!messages.length) {
       return;
     }
     total += messages.length;
 
-    output += chalk.white.underline(result.filePath) + endLine;
-
     var tableText = table(
       messages.map(function (message) {
         function getMessageType(msg) {
           if (msg.fatal || msg.severity === 2) {
+            errors++;
             return chalk.red(x);
           } else {
+            warnings++;
             return chalk.yellow(ex);
           }
         }
@@ -51,16 +53,17 @@ function simpleDetail(results) {
           chalk.gray(message.ruleId || '')];
       }), tableSettings);
 
+    output += chalk.white.underline(result.filePath) + ' (' + chalk.red(errors) + '/' + chalk.yellow(warnings) + ')' + endLine;
     output += tableText.split(endLine).map(function (el) {
       return el.replace(/(\d+)\s+(\d+)/, function (m, p1, p2) {
         return chalk.gray(p1 + ':' + p2);
       });
-    }).join(endLine) + endLine;
-
-    output += chalk.red(x + ' ' + total + ' ' + pluralize('problem', total) + endLine);
+    }).join(endLine) + endLine + endLine;
   });
 
-  return output ? output : successMessage;
+  output += chalk.red(x + ' ' + total + ' ' + pluralize('problem', total) + endLine);
+
+  return total ? output : successMessage;
 }
 
 module.exports = simpleDetail;

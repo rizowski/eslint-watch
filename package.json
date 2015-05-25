@@ -4,11 +4,11 @@
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
-    "start": "node ./bin/esw",
-    "watch": "node ./bin/esw -w",
+    "lint": "node ./bin/esw",
+    "lw": "node ./bin/esw -w",
     "test": "mocha --bail --colors --reporter spec ./spec",
     "tdd": "mocha --watch --bail --colors --reporter spec ./spec",
-    "ci": "npm start && npm run test"
+    "ci": "npm run lint && npm run test"
   },
   "repository": {
     "type": "git",

@@ -8,7 +8,7 @@
     "lw": "node ./bin/esw -w",
     "test": "mocha --bail --colors --reporter spec ./spec",
     "tdd": "mocha --watch --bail --colors --reporter spec ./spec",
-    "ci": "npm run lint && npm run test"
+    "ci": "npm run lint && mocha --colors --reporter spec ./spec"
   },
   "repository": {
     "type": "git",

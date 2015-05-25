@@ -1,6 +1,10 @@
 /* eslint no-unused-expressions: 0 */
 'use strict';
 var chai = require('chai');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
 
 var expect = chai.expect;
 
@@ -60,6 +64,15 @@ describe('arg-parser', function(){
       }
       return result;
     };
+    var pathStub;
+    beforeEach(function(){
+      var path = require('path');
+      pathStub = sinon.stub(path, 'join', function(){return 'src\\' + arguments[1] + '\\' + arguments[2]; });
+    });
+
+    afterEach(function(){
+      pathStub.restore();
+    });
 
     it('sets the full path to the formatters folder', function(){
       options.format = 'simple';

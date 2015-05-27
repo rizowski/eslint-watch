@@ -1,4 +1,3 @@
-/* eslint no-unused-expressions: 0 */
 'use strict';
 var chai = require('chai');
 var sinon = require('sinon');
@@ -67,7 +66,9 @@ describe('arg-parser', function(){
     var pathStub;
     beforeEach(function(){
       var path = require('path');
-      pathStub = sinon.stub(path, 'join', function(){return 'src\\' + arguments[1] + '\\' + arguments[2]; });
+      pathStub = sinon.stub(path, 'join', function(){
+        return 'src\\' + arguments[1] + '\\' + arguments[2];
+      });
     });
 
     afterEach(function(){

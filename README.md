@@ -53,8 +53,10 @@ Options:
 ```
 
 ## New Formatters
-[![Default Format](http://i.imgur.com/FD8lOE4h.png)](http://i.imgur.com/FD8lOE4.png)
+[![No Watch](http://i.imgur.com/HLsBoBPl.png)](http://i.imgur.com/HLsBoBP.png)
 
-[![simple with watch](http://i.imgur.com/kDddyEzh.png)](http://i.imgur.com/kDddyEz.png)
+[![Default Format](http://i.imgur.com/H0vKrgwl.png)](http://i.imgur.com/H0vKrgw.png)
 
-[![simple-success with watch](http://i.imgur.com/1SMyDrSh.png)](http://i.imgur.com/1SMyDrS.png)
+[![simple with watch](http://i.imgur.com/G41FL0ql.png)](http://i.imgur.com/G41FL0q.png)
+
+[![simple-success with watch](http://i.imgur.com/lZUTBKrl.png)](http://i.imgur.com/lZUTBKr.png)

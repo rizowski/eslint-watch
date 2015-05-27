@@ -65,7 +65,7 @@ function simpleDetail(results) {
   });
 
   if(totalErrors){
-    output += chalk.red(x + ' ' + totalErrors + ' ' + pluralize('problem', totalErrors)) + ' ';
+    output += chalk.red(x + ' ' + totalErrors + ' ' + pluralize('error', totalErrors)) + ' ';
   }
   if (totalWarnings) {
     output += chalk.yellow(ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + endLine;

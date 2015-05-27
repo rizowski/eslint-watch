@@ -6,6 +6,7 @@ var table = require('text-table');
 
 var x = '✖';
 var ex = '!';
+var check = '✓';
 var endLine = '\n';
 
 var tableSettings = {
@@ -20,8 +21,10 @@ function pluralize(word, count) {
 }
 
 function simpleDetail(results) {
-  var total = 0;
+  var totalErrors = 0;
+  var totalWarnings = 0;
   var output = '';
+  var cleanMsg = '';
 
   results.forEach(function (result) {
     var messages = result.messages;
@@ -30,18 +33,19 @@ function simpleDetail(results) {
     if (!messages.length) {
       return;
     }
-    total += messages.length;
 
     var tableText = table(
       messages.map(function (message) {
         function getMessageType(msg) {
           if (msg.fatal || msg.severity === 2) {
+            totalErrors++;
             errors++;
             return chalk.red(x);
-          } else {
-            warnings++;
-            return chalk.yellow(ex);
           }
+
+          totalWarnings++;
+          warnings++;
+          return chalk.yellow(ex);
         }
 
         return ['',
@@ -60,9 +64,17 @@ function simpleDetail(results) {
     }).join(endLine) + endLine + endLine;
   });
 
-  output += chalk.red(x + ' ' + total + ' ' + pluralize('problem', total) + endLine);
+  if(totalErrors){
+    output += chalk.red(x + ' ' + totalErrors + ' ' + pluralize('problem', totalErrors)) + ' ';
+  }
+  if (totalWarnings) {
+    output += chalk.yellow(ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + endLine;
+  }
+  if(results.length > 1){
+    cleanMsg = chalk.green(check + ' Clean') + endLine;
+  }
 
-  return total ? output : '';
+  return (totalErrors || totalWarnings) ? output : cleanMsg;
 }
 
 module.exports = simpleDetail;

@@ -20,7 +20,7 @@ To run eslint-watch without the global install, make an npm script.
     - Runs a full directory lint before the watch
   - Eslint Overrides
     - Default directory linting. A directory is no longer required.
-  - [Simple formatter](#new-formatters)
+  - [Simple formatters](#new-formatters)
     - simple-detail (default)
     - simple
     - simple-success
@@ -52,11 +52,8 @@ Options:
   -w, --watch                 Enable file watch
 ```
 
+## Functionality
+[![Simple lint and watch](http://i.imgur.com/gPZSXU0.png)](http://i.imgur.com/gPZSXU0.png)
+
 ## New Formatters
-[![No Watch](http://i.imgur.com/HLsBoBPl.png)](http://i.imgur.com/HLsBoBP.png)
-
-[![Default Format](http://i.imgur.com/H0vKrgwl.png)](http://i.imgur.com/H0vKrgw.png)
-
-[![simple with watch](http://i.imgur.com/G41FL0ql.png)](http://i.imgur.com/G41FL0q.png)
-
-[![simple-success with watch](http://i.imgur.com/lZUTBKrl.png)](http://i.imgur.com/lZUTBKr.png)
+[![simple simple-success simple-detail](http://i.imgur.com/m757NwM.png)](http://i.imgur.com/m757NwM.png)

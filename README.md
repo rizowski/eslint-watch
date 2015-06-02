@@ -16,14 +16,14 @@ To run eslint-watch without the global install, make an npm script.
 
 ## Features added
   - Watching
-    - (Multi) Directory watching
-      - `esw -w dir1/ dir2/`
+    - Multi-directory watching
     - Runs a full directory lint before the watch
   - Eslint Overrides
     - Default directory linting. A directory is no longer required.
-      - `esw [options] [file.js ...] [dir ...]`
-  - [Simple formatter](#new-formatters)
-    - `esw -f simple[-success]`
+  - [Simple formatters](#new-formatters)
+    - simple-detail (default)
+    - simple
+    - simple-success
 
 ## Options
 ```
@@ -33,7 +33,7 @@ Options:
   -h, --help                  Show help
   -c, --config path::String   Use configuration from this file
   --rulesdir [path::String]   Use additional rules from this directory
-  -f, --format String         Use a specific output format - default: stylish
+  -f, --format String         Use a specific output format - default: simple-detail
   -v, --version               Outputs the version number
   --reset                     Set all default rules to off - default: false
   --no-eslintrc               Disable use of configuration from .eslintrc
@@ -52,7 +52,8 @@ Options:
   -w, --watch                 Enable file watch
 ```
 
-## New Formatters
-[![simple with watch](http://i.imgur.com/Jci7PFvl.png)](http://i.imgur.com/Jci7PFv.png)
+## Functionality
+[![Simple lint and watch](http://i.imgur.com/gPZSXU0.png)](http://i.imgur.com/gPZSXU0.png)
 
-[![simple-success with watch](http://i.imgur.com/pAYv9Lol.png)](http://i.imgur.com/pAYv9Lo.png)
+## New Formatters
+[![simple simple-success simple-detail](http://i.imgur.com/m757NwM.png)](http://i.imgur.com/m757NwM.png)

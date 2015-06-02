@@ -25,6 +25,7 @@ function simpleDetail(results) {
   var totalWarnings = 0;
   var output = '';
   var cleanMsg = '';
+  var messageTime = chalk.gray('(' + new Date().toLocaleTimeString() + ')');
 
   results.forEach(function (result) {
     var messages = result.messages;
@@ -64,17 +65,19 @@ function simpleDetail(results) {
     }).join(endLine) + endLine + endLine;
   });
 
-  if(totalErrors){
+  if(totalErrors) {
     output += chalk.red(x + ' ' + totalErrors + ' ' + pluralize('error', totalErrors)) + ' ';
   }
   if (totalWarnings) {
-    output += chalk.yellow(ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + endLine;
+    output += chalk.yellow(ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + ' ';
   }
-  if(results.length > 1){
-    cleanMsg = chalk.green(check + ' Clean') + endLine;
+  if(results.length > 1) {
+    cleanMsg = chalk.green(check + ' Clean') + ' ' + messageTime + endLine;
   }
 
-  return (totalErrors || totalWarnings) ? output : cleanMsg;
+  output = (totalErrors || totalWarnings) ? output + messageTime + endLine : cleanMsg;
+
+  return output;
 }
 
 module.exports = simpleDetail;

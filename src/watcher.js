@@ -1,6 +1,7 @@
 'use strict';
 var chokidar = require('chokidar');
 var eslint = require('eslint');
+var chalk = require('chalk');
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
 
@@ -31,16 +32,15 @@ function watcher(options) {
 
   function lintFile(path, config) {
     var results = cli.executeOnFiles([path], config).results;
-    printSuccess(results[0]);
+    console.log(successMessage(results[0]));
     console.log(formatter(results));
   }
 
-  function printSuccess(result) {
-    var errorCount = result.errorCount;
-    var warningCount = result.warningCount;
-    if (errorCount === 0 && warningCount === 0) {
-      console.log(success(result));
+  function successMessage(result) {
+    if (result.errorCount === 0 && result.warningCount === 0) {
+      return success(result) + chalk.grey(' (' + new Date().toLocaleTimeString() + ')');
     }
+    return '';
   }
 
   watch.on(events.change, function (path) {

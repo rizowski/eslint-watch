@@ -3,11 +3,7 @@
 'use strict';
 var chalk = require('chalk');
 var table = require('text-table');
-
-var x = '\u2716';
-var ex = '\u0021';
-var check = '\u2713';
-var endLine = '\n';
+var c = require('./helpers/characters');
 
 var tableSettings = {
   align: ['', '', 'r'],
@@ -41,12 +37,12 @@ function simpleDetail(results) {
           if (msg.fatal || msg.severity === 2) {
             totalErrors++;
             errors++;
-            return chalk.red(x);
+            return chalk.red(c.x);
           }
 
           totalWarnings++;
           warnings++;
-          return chalk.yellow(ex);
+          return chalk.yellow(c.ex);
         }
 
         return ['',
@@ -57,25 +53,25 @@ function simpleDetail(results) {
           chalk.gray(message.ruleId || '')];
       }), tableSettings);
 
-    output += chalk.white.underline(result.filePath) + ' (' + chalk.red(errors) + '/' + chalk.yellow(warnings) + ')' + endLine;
-    output += tableText.split(endLine).map(function (el) {
+    output += chalk.white.underline(result.filePath) + ' (' + chalk.red(errors) + '/' + chalk.yellow(warnings) + ')' + c.endLine;
+    output += tableText.split(c.endLine).map(function (el) {
       return el.replace(/(\d+)\s+(\d+)/, function (m, p1, p2) {
         return chalk.gray(p1 + ':' + p2);
       });
-    }).join(endLine) + endLine + endLine;
+    }).join(c.endLine) + c.endLine + c.endLine;
   });
 
   if(totalErrors) {
-    output += chalk.red(x + ' ' + totalErrors + ' ' + pluralize('error', totalErrors)) + ' ';
+    output += chalk.red(c.x + ' ' + totalErrors + ' ' + pluralize('error', totalErrors)) + ' ';
   }
   if (totalWarnings) {
-    output += chalk.yellow(ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + ' ';
+    output += chalk.yellow(c.ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + ' ';
   }
   if(results.length > 1) {
-    cleanMsg = chalk.green(check + ' Clean') + ' ' + messageTime + endLine;
+    cleanMsg = chalk.green(c.check + ' Clean') + ' ' + messageTime + c.endLine;
   }
 
-  output = (totalErrors || totalWarnings) ? output + messageTime + endLine : cleanMsg;
+  output = (totalErrors || totalWarnings) ? output + messageTime + c.endLine : cleanMsg;
 
   return output;
 }

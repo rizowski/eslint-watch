@@ -1,5 +1,6 @@
 'use strict';
 var error = require('./helpers/error-warning');
+var c = require('./helpers/characters');
 
 module.exports = function (results) {
   var message = '';
@@ -7,7 +8,7 @@ module.exports = function (results) {
     var result = results[i];
     if (result.errorCount !== 0 || result.warningCount !== 0) {
       message += error(result);
-      message += '\n';
+      message += c.endLine;
     }
   }
   return message;

@@ -4,9 +4,9 @@
 var chalk = require('chalk');
 var table = require('text-table');
 
-var x = '✖';
-var ex = '!';
-var check = '✓';
+var x = '\u2716';
+var ex = '\u0021';
+var check = '\u2713';
 var endLine = '\n';
 
 var tableSettings = {

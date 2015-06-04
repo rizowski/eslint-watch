@@ -1,6 +1,6 @@
 'use strict';
 var chalk = require('chalk');
-var check = '✓';
+var check = '\u2713';
 var space = ' ';
 
 module.exports = function(result){

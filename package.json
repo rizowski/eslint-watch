@@ -19,6 +19,8 @@
   },
   "keywords": [
     "eslint",
+    "plugin",
+    "command line tool",
     "watch",
     "javascript",
     "linter"
@@ -35,7 +37,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "chokidar": "^1.0.1",
-    "eslint": "0.21.0",
+    "eslint": "~0.22.1",
     "optionator": "^0.6.0",
     "text-table": "^0.2.0"
   },

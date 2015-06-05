@@ -15,6 +15,9 @@ var formats = { // still don't like this can cause too much duplication
   'simple-success': true,
   'simple-detail': true
 };
+var getPath = function(options){
+  return path.join(__dirname, formatterPath, options.format);
+};
 
 module.exports = {
   parse: function (args, options) {
@@ -29,12 +32,12 @@ module.exports = {
       }
       if (formats[item]) {
         formatSpecified = true;
-        arr.push(path.join(__dirname, formatterPath, options.format));
+        arr.push(getPath(options));
       }
     }
     if (options.format === simpleDetail && !formatSpecified) {
       arr.push(formatKey);
-      arr.push(path.join(__dirname, formatterPath, options.format));
+      arr.push(getPath(options));
     }
     if (!dirs.length) {
       arr[arr.length] = defaultPath;

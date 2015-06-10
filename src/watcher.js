@@ -44,8 +44,10 @@ function watcher(options) {
   }
 
   watch.on(events.change, function (path) {
-    var config = cli.getConfigForFile(path);
-    lintFile(path, config);
+    if(!cli.isPathIgnored(path)){
+      var config = cli.getConfigForFile(path);
+      lintFile(path, config);
+    }
   });
 }
 

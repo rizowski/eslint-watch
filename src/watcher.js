@@ -30,17 +30,17 @@ function watcher(options) {
 
   console.log('Watching', pathToWatch, '\n');
 
-  function lintFile(path, config) {
-    var results = cli.executeOnFiles([path], config).results;
-    console.log(successMessage(results[0]));
-    console.log(formatter(results));
-  }
-
   function successMessage(result) {
     if (result.errorCount === 0 && result.warningCount === 0) {
       return success(result) + chalk.grey(' (' + new Date().toLocaleTimeString() + ')');
     }
     return '';
+  }
+
+  function lintFile(path, config) {
+    var results = cli.executeOnFiles([path], config).results;
+    console.log(successMessage(results[0]));
+    console.log(formatter(results));
   }
 
   watch.on(events.change, function (path) {

@@ -8,7 +8,6 @@
     "eol-last": 2,
     "no-trailing-spaces": 1,
     "quotes": [1, "single", "avoid-escape"],
-    "strict": [2, "global"],
-    "no-use-before-define" : true
+    "strict": [2, "global"]
   }
 }

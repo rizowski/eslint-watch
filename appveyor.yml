@@ -13,5 +13,9 @@ install:
 # No need for MSBuild on this project
 build: off
 
+notifications:
+  - provider: Webhook
+    url: https://webhooks.gitter.im/e/2c5e0e441ca25c240df9
+
 test_script:
-  - npm test
+  - npm run ci

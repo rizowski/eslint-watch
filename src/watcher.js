@@ -6,29 +6,37 @@ var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
 
 var defaultPath = './';
-var jsFileRules = ['*.js$', '**/*.js$'];
+var jsFileRules = ['**/*.js$'];
 var events = {
   change: 'change'
 };
 
 var cli = new eslint.CLIEngine();
 
+function generalize(ext){
+  var arr = [];
+  for(var i = 0; i < ext.length; i++){
+    arr.push('*' + ext[i] + '$');
+  }
+  return arr;
+}
+
 function watcher(options) {
   var pathToWatch;
   var specifiedPath = options._;
   var watch = chokidar.watch(specifiedPath);
+  var rules = options.ext ? generalize(options.ext) : jsFileRules;
 
   if (specifiedPath.length) {
     watch.unwatch(defaultPath);
     watch.add(specifiedPath);
-    watch.add(jsFileRules[0]);
     pathToWatch = specifiedPath;
   } else {
-    watch.add(jsFileRules);
     pathToWatch = defaultPath;
   }
+  watch.add(rules);
 
-  console.log('Watching', pathToWatch, '\n');
+  console.log('Watching', pathToWatch, rules, '\n');
 
   function successMessage(result) {
     if (result.errorCount === 0 && result.warningCount === 0) {

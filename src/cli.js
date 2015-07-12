@@ -1,7 +1,7 @@
 /* eslint no-process-exit: 0*/
 'use strict';
 var options = require('./options');
-var cli = require('./eslint-cli');
+var eslint = require('./eslint-cli');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
 
@@ -15,7 +15,7 @@ currentOptions = options.parse(args);
 eslArgs = argParser.parse(args, currentOptions);
 
 if (!currentOptions.help) {
-  exitCode = cli.execute(eslArgs);
+  eslint(eslArgs);
 
   if (currentOptions.watch) {
     watcher(currentOptions);

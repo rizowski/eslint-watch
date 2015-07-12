@@ -7,24 +7,24 @@ chai.use(sinonChai);
 
 var expect = chai.expect;
 
-describe('arg-parser', function(){
+describe('arg-parser', function () {
   var parser, options;
-  before(function(){
+  before(function () {
     parser = require('../src/arg-parser');
   });
 
-  beforeEach(function(){
-    options = {'_': []};
+  beforeEach(function () {
+    options = { '_': [] };
   });
 
-  describe('watch', function(){
-    it('parses for -w', function(){
+  describe('watch', function () {
+    it('parses for -w', function () {
       var args = ['node', 'some/long/path/to/prog', '-w'];
       var arr = parser.parse(args, options);
       expect(arr).to.not.contain('-w');
     });
 
-    it('parses for --watch', function(){
+    it('parses for --watch', function () {
       var watch = '--watch';
       var args = ['node', 'some/long/path/to/prog', watch];
       var arr = parser.parse(args, options);
@@ -32,13 +32,13 @@ describe('arg-parser', function(){
     });
   });
 
-  describe('path', function(){
-    it('sets a default path if one isn\'t provided', function(){
+  describe('path', function () {
+    it('sets a default path if one isn\'t provided', function () {
       var arr = parser.parse([], options);
       expect(arr).to.contain('./');
     });
 
-    it('doesn\'t set the default if a path is provided', function(){
+    it('doesn\'t set the default if a path is provided', function () {
       var path = 'something/short/';
       options._.push(path);
       var arr = parser.parse([], options);
@@ -46,50 +46,66 @@ describe('arg-parser', function(){
     });
   });
 
-  describe('formatters', function(){
-    var find = function(arr, what){
+  describe('executors', function(){
+    it('parses out node', function(){
+      var node = 'node';
+      var args = [node, 'some/path/somewhere'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.contain(node);
+    });
+
+    it('parses out esw', function(){
+      var esw = 'var/esw';
+      var args = ['something', esw];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.contain(esw);
+    });
+  });
+
+  describe('formatters', function () {
+    var find = function (arr, what) {
       var result = false;
-      for(var i = 0; i < arr.length; i++){
+      for (var i = 0; i < arr.length; i++) {
         result = result || arr[i].indexOf(what) > -1;
       }
       return result;
     };
-    var occurance = function(arr, what){
+    var occurance = function (arr, what) {
       var result = 0;
-      for(var i = 0; i < arr.length; i++){
-        if(arr[i].indexOf(what) > -1){
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].indexOf(what) > -1) {
           result += 1;
         }
       }
       return result;
     };
     var pathStub;
-    beforeEach(function(){
+    beforeEach(function () {
       var path = require('path');
-      pathStub = sinon.stub(path, 'join', function(){
+      pathStub = sinon.stub(path, 'join', function () {
         return 'src\\' + arguments[1] + '\\' + arguments[2];
       });
     });
 
-    afterEach(function(){
+    afterEach(function () {
       pathStub.restore();
     });
 
-    it('sets the full path to the formatters folder', function(){
+    it('sets the full path to the formatters folder', function () {
       options.format = 'simple';
       var arr = parser.parse(['-f', 'simple'], options);
       var result = find(arr, 'src\\formatters\\simple');
       expect(result).to.be.true;
     });
 
-    it('sets the default formatter to simple-detail using args', function(){
+    it('sets the default formatter to simple-detail using args', function () {
       options.format = 'simple-detail';
       var arr = parser.parse(['-f', 'simple-detail'], options);
       var result = find(arr, 'formatters\\simple-detail');
       expect(result).to.be.true;
     });
 
-    it('handles passing in default', function(){
+    it('handles passing in default', function () {
       options.format = 'simple-detail';
       var arr = parser.parse(['-f', 'simple-detail'], options);
       var result = occurance(arr, 'formatters\\simple-detail');

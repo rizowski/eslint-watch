@@ -15,8 +15,17 @@ var formats = { // still don't like this can cause too much duplication
   'simple-success': true,
   'simple-detail': true
 };
+var bin = {
+  'node': true,
+  'esw': 'esw'
+};
+
 var getPath = function(options){
   return path.join(__dirname, formatterPath, options.format);
+};
+
+var contains = function(str, item){
+  return str.indexOf(item) >= 0;
 };
 
 module.exports = {
@@ -27,7 +36,7 @@ module.exports = {
 
     for (var i = 0; i < args.length; i++) {
       var item = args[i];
-      if (!keys[item] && !formats[item]) {
+      if (!keys[item] && !formats[item] && !bin[item] && !contains(item, bin.esw)) {
         arr.push(item);
       }
       if (formats[item]) {

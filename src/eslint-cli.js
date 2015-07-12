@@ -8,9 +8,5 @@ var eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
 var exec = child.spawn;
 
 module.exports = function(args){
-  return exec(eslint, args, { stdio: 'inherit' })
-    .catch(function(){
-      //console.log(err);
-      // process.exit(1);
-    });
+  return exec(eslint, args, { stdio: 'inherit' });
 };

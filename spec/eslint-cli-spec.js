@@ -11,7 +11,7 @@ describe('eslint-cli', function () {
   var cli;
   var platform = 'win32';
   var osStub;
-  var childStub;
+  var childSpy;
   var pathStub;
   var os;
   var path;
@@ -28,9 +28,8 @@ describe('eslint-cli', function () {
     osStub = sinon.stub(os, 'platform', function(){
       return platform;
     });
-    childStub = sinon.stub(child, 'spawn', function(prog, args, opts){
-      return {prog: prog, args: args, opts: opts};
-    });
+    childSpy = sinon.spy(child.spawn);
+
     pathStub = sinon.stub(path, 'resolve', function(){
       return arguments;
     });
@@ -38,28 +37,20 @@ describe('eslint-cli', function () {
 
   afterEach(function(){
     osStub.restore();
-    childStub.restore();
     pathStub.restore();
   });
 
   it('executes eslint.cmd for win32', function(){
-    var args = ['-f', 'simple', './'];
+    var args = ['-a', 'simple', './'];
     platform = 'win32';
-    var results = cli(args);
-    console.log(results);
-    expect(results.prog).to.equal('./node_modules/.bin/eslint.cmd');
+    cli(args);
+    expect(childSpy.calledWith('./node_modules/.bin/eslint.cmd', args, {stdio: 'inherit'}));
   });
 
   it('executes eslint for other os', function(){
-    var args = ['-f', 'simple', './'];
+    var args = ['-a', 'simple', './'];
     platform = 'osx';
-    var results = cli(args);
-    expect(results.prog).to.equal('./node_modules/.bin/eslint');
-  });
-
-  it('executes eslint', function(){
-    var args = ['-f', 'simple', './'];
-    var results = cli(args);
-    expect(results.args).to.equal(args);
+    cli(args);
+    expect(childSpy.calledWith('./node_modules/.bin/eslint', args, {stdio: 'inherit'}));
   });
 });

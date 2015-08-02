@@ -5,11 +5,17 @@ var os = require('os');
 
 var cmd = os.platform() === 'win32' ? '.cmd' : '';
 var eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
+
 var spawn = child.spawnSync;
 
-module.exports = function(args, options){
+module.exports = function(args, options, childOptions){
+  options = options ? options : {'_': './'};
   var dirs = options._.length ? options._ : './';
-  console.log('Linting', dirs);
+  childOptions = childOptions ? childOptions : { stdio: 'inherit' };
 
-  return spawn(eslint, args, { stdio: 'inherit' });
+  if(!options.help){
+    console.log('Linting:', dirs);
+  }
+
+  return spawn(eslint, args, childOptions);
 };

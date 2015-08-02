@@ -12,9 +12,9 @@ Don't want to import Webpack, Grunt, or some other task package into your projec
 Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs.com/package/eslint). Eslint Watch provides file watching and command line improvements to the currently exisiting eslint command line interface. All commands that Eslint offers can be used with the addition of a watch command and a couple new templating views. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!
 
 ## Requirements
-To use this tool we require eslint to be installed on your project. The versions supported are:
+To use this tool we require eslint to be installed on your project.
   - `"eslint": ">=0.19.0 <=1.0.0"`
-  - `node v0.12.x`
+  - `node v0.12`
 
 ## Getting started
 To run eslint-watch without the global install, make an npm script.
@@ -31,17 +31,31 @@ To run eslint-watch without the global install, make an npm script.
     - simple
     - simple-success
 
+## Usage
+Any command listed under the ESLint help is used with `esw` instead of `eslint`.
+```
+esw --quiet -w
+```
+
 ## Options
 ```
 esw [options] [file.js ...] [dir ...]
 
 Options:
+  -h, --help           Show help
+  -f, --format String  Use a specific output format - default: simple-detail
+  -w, --watch          Enable file watch
+
+Any commands above override any commands ESLint lists below:
+
+eslint [options] file.js [file.js] [dir]
+
+Options:
   -h, --help                  Show help
   -c, --config path::String   Use configuration from this file
   --rulesdir [path::String]   Use additional rules from this directory
-  -f, --format String         Use a specific output format - default: simple-detail
+  -f, --format String         Use a specific output format - default: stylish
   -v, --version               Outputs the version number
-  --reset                     Set all default rules to off - default: false
   --no-eslintrc               Disable use of configuration from .eslintrc
   --env [String]              Specify environments
   --ext [String]              Specify JavaScript file extensions - default: .js
@@ -50,12 +64,13 @@ Options:
   --rule Object               Specify rules
   --ignore-path path::String  Specify path of ignore file
   --no-ignore                 Disable use of .eslintignore
+  --ignore-pattern String     Pattern of files to ignore (in addition to those in .eslintignore)
   --no-color                  Disable color in piped output
   -o, --output-file path::String  Specify file to write report to
   --quiet                     Report errors only - default: false
   --stdin                     Lint code provided on <STDIN> - default: false
   --stdin-filename String     Specify filename to process STDIN as
-  -w, --watch                 Enable file watch
+  --init                      Run config initialization wizard - default: false
 ```
 
 ## Functionality

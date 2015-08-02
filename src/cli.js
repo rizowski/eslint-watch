@@ -4,24 +4,25 @@ var options = require('./options');
 var eslint = require('./eslint-cli');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
+var helper = require('./help-generator');
 
-var currentOptions;
+var parsedOptions;
 var eslArgs;
 var exitCode;
 
 var args = process.argv;
 
-currentOptions = options.parse(args);
-eslArgs = argParser.parse(args, currentOptions);
+parsedOptions = options.parse(args);
+eslArgs = argParser.parse(args, parsedOptions);
 
-if (!currentOptions.help) {
-  exitCode = eslint(eslArgs, currentOptions).status;
+if (!parsedOptions.help) {
+  exitCode = eslint(eslArgs, parsedOptions).status;
 
-  if (currentOptions.watch) {
-    watcher(currentOptions);
+  if (parsedOptions.watch) {
+    watcher(parsedOptions);
   }
 } else {
-  console.log(options.generateHelp());
+  helper(options, parsedOptions);
 }
 
 process.on('exit', function () {

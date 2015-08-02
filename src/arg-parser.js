@@ -16,8 +16,8 @@ var formats = { // still don't like this can cause too much duplication
   'simple-detail': true
 };
 var bin = {
-  'node': true,
-  'esw': 'esw'
+  node: 'node',
+  esw: 'esw'
 };
 
 var getPath = function(options){

@@ -15,12 +15,7 @@ currentOptions = options.parse(args);
 eslArgs = argParser.parse(args, currentOptions);
 
 if (!currentOptions.help) {
-  eslint(eslArgs)
-    .catch(function(err){
-      if(err.code){
-        exitCode = err.code;
-      }
-    });
+  exitCode = eslint(eslArgs, currentOptions).status;
 
   if (currentOptions.watch) {
     watcher(currentOptions);

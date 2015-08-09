@@ -6,7 +6,7 @@ var os = require('os');
 var cmd = os.platform() === 'win32' ? '.cmd' : '';
 var eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
 
-var spawn = child.spawnSync;
+var spawn = child.spawn;
 
 module.exports = function(args, options, childOptions){
   options = options ? options : {'_': './'};
@@ -17,5 +17,9 @@ module.exports = function(args, options, childOptions){
     console.log('Linting:', dirs);
   }
 
-  return spawn(eslint, args, childOptions);
+  var child = spawn(eslint, args, childOptions);
+  // var listeners = childOptions.on;
+  // child.stdout.on('data', listeners.stdout);
+
+  return child;
 };

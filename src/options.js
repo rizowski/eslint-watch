@@ -1,10 +1,8 @@
 'use strict';
 var optionator = require('optionator');
-var chalk = require('chalk');
 
 module.exports = optionator({
   prepend: 'esw [options] [file.js ...] [dir ...]',
-  append: chalk.yellow('Any commands above override any commands ESLint lists below:'),
   concatRepeatedArrays: true,
   mergeRepeatedObjects: true,
   options: [{

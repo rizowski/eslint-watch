@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/rizowski/eslint-watch",
   "peerDependencies": {
-    "eslint": ">=0.19.0 <=1.0.0"
+    "eslint": ">=0.19.0 <=2.0.0"
   },
   "dependencies": {
     "chalk": "^1.0.0",

@@ -12,14 +12,7 @@ var consts = {
   format: 4,
   watch: 5
 }
-/*
-{
-  option: 'help',
-  alias: 'h',
-  type: 'Boolean',
-  description: 'Show help'
-}
-*/
+
 function createOption(str){
   var arr = str.trim().split(' ');
   var result = arr[0].match(/--\w/);
@@ -56,20 +49,17 @@ function parseHelp(helpText){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {
-      console.log(createOption(row));
       newArr.push(createOption(row));
     }
   });
   return newArr;
 }
 
-module.exports = function(options, parsedOptions){
-  var eswHelp = options.generateHelp();
-  var spawn = eslint(['--help'], parsedOptions, {});
+// rewrite in es6 this callback yucky stuff goes away.
+module.exports = function(options, cllbk){
+  var spawn = eslint(['--help'], {}, {});
   spawn.stdout.on('data', function(msg){
     var eslintHelp = msg.toString();
-    parseHelp(eslintHelp, eswHelp);
-    // console.log();
-    // console.log(result);
+    cllbk(parseHelp(eslintHelp));
   });
 };

@@ -7,7 +7,6 @@ var watcher = require('./watcher');
 var argParser = require('./arg-parser');
 
 var eslintCli = eslint.cli;
-var helper = eslint.help;
 
 var parsedOptions;
 var eslArgs;
@@ -25,7 +24,7 @@ if (!parsedOptions.help) {
     watcher(parsedOptions);
   }
 } else {
-  helper(options, parsedOptions);
+  console.log(options.generateHelp());
 }
 
 process.on('exit', function () {

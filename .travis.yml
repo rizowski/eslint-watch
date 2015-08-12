@@ -4,6 +4,9 @@ node_js:
   - "0.12"
   - "2.5"
   - "3.0"
+os:
+  - linux
+  - windows
 notifications:
   webhooks:
     urls:

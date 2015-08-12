@@ -1,11 +1,11 @@
 version: '{build}'
 
 environment:
-  nodejs_version: 
-    - "0.10"
-    - "0.12"
-    - "2.5"
-    - "3.0"
+  matrix:
+  - nodejs_version: "0.10"
+  - nodejs_version: "0.12"
+  - nodejs_version: "2.5"
+  - nodejs_version: "3.0"
 
 # Install scripts. (runs after repo cloning)
 install:

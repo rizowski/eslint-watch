@@ -7,7 +7,7 @@ node_js:
 os:
   - linux
   - osx
-  - windows
+#  - windows
 notifications:
   webhooks:
     urls:
@@ -16,6 +16,6 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
 before_install:
-  - npm install -g mocha
+  - npm install eslint
 script:
   - npm run ci

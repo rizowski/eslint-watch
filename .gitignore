@@ -8,3 +8,9 @@ coverage
 node_modules
 typings
 *.orig
+
+# VIM files
+*.swm
+*.swn
+*.swo
+*.swp

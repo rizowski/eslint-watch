@@ -13,6 +13,7 @@ describe('eslint/help', function(){
   var helpTxt = '--help      This has no alias or type';
   var cluck = '-c --cluck Boolean     Goes Cluck';
   var noAlias = '--see String     no alias';
+  var noType = '-n --nope      no type to be found here';
   var msg;
   var help;
   var options = {
@@ -34,47 +35,37 @@ describe('eslint/help', function(){
   });
 
   beforeEach(function(){
-    msg = '';
-  })
-
-  it('has an alias if one is provided', function(){
     msg = title + '\n' +
         '\n' +
         optionsTxt + '\n' +
-        cluck + '\n';
+        helpTxt + '\n' +
+        cluck + '\n' +
+        noAlias + '\n' +
+        noType + '\n';
+  });
+
+  it('has an alias if one is provided', function(){
     help(function(options){
       var option = options[0];
-      expect(option.alias).to.be.ok;
+      expect(option.alias).to.equal('-c');
     });
   });
 
   it('does not have an alias if not provided', function(){
-    msg = title + '\n' +
-        '\n' +
-        optionsTxt + '\n' +
-        noAlias + '\n';
     help(function(options){
-      var option = options[0];
+      var option = options[1];
       expect(option.alias).to.equal(undefined);
     });
   });
 
   it('has a type', function(){
-    msg = title + '\n' +
-        '\n' +
-        optionsTxt + '\n' +
-        cluck + '\n';
     help(function(options){
       var option = options[0];
-      expect(option.type).to.be.ok;
+      expect(option.type).to.equal('Boolean');
     });
   });
 
   it('has a full description', function(){
-    msg = title + '\n' +
-        '\n' +
-        optionsTxt + '\n' +
-        cluck + '\n';
     help(function(options){
       var option = options[0];
       expect(option.description).to.equal('Goes Cluck');
@@ -82,12 +73,6 @@ describe('eslint/help', function(){
   });
 
   it('filters out help', function(){
-    msg = title + '\n' +
-        '\n' +
-        optionsTxt + '\n' +
-        helpTxt + '\n' +
-        optionsTxt + '\n' +
-        cluck + '\n';
     help(function(options){
       _.each(options, function(option){
         assert.notEqual(option.option, '--help');
@@ -96,13 +81,7 @@ describe('eslint/help', function(){
   });
 
   it('filters out format', function(){
-    msg = title + '\n' +
-        '\n' +
-        optionsTxt + '\n' +
-        helpTxt + '\n' +
-        optionsTxt + '\n' +
-        '-f --format String     Stringify' + '\n' +
-        cluck + '\n';
+        msg += '-f --format String     Stringify' + '\n';
     help(function(options){
       _.each(options, function(option){
         assert.notEqual(option.option, '--format');
@@ -111,11 +90,6 @@ describe('eslint/help', function(){
   });
 
   it("doesn't set an option as undefined", function(){
-    msg = title + '\n' +
-              '\n' +
-         optionsTxt + '\n' +
-         cluck + '\n' +
-          '\n';
     help(function(options){
       _.each(options, function(option){
         assert.ok(option.option);
@@ -124,11 +98,11 @@ describe('eslint/help', function(){
   });
 
   it("doesn't set an alias as undefined", function(){
-    msg = title + '\n' +
-              '\n' +
-         optionsTxt + '\n' +
-         cluck + '\n' +
-          '\n';
+     msg = title + '\n' +
+        '\n' +
+        optionsTxt + '\n' +
+        helpTxt + '\n' +
+        cluck + '\n';
     help(function(options){
       _.each(options, function(option){
         assert.ok(option.alias);
@@ -137,11 +111,6 @@ describe('eslint/help', function(){
   });
 
   it("doesn't set a type as undefined", function(){
-    msg = title + '\n' +
-              '\n' +
-        optionsTxt + '\n' +
-        cluck + '\n' +
-          '\n';
     help(function(options){
       _.each(options, function(option){
         assert.ok(option.type);
@@ -149,15 +118,17 @@ describe('eslint/help', function(){
     });
   });
   it("doesn't set a description as undefined", function(){
-    msg = title + '\n' +
-              '\n' +
-        optionsTxt + '\n' +
-         cluck + '\n' +
-          '\n';
     help(function(options){
       _.each(options, function(option){
         assert.ok(option.description);
       });
+    });
+  });
+
+  it("sets the default to Boolean if type isn't provided", function(){
+    help(function(options){
+      var option = options[2];
+      expect(option.type).to.equal('Boolean');
     });
   });
 });

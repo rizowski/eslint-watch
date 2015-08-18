@@ -26,21 +26,22 @@ function parseAlias(arr){
   var option = parseRegular(_.without(arr, alias));
 
   if(alias){
-    option.alias = alias;
+    option.alias = alias.replace('-','');
   }
   return option;
 }
 
 function parseRegular(arr){
+  if(!arr[0]){
+    return;
+  }
   var optionText = arr[0];
   var type = arr[1];
   var option = {};
-  if(optionText){
-    option.option = optionText;
-  }
-  if(type){
-    option.type = type;
-  }
+
+  option.option = optionText.replace('--', '');
+  option.type = type ? type : 'Boolean';
+
   var helpText = _.without(arr, optionText, type, '');
 
   var description = helpText.join(' ');
@@ -57,8 +58,9 @@ function parseHelp(helpText){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {
+      row = row.replace(',', '');
       var option = createOption(row);
-      if(option && option.option !== '--format' && option.option !== '--help'){
+      if(option && option.option !== 'format' && option.option !== 'help'){
         newArr.push(option);
       }
     }
@@ -68,7 +70,7 @@ function parseHelp(helpText){
 
 // rewrite in es6 this callback yucky stuff goes away.
 module.exports = function(cllbk){
-  var spawn = eslint(['--help'], {}, {});
+  var spawn = eslint(['--help'], {help: true}, {});
   spawn.stdout.on('data', function(msg){
     var eslintHelp = msg.toString();
     cllbk(parseHelp(eslintHelp));

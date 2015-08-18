@@ -3,6 +3,12 @@ var optionator = require('optionator');
 var getOptions = require('./eslint').help;
 var _ = require('lodash');
 
+var settings = {
+  prepend: 'esw [options] [file.js ...] [dir ...]',
+  concatRepeatedArrays: true,
+  mergeRepeatedObjects: true
+};
+
 var myOptions = [{
   heading: 'Options'
 }, {
@@ -25,6 +31,15 @@ var myOptions = [{
 
 module.exports = function(cllbk){
   getOptions(function(eslintOptions){
-    console.log(eslintOptions);
+    var options;
+    var newOptions = _.union(myOptions, eslintOptions);
+    settings.options = newOptions;
+
+    try {
+      options = optionator(settings);
+      cllbk(options);
+    } catch(e){
+      console.log(e);
+    }
   });
-}
+};

@@ -15,6 +15,7 @@ install:
   - set PATH=%APPDATA%\npm;%PATH%
   - node --version
   - npm --version
+  - npm install eslint
   - npm install
 
 # No need for MSBuild on this project
@@ -26,4 +27,5 @@ notifications:
     on_build_failure: True
 
 test_script:
-  - npm run ci-win
+  - npm run test
+  - npm run lint

@@ -6,7 +6,7 @@ node_js:
   - "3.0"
 os:
   - linux
-  - osx
+#  - osx
 #  - windows
 notifications:
   webhooks:
@@ -16,7 +16,6 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
 before_install:
-  - ./build/ci
   - npm install eslint
 script:
   - npm run ci

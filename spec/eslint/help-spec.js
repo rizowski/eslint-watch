@@ -47,7 +47,7 @@ describe('eslint/help', function(){
   it('has an alias if one is provided', function(){
     help(function(options){
       var option = options[0];
-      expect(option.alias).to.equal('-c');
+      expect(option.alias).to.equal('c');
     });
   });
 
@@ -75,7 +75,7 @@ describe('eslint/help', function(){
   it('filters out help', function(){
     help(function(options){
       _.each(options, function(option){
-        assert.notEqual(option.option, '--help');
+        assert.notEqual(option.option, 'help');
       });
     });
   });
@@ -84,7 +84,7 @@ describe('eslint/help', function(){
         msg += '-f --format String     Stringify' + '\n';
     help(function(options){
       _.each(options, function(option){
-        assert.notEqual(option.option, '--format');
+        assert.notEqual(option.option, 'format');
       });
     });
   });

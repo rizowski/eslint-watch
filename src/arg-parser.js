@@ -1,5 +1,6 @@
 'use strict';
 var path = require('path');
+var _ = require('lodash');
 
 var simpleDetail = 'simple-detail';
 var formatterPath = 'formatters';
@@ -17,6 +18,7 @@ var formats = { // still don't like this can cause too much duplication
 };
 var bin = {
   node: 'node',
+  iojs:'iojs',
   esw: 'esw'
 };
 
@@ -24,8 +26,10 @@ var getPath = function(options){
   return path.join(__dirname, formatterPath, options.format);
 };
 
-var contains = function(str, item){
-  return str.indexOf(item) >= 0;
+var contains = function(str, items){
+  return _.every(str, function(item){
+    return str.indexOf(item) >= 0;
+  });
 };
 
 module.exports = {
@@ -36,7 +40,7 @@ module.exports = {
 
     for (var i = 0; i < args.length; i++) {
       var item = args[i];
-      if (!keys[item] && !formats[item] && !bin[item] && !contains(item, bin.esw)) {
+      if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs])) {
         arr.push(item);
       }
       if (formats[item]) {

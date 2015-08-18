@@ -1,28 +1,34 @@
 /* eslint no-process-exit: 0*/
 'use strict';
-var options = require('./options');
-var cli = require('./eslint-cli');
+
+var eslint = require('./eslint');
+var getOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
 
-var currentOptions;
+var eslintCli = eslint.cli;
+
+var parsedOptions;
 var eslArgs;
 var exitCode;
 
-var args = process.argv;
+getOptions(function(options){
+  var args = process.argv;
 
-currentOptions = options.parse(args);
-eslArgs = argParser.parse(args, currentOptions);
+  parsedOptions = options.parse(args);
+  eslArgs = argParser.parse(args, parsedOptions);
 
-if (!currentOptions.help) {
-  exitCode = cli.execute(eslArgs);
+  if (!parsedOptions.help) {
+    exitCode = eslintCli(eslArgs, parsedOptions).status;
 
-  if (currentOptions.watch) {
-    watcher(currentOptions);
+    if (parsedOptions.watch) {
+      watcher(parsedOptions);
+    }
+  } else {
+    console.log(options.generateHelp());
   }
-} else {
-  console.log(options.generateHelp());
-}
+})
+
 
 process.on('exit', function () {
   process.exit(exitCode);

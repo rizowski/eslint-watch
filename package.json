@@ -8,7 +8,8 @@
     "lw": "node ./bin/esw -w",
     "test": "mocha spec --recursive -R spec",
     "tdd": "mocha -w spec --recursive -R spec",
-    "ci": "npm test && npm run lint"
+    "ci": "npm run coverage && npm run lint",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec spec/**/*-spec.js"
   },
   "repository": {
     "type": "git",
@@ -48,7 +49,7 @@
   "devDependencies": {
     "chai": "^2.3.0",
     "child-process-promise": "^1.1.0",
-    "istanbul": "^0.3.14",
+    "istanbul": "^0.3.18",
     "mocha": "^2.2.5",
     "mocha-sinon": "^1.1.4",
     "proxyquire": "^1.6.0",

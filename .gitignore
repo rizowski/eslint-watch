@@ -9,3 +9,9 @@ node_modules
 typings
 *.orig
 typings
+
+# VIM files
+*.swm
+*.swn
+*.swo
+*.swp

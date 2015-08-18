@@ -9,7 +9,9 @@
     "test": "mocha --bail --colors --reporter spec ./spec",
     "tdd": "mocha --watch --bail --colors --reporter spec ./spec",
     "ci": "npm run coverage && npm run lint",
-    "coverage": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec spec/**/*-spec.js"
+    "ci-win": "npm run coverage-win && npm run lint",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec spec/**/*-spec.js",
+    "coverage-win": "istanbul cover node_modules/.bin/mocha -- -u exports -R spec spec/**/*-spec.js"
   },
   "repository": {
     "type": "git",

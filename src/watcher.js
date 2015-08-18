@@ -2,6 +2,8 @@
 var chokidar = require('chokidar');
 var eslint = require('eslint');
 var chalk = require('chalk');
+var _ = require('lodash');
+
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
 
@@ -17,7 +19,7 @@ function watcher(options) {
   var specifiedPath = options._;
   var pathToWatch = specifiedPath.length ? specifiedPath : defaultPath;
 
-  options.ext.forEach(function(extension) {
+  _.each(options.ext, function(extension){
     jsFileRules.push('**/*' + extension + '$');
   });
 

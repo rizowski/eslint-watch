@@ -30,13 +30,7 @@ To run eslint-watch without the global install, make an npm script.
     - simple
     - simple-success
 
-## Usage
-Any command listed under the ESLint help is used with `esw` instead of `eslint`.
-```
-esw --quiet -w
-```
-
-## Options
+## Options/Usage
 ```
 esw [options] [file.js ...] [dir ...]
 

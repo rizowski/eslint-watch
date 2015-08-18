@@ -83,19 +83,37 @@ describe('eslint/help', function(){
 
   it('filters out help', function(){
     msg = title + '\n' +
+        '\n' +
+        optionsTxt + '\n' +
         helpTxt + '\n' +
         optionsTxt + '\n' +
         cluck + '\n';
     help(function(options){
       _.each(options, function(option){
-        console.log(option);
         assert.notEqual(option.option, '--help');
+      });
+    });
+  });
+
+  it('filters out format', function(){
+    msg = title + '\n' +
+        '\n' +
+        optionsTxt + '\n' +
+        helpTxt + '\n' +
+        optionsTxt + '\n' +
+        '-f --format String     Stringify' + '\n' +
+        cluck + '\n';
+    help(function(options){
+      _.each(options, function(option){
+        assert.notEqual(option.option, '--format');
       });
     });
   });
 
   it("doesn't set an option as undefined", function(){
     msg = title + '\n' +
+              '\n' +
+         optionsTxt + '\n' +
          cluck + '\n' +
           '\n';
     help(function(options){
@@ -107,6 +125,8 @@ describe('eslint/help', function(){
 
   it("doesn't set an alias as undefined", function(){
     msg = title + '\n' +
+              '\n' +
+         optionsTxt + '\n' +
          cluck + '\n' +
           '\n';
     help(function(options){
@@ -118,7 +138,9 @@ describe('eslint/help', function(){
 
   it("doesn't set a type as undefined", function(){
     msg = title + '\n' +
-         cluck + '\n' +
+              '\n' +
+        optionsTxt + '\n' +
+        cluck + '\n' +
           '\n';
     help(function(options){
       _.each(options, function(option){
@@ -128,6 +150,8 @@ describe('eslint/help', function(){
   });
   it("doesn't set a description as undefined", function(){
     msg = title + '\n' +
+              '\n' +
+        optionsTxt + '\n' +
          cluck + '\n' +
           '\n';
     help(function(options){

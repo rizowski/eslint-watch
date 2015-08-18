@@ -58,7 +58,7 @@ function parseHelp(helpText){
       return;
     } else {
       var option = createOption(row);
-      if(option){
+      if(option && option.option !== '--format' && option.option !== '--help'){
         newArr.push(option);
       }
     }

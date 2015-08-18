@@ -16,29 +16,37 @@ var consts = {
 function createOption(str){
   var arr = str.trim().split(' ');
   var result = arr[0].match(/--\w/);
-  var option;
-  if(result){
-    option = parseRegular(arr);
-  } else {
-    option = parseAlias(arr);
+  var option = result ? parseRegular(arr) : parseAlias(arr);
+  var isEmpty = _.isEmpty(option);
+  return isEmpty ? undefined : option;
+}
+
+function parseAlias(arr){
+  var alias = arr[0];
+  var option = parseRegular(_.without(arr, alias));
+
+  if(alias){
+    option.alias = alias;
   }
   return option;
 }
 
-function parseAlias(arr){
-  var option = parseRegular(_.without(arr, arr[0]));
-  option.alias = arr[0];
-  return option;
-}
-
 function parseRegular(arr){
+  var optionText = arr[0];
+  var type = arr[1];
   var option = {};
-  option.option = arr[0];
-  option.type = arr[1];
-  var helpText = _.without(arr, arr[0], arr[1], '');
+  if(optionText){
+    option.option = optionText;
+  }
+  if(type){
+    option.type = type;
+  }
+  var helpText = _.without(arr, optionText, type, '');
 
-  option.description = helpText.join(' ');
-
+  var description = helpText.join(' ');
+  if(description){
+    option.description = description;
+  }
   return option;
 }
 
@@ -49,14 +57,17 @@ function parseHelp(helpText){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {
-      newArr.push(createOption(row));
+      var option = createOption(row);
+      if(option){
+        newArr.push(option);
+      }
     }
   });
   return newArr;
 }
 
 // rewrite in es6 this callback yucky stuff goes away.
-module.exports = function(options, cllbk){
+module.exports = function(cllbk){
   var spawn = eslint(['--help'], {}, {});
   spawn.stdout.on('data', function(msg){
     var eslintHelp = msg.toString();

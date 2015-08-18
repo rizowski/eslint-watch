@@ -3,13 +3,14 @@
 var proxy = require('proxyquire');
 var chai = require('chai');
 var expect = chai.expect;
+var assert = chai.assert;
 var _ = require('lodash');
 
 describe('eslint/help', function(){
   var cli = require('../../src/eslint/cli');
   var title = 'title with options';
   var optionsTxt = 'Options:';
-  var helpTxt = '--help      This has no alias';
+  var helpTxt = '--help      This has no alias or type';
   var cluck = '-c --cluck Boolean     Goes Cluck';
   var noAlias = '--see String     no alias';
   var msg;
@@ -41,7 +42,7 @@ describe('eslint/help', function(){
         '\n' +
         optionsTxt + '\n' +
         cluck + '\n';
-    help(options, function(options){
+    help(function(options){
       var option = options[0];
       expect(option.alias).to.be.ok;
     });
@@ -52,7 +53,7 @@ describe('eslint/help', function(){
         '\n' +
         optionsTxt + '\n' +
         noAlias + '\n';
-    help(options, function(options){
+    help(function(options){
       var option = options[0];
       expect(option.alias).to.equal(undefined);
     });
@@ -63,7 +64,7 @@ describe('eslint/help', function(){
         '\n' +
         optionsTxt + '\n' +
         cluck + '\n';
-    help(options, function(options){
+    help(function(options){
       var option = options[0];
       expect(option.type).to.be.ok;
     });
@@ -74,7 +75,7 @@ describe('eslint/help', function(){
         '\n' +
         optionsTxt + '\n' +
         cluck + '\n';
-    help(options, function(options){
+    help(function(options){
       var option = options[0];
       expect(option.description).to.equal('Goes Cluck');
     });
@@ -85,13 +86,54 @@ describe('eslint/help', function(){
         helpTxt + '\n' +
         optionsTxt + '\n' +
         cluck + '\n';
-    help(options, function(options){
-      var result = _.find(options, function(option){
-        return option.option === '--help';
+    help(function(options){
+      _.each(options, function(option){
+        console.log(option);
+        assert.notEqual(option.option, '--help');
       });
-      expect(result).to.equal(undefined);
     });
   });
 
-  it("doesn't parse undefined");
+  it("doesn't set an option as undefined", function(){
+    msg = title + '\n' +
+         cluck + '\n' +
+          '\n';
+    help(function(options){
+      _.each(options, function(option){
+        assert.ok(option.option);
+      });
+    });
+  });
+
+  it("doesn't set an alias as undefined", function(){
+    msg = title + '\n' +
+         cluck + '\n' +
+          '\n';
+    help(function(options){
+      _.each(options, function(option){
+        assert.ok(option.alias);
+      });
+    });
+  });
+
+  it("doesn't set a type as undefined", function(){
+    msg = title + '\n' +
+         cluck + '\n' +
+          '\n';
+    help(function(options){
+      _.each(options, function(option){
+        assert.ok(option.type);
+      });
+    });
+  });
+  it("doesn't set a description as undefined", function(){
+    msg = title + '\n' +
+         cluck + '\n' +
+          '\n';
+    help(function(options){
+      _.each(options, function(option){
+        assert.ok(option.description);
+      });
+    });
+  });
 });

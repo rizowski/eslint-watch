@@ -23,8 +23,8 @@ var myOptions = [{
   description: 'Enable file watch'
 }];
 
-getOptions(function(eslintOptions){
-  module.exports =
-});
-
-module.exports = 
+module.exports = function(cllbk){
+  getOptions(function(eslintOptions){
+    console.log(eslintOptions);
+  });
+}

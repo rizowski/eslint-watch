@@ -1,13 +1,21 @@
 version: '{build}'
 
+environment:
+  matrix:
+  - nodejs_version: "0.10"
+  - nodejs_version: "0.12"
+  - nodejs_version: "2.5"
+  - nodejs_version: "3.0"
+
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of io.js
-  - ps: Install-Product node ''
+  - ps: Install-Product node $env:nodejs_version
   - npm -g install npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
   - node --version
   - npm --version
+  - npm install eslint
   - npm install
 
 # No need for MSBuild on this project
@@ -16,6 +24,8 @@ build: off
 notifications:
   - provider: Webhook
     url: https://webhooks.gitter.im/e/2c5e0e441ca25c240df9
+    on_build_failure: True
 
 test_script:
-  - npm run ci
+  - npm run test
+  - npm run lint

@@ -67,7 +67,8 @@ function simpleDetail(results) {
   if (totalWarnings) {
     output += chalk.yellow(c.ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + ' ';
   }
-  if(results.length > 1) {
+
+  if(results.length > 1 || results.length === 0) {
     cleanMsg = chalk.green(c.check + ' Clean') + ' ' + messageTime + c.endLine;
   }
 

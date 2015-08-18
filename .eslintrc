@@ -7,7 +7,7 @@
     "camelcase": 2,
     "eol-last": 2,
     "no-trailing-spaces": 1,
-    "quotes": [1, "single", "avoid-escape"],
+    "quotes": [2, "single", "avoid-escape"],
     "strict": [2, "global"]
   }
 }

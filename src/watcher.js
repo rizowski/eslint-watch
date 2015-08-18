@@ -17,13 +17,11 @@ function watcher(options) {
   var specifiedPath = options._;
   var pathToWatch = specifiedPath.length ? specifiedPath : defaultPath;
 
-  var watch = chokidar.watch(pathToWatch);
-
   options.ext.forEach(function(extension) {
     jsFileRules.push('**/*' + extension + '$');
   });
 
-  watch.add(pathToWatch + '/' + jsFileRules);
+  var watch = chokidar.watch(pathToWatch + jsFileRules);
 
   console.log('Watching', pathToWatch, '\n');
 

@@ -41,19 +41,11 @@ esw --quiet -w
 esw [options] [file.js ...] [dir ...]
 
 Options:
-  -h, --help           Show help
-  -f, --format String  Use a specific output format - default: simple-detail
-  -w, --watch          Enable file watch
-
-Any commands above override any commands ESLint lists below:
-
-eslint [options] file.js [file.js] [dir]
-
-Options:
   -h, --help                  Show help
+  -f, --format String         Use a specific output format - default: simple-detail
+  -w, --watch                 Enable file watch
   -c, --config path::String   Use configuration from this file
   --rulesdir [path::String]   Use additional rules from this directory
-  -f, --format String         Use a specific output format - default: stylish
   -v, --version               Outputs the version number
   --no-eslintrc               Disable use of configuration from .eslintrc
   --env [String]              Specify environments

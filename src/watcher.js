@@ -8,7 +8,6 @@ var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
 
 var defaultPath = './';
-var jsFileRules = [];
 var events = {
   change: 'change'
 };
@@ -18,12 +17,11 @@ var cli = new eslint.CLIEngine();
 function watcher(options) {
   var specifiedPath = options._;
   var pathToWatch = specifiedPath.length ? specifiedPath : defaultPath;
+  var watch = chokidar.watch();
 
-  _.each(options.ext, function(extension){
-    jsFileRules.push('**/*' + extension + '$');
+  _.each(options.ext, function(extension) {
+    watch.add('**/*' + extension + '$');
   });
-
-  var watch = chokidar.watch(pathToWatch + jsFileRules);
 
   console.log('Watching', pathToWatch, '\n');
 

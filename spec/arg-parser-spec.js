@@ -19,7 +19,7 @@ describe('arg-parser', function(){
 
   describe('node/iojs',function(){
     it('parses for iojs',function(){
-      var args = ['iojs', 'some/long/path'];
+      var args = ['/some/path/to/iojs', 'some/long/path'];
       var arr = parser.parse(args, options);
       expect(arr).to.not.include('iojs');
     });

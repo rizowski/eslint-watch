@@ -27,7 +27,7 @@ var getPath = function(options){
 };
 
 var contains = function(str, items){
-  return _.every(items, function(item){
+  return _.some(items, function(item){
     return str.indexOf(item) >= 0;
   });
 };

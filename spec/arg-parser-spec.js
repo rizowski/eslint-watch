@@ -29,6 +29,12 @@ describe('arg-parser', function(){
       var arr = parser.parse(args, options);
       expect(arr).to.not.include('node');
     });
+
+    it('parses out esw',function(){
+      var args = ['/bin/esw', 'something/else'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.include('esw');
+    });
   });
 
   describe('watch', function(){

@@ -21,13 +21,13 @@ describe('arg-parser', function(){
     it('parses for iojs',function(){
       var args = ['iojs', 'some/long/path'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.contain('iojs');
+      expect(arr).to.not.include('iojs');
     });
 
     it('parses for node', function(){
       var args = ['node', 'some/long/path'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.contain('node');
+      expect(arr).to.not.include('node');
     });
   });
 

@@ -48,7 +48,7 @@ describe('Watcher', function () {
       _: './'
     });
 
-    expect(watchAddSpy.calledWith('+()**/*+(.js)$')).to.be.true;
+    expect(watchAddSpy.calledWith('+()/**/*+(.js)$')).to.be.true;
   });
 
   it('should use the correct watch pattern when a directory is specified', function () {
@@ -57,7 +57,7 @@ describe('Watcher', function () {
     });
 
     expect(watchAddSpy.calledOnce).to.be.true;
-    expect(watchAddSpy.calledWith('+(directory)**/*+(.js)$')).to.be.true;
+    expect(watchAddSpy.calledWith('+(directory)/**/*+(.js)$')).to.be.true;
   });
 
   it('should use the correct watch pattern when a file and extension are specified', function () {
@@ -78,6 +78,6 @@ describe('Watcher', function () {
 
     expect(watchAddSpy.calledTwice).to.be.true;
     expect(watchAddSpy.calledWith(['file.test', 'file.js']));
-    expect(watchAddSpy.calledWith('+(directory1|directory2)**/*+(.js|.test)$'));
+    expect(watchAddSpy.calledWith('+(directory1|directory2)/**/*+(.js|.test)$'));
   });
 });

@@ -34,10 +34,16 @@ function watchPaths(watch, filePaths, directoryPaths, extensions) {
     watch.add(filePaths);
   }
 
-  // For example:
-  // +(directory1|directory2)**/*+(.ext1|.ext2)
+
   if (directoryPaths.length > 0) {
-    watch.add('+(' + directoryPaths.join('|') + ')**/*+(' + extensions.join('|') + ')$');
+    // Remove any trailing slashes from the directory paths for Windows compatibility
+    directoryPaths = _.map(directoryPaths, function (directoryPath) {
+       return directoryPath.replace(/\/+$/, '');
+    });
+
+    // For example:
+    // +(directory1|directory2)/**/*+(.ext1|.ext2)
+    watch.add('+(' + directoryPaths.join('|') + ')/**/*+(' + extensions.join('|') + ')$');
   }
 };
 

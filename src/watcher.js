@@ -7,8 +7,6 @@ var _ = require('lodash');
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
 
-// Use an empty string instead of "./" for glob pattern purposes
-var defaultPaths = [''];
 var defaultExtensions = ['.js'];
 var events = {
   change: 'change'
@@ -34,7 +32,6 @@ function watchPaths(watch, filePaths, directoryPaths, extensions) {
     watch.add(filePaths);
   }
 
-
   if (directoryPaths.length > 0) {
     // Remove any trailing slashes from the directory paths for Windows compatibility
     directoryPaths = _.map(directoryPaths, function (directoryPath) {
@@ -46,6 +43,10 @@ function watchPaths(watch, filePaths, directoryPaths, extensions) {
     watch.add('+(' + directoryPaths.join('|') + ')/**/*+(' + extensions.join('|') + ')$');
   }
 };
+
+function watchDefaultPath(watch, extensions) {
+  watch.add('**/*+(' + extensions.join('|') + ')$');
+}
 
 function successMessage(result) {
   if (result.errorCount === 0 && result.warningCount === 0) {
@@ -65,17 +66,7 @@ function watcher(options) {
   var directoryPaths;
   var filePaths;
   var extensions;
-
-  /**
-   * If the user has specified particular paths, the _ property will contain an array.
-   * Otherwise, the _ property will contain "./", the default as a string.
-   * In the default case, use an array instead.
-   */
-  if (options._ instanceof Array) {
-    specifiedPaths = options._;
-  } else {
-    specifiedPaths = defaultPaths;
-  }
+  var watch = chokidar.watch();
 
   /**
    * If the user has specified extensions, those will be passed in as an array,
@@ -88,15 +79,24 @@ function watcher(options) {
   }
 
   /**
-   * Files and directories require different glob patterns.
-   * Split the up the paths into 2 separate arrays.
-   * What is not a file is considered a directory.
+   * If the user has specified particular paths, the _ property will contain an array.
+   * Otherwise, the _ property will contain "./", the default as a string.
    */
-  filePaths = findFilePaths(specifiedPaths, extensions);
-  directoryPaths = _.difference(specifiedPaths, filePaths);
+  if (options._ instanceof Array) {
+    specifiedPaths = options._;
 
-  var watch = chokidar.watch();
-  watchPaths(watch, filePaths, directoryPaths, extensions);
+    /**
+     * Files and directories require different glob patterns.
+     * Split the up the paths into 2 separate arrays.
+     * What is not a file is considered a directory.
+     */
+    filePaths = findFilePaths(specifiedPaths, extensions);
+    directoryPaths = _.difference(specifiedPaths, filePaths);
+    watchPaths(watch, filePaths, directoryPaths, extensions);
+  } else {
+    // The default case requires a different glob pattern.
+    watchDefaultPath(watch, extensions);
+  }
 
   console.log('Watching', options._, '\n');
 

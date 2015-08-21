@@ -48,7 +48,7 @@ describe('Watcher', function () {
       _: './'
     });
 
-    expect(watchAddSpy.calledWith('+()/**/*+(.js)$')).to.be.true;
+    expect(watchAddSpy.calledWith('**/*+(.js)$')).to.be.true;
   });
 
   it('should use the correct watch pattern when a directory is specified', function () {

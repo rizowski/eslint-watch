@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha --bail --colors --reporter spec ./spec",
+    "test": "mocha --recursive spec/*",
     "tdd": "mocha --watch --bail --colors --reporter spec ./spec",
-    "ci": "npm run lint && mocha --colors --reporter spec ./spec"
+    "ci": "npm test && npm run lint"
   },
   "repository": {
     "type": "git",

@@ -17,6 +17,20 @@ describe('arg-parser', function(){
     options = {'_': []};
   });
 
+  describe('node/iojs',function(){
+    it('parses for iojs',function(){
+      var args = ['iojs', 'some/long/path'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.contain('iojs');
+    });
+
+    it('parses for node', function(){
+      var args = ['node', 'some/long/path'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.contain('node');
+    });
+  });
+
   describe('watch', function(){
     it('parses for -w', function(){
       var args = ['node', 'some/long/path/to/prog', '-w'];

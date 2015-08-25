@@ -15,15 +15,15 @@ describe('Watcher', function () {
   var watchAddSpy;
 
   beforeEach(function () {
-    watchOnSpy = sinon.spy(function() {
+    watchOnSpy = sinon.spy(function () {
       // No operations
     });
 
-    watchAddSpy = sinon.spy(function() {
+    watchAddSpy = sinon.spy(function () {
       // No operations
     });
 
-    watchStub = sinon.stub(chokidar, 'watch', function() {
+    watchStub = sinon.stub(chokidar, 'watch', function () {
       return {
         on: watchOnSpy,
         add: watchAddSpy

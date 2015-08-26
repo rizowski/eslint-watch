@@ -44,12 +44,10 @@
     "keypress": "^0.2.1",
     "lodash": "^3.10.1",
     "optionator": "^0.6.0",
-    "q": "^1.4.1",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^2.3.0",
-    "child-process-promise": "^1.1.0",
     "istanbul": "^0.3.18",
     "mocha": "^2.2.5",
     "mocha-sinon": "^1.1.4",

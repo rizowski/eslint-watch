@@ -17,8 +17,28 @@ describe('arg-parser', function () {
     options = { '_': [] };
   });
 
-  describe('watch', function () {
-    it('parses for -w', function () {
+  describe('defaults',function(){
+    it('should remove iojs',function(){
+      var args = ['/some/path/to/iojs', 'some/long/path'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.include('/some/path/to/iojs');
+    });
+
+    it('should remove node', function(){
+      var args = ['node', 'some/long/path'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.include('node');
+    });
+
+    it('should remove esw',function(){
+      var args = ['bla','/bin/esw', '/something/else'];
+      var arr = parser.parse(args, options);
+      expect(arr).not.include('/bin/esw');
+    });
+  });
+
+  describe('watch', function(){
+    it('parses for -w', function(){
       var args = ['node', 'some/long/path/to/prog', '-w'];
       var arr = parser.parse(args, options);
       expect(arr).to.not.contain('-w');
@@ -43,22 +63,6 @@ describe('arg-parser', function () {
       options._.push(path);
       var arr = parser.parse([], options);
       expect(arr).to.not.contain('./');
-    });
-  });
-
-  describe('executors', function(){
-    it('parses out node', function(){
-      var node = 'node';
-      var args = [node, 'some/path/somewhere'];
-      var arr = parser.parse(args, options);
-      expect(arr).to.not.contain(node);
-    });
-
-    it('parses out esw', function(){
-      var esw = 'var/esw';
-      var args = ['something', esw];
-      var arr = parser.parse(args, options);
-      expect(arr).to.not.contain(esw);
     });
   });
 

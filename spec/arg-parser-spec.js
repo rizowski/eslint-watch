@@ -17,23 +17,23 @@ describe('arg-parser', function(){
     options = {'_': []};
   });
 
-  describe('node/iojs',function(){
-    it('parses for iojs',function(){
+  describe('defaults',function(){
+    it('should not remove iojs',function(){
       var args = ['/some/path/to/iojs', 'some/long/path'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.include('iojs');
+      expect(arr[0].indexOf('iojs') >=0);
     });
 
-    it('parses for node', function(){
+    it('should not remove node', function(){
       var args = ['node', 'some/long/path'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.include('node');
+      expect(arr).to.include('node');
     });
 
-    it('parses out esw',function(){
-      var args = ['/bin/esw', 'something/else'];
+    it('should not remove esw',function(){
+      var args = ['node','/bin/esw', 'something/else'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.include('esw');
+      expect(arr[1].indexOf('esw') >= 0);
     });
   });
 

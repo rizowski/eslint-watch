@@ -7,7 +7,6 @@ var assert = chai.assert;
 var _ = require('lodash');
 
 describe('eslint/help', function(){
-  var cli = require('../../src/eslint/cli');
   var title = 'title with options';
   var optionsTxt = 'Options:';
   var helpTxt = '--help      This has no alias or type';
@@ -16,9 +15,6 @@ describe('eslint/help', function(){
   var noType = '-n --nope      no type to be found here';
   var msg;
   var help;
-  var options = {
-    generateHelp: function(){}
-  };
 
   before(function(){
     help = proxy('../../src/eslint/help', {

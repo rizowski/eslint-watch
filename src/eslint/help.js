@@ -3,16 +3,6 @@
 var eslint = require('./cli');
 var _ = require('lodash');
 
-var contains = function(str, item){
-  return str.indexOf(item) >= 0;
-};
-var consts = {
-  cmd: 0,
-  help: 3,
-  format: 4,
-  watch: 5
-}
-
 function createOption(str){
   var arr = str.trim().split(' ');
   var result = arr[0].match(/--\w/);
@@ -54,7 +44,7 @@ function parseRegular(arr){
 function parseHelp(helpText){
   var helpArr = helpText.split('\n');
   var newArr = [];
-  var result = _.each(helpArr, function(row, index){
+  _.each(helpArr, function(row, index){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {

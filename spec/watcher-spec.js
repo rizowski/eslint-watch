@@ -10,7 +10,6 @@ var watcher = require('../src/watcher');
 var chokidar = require('chokidar');
 
 describe('Watcher', function () {
-  var watchStub;
   var watchOnSpy;
   var watchAddSpy;
 
@@ -23,7 +22,7 @@ describe('Watcher', function () {
       // No operations
     });
 
-    watchStub = sinon.stub(chokidar, 'watch', function () {
+    sinon.stub(chokidar, 'watch', function () {
       return {
         on: watchOnSpy,
         add: watchAddSpy

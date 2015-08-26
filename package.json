@@ -6,9 +6,10 @@
   "scripts": {
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha --recursive spec/*",
-    "tdd": "mocha --watch --bail --colors --reporter spec ./spec",
-    "ci": "npm test && npm run lint"
+    "test": "mocha spec --recursive -R spec",
+    "tdd": "mocha -w spec --recursive -R spec",
+    "ci": "npm run coverage && npm run lint",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- --recursive -u exports -R spec spec/*"
   },
   "repository": {
     "type": "git",
@@ -40,14 +41,17 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "chokidar": "^1.0.1",
+    "keypress": "^0.2.1",
     "lodash": "^3.10.1",
     "optionator": "^0.6.0",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^2.3.0",
-    "istanbul": "^0.3.14",
+    "istanbul": "^0.3.18",
     "mocha": "^2.2.5",
+    "mocha-sinon": "^1.1.4",
+    "proxyquire": "^1.6.0",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
   }

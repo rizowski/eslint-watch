@@ -1,28 +1,64 @@
 /* eslint no-process-exit: 0*/
 'use strict';
-var options = require('./options');
-var cli = require('./eslint-cli');
+
+var keypress = require('keypress');
+
+var eslint = require('./eslint');
+var getOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
+var logger = require('./log');
 
-var currentOptions;
+var eslintCli = eslint.cli;
+
+var parsedOptions;
 var eslArgs;
 var exitCode;
 
+keypress(process.stdin);
+
 var args = process.argv;
 
-currentOptions = options.parse(args);
-eslArgs = argParser.parse(args, currentOptions);
+function runLint(args, options){
+  var child = eslintCli(args, options);
 
-if (!currentOptions.help) {
-  exitCode = cli.execute(eslArgs);
-
-  if (currentOptions.watch) {
-    watcher(currentOptions);
-  }
-} else {
-  console.log(options.generateHelp());
+  child.on('exit', function(code){
+    exitCode = code;
+  });
+  return child;
 }
+
+function keyListener(args, options){
+  var stdin = process.stdin;
+  stdin.on('keypress', function(ch, key){
+    if(key.name === 'return'){
+      runLint(args, options);
+    }
+    if(key.ctrl && key.name === 'c') {
+      process.exit();
+    }
+  });
+  stdin.setRawMode(true);
+  stdin.resume();
+}
+
+getOptions(function(options){
+  parsedOptions = options.parse(args);
+  eslArgs = argParser.parse(args, parsedOptions);
+
+  if (!parsedOptions.help) {
+    runLint(eslArgs, parsedOptions);
+
+    if (parsedOptions.watch) {
+      keyListener(eslArgs, parsedOptions);
+      watcher(parsedOptions);
+
+    }
+  } else {
+    logger.log(options.generateHelp());
+  }
+});
+
 
 process.on('exit', function () {
   process.exit(exitCode);

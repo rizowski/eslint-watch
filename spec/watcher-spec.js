@@ -8,10 +8,15 @@ chai.use(sinonChai);
 var expect = chai.expect;
 var watcher = require('../src/watcher');
 var chokidar = require('chokidar');
+var logger = require('../src/log');
 
 describe('Watcher', function () {
   var watchOnSpy;
   var watchAddSpy;
+
+  before(function(){
+    sinon.stub(logger, 'log', function(){ });
+  });
 
   beforeEach(function () {
     watchOnSpy = sinon.spy(function () {

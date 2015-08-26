@@ -2,6 +2,7 @@
 var optionator = require('optionator');
 var getOptions = require('./eslint').help;
 var _ = require('lodash');
+var logger = require('./log');
 
 var settings = {
   prepend: 'esw [options] [file.js ...] [dir ...]',
@@ -39,7 +40,7 @@ module.exports = function(cllbk){
       options = optionator(settings);
       cllbk(options);
     } catch(e){
-      console.log(e);
+      logger.log(e);
     }
   });
 };

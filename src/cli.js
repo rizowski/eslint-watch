@@ -7,6 +7,7 @@ var eslint = require('./eslint');
 var getOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
+var logger = require('./log');
 
 var eslintCli = eslint.cli;
 
@@ -54,7 +55,7 @@ getOptions(function(options){
 
     }
   } else {
-    console.log(options.generateHelp());
+    logger.log(options.generateHelp());
   }
 });
 

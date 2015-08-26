@@ -6,6 +6,7 @@ var _ = require('lodash');
 
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
+var logger = require('./log');
 
 var defaultExtensions = ['.js'];
 var events = {
@@ -57,8 +58,8 @@ function successMessage(result) {
 
 function lintFile(path, config) {
   var results = cli.executeOnFiles([path], config).results;
-  console.log(successMessage(results[0]));
-  console.log(formatter(results));
+  logger.log(successMessage(results[0]));
+  logger.log(formatter(results));
 }
 
 function watcher(options) {
@@ -98,7 +99,7 @@ function watcher(options) {
     watchDefaultPath(watch, extensions);
   }
 
-  console.log('Watching', options._, '\n');
+  logger.log('Watching', options._, '\n');
 
   watch.on(events.change, function (path) {
     if(!cli.isPathIgnored(path)){

@@ -3,6 +3,8 @@ var child = require('child_process');
 var path = require('path');
 var os = require('os');
 
+var logger = require('../log');
+
 var cmd = os.platform() === 'win32' ? '.cmd' : '';
 var eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
 
@@ -18,7 +20,7 @@ module.exports = function(args, options, childOptions){
   childOptions = childOptions ? childOptions : { stdio: 'inherit' };
 
   if(!options.help){
-    console.log('Linting:', options._);
+    logger.log('Linting:', options._);
   }
 
   return spawn(eslint, args, childOptions);

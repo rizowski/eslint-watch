@@ -23,6 +23,7 @@ To run eslint-watch without the global install, make an npm script.
   - Watching
     - Multi-directory watching
     - Runs a full directory lint before the watch
+    - Press `enter` to rerun directory lint while watching
   - Eslint Overrides
     - Default directory linting. A directory is no longer required.
   - [Simple formatters](#new-formatters)

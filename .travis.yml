@@ -1,6 +1,9 @@
 language: node_js
 node_js:
+  - "0.10"
   - "0.12"
+  - "2.5"
+  - "3.0"
 notifications:
   webhooks:
     urls:
@@ -9,6 +12,6 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
 before_install:
-  - npm install -g mocha
+  - npm install eslint --save
 script:
   - npm run ci

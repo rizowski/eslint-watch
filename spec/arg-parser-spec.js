@@ -17,6 +17,26 @@ describe('arg-parser', function(){
     options = {'_': []};
   });
 
+  describe('defaults',function(){
+    it('should not remove iojs',function(){
+      var args = ['/some/path/to/iojs', 'some/long/path'];
+      var arr = parser.parse(args, options);
+      expect(arr[0].indexOf('iojs') >=0);
+    });
+
+    it('should not remove node', function(){
+      var args = ['node', 'some/long/path'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.include('node');
+    });
+
+    it('should not remove esw',function(){
+      var args = ['node','/bin/esw', 'something/else'];
+      var arr = parser.parse(args, options);
+      expect(arr[1].indexOf('esw') >= 0);
+    });
+  });
+
   describe('watch', function(){
     it('parses for -w', function(){
       var args = ['node', 'some/long/path/to/prog', '-w'];

@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha --bail --colors --reporter spec ./spec",
+    "test": "mocha --recursive spec/*",
     "tdd": "mocha --watch --bail --colors --reporter spec ./spec",
-    "ci": "npm run lint && mocha --colors --reporter spec ./spec"
+    "ci": "npm test && npm run lint"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "chokidar": "^1.0.1",
+    "lodash": "^3.10.1",
     "optionator": "^0.6.0",
     "text-table": "^0.2.0"
   },

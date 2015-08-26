@@ -25,7 +25,7 @@ describe('eslint/help', function(){
               callback(msg);
             }
           }
-        }
+        };
       }
     });
   });

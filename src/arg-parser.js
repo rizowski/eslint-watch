@@ -20,7 +20,7 @@ var bin = {
   node: 'node',
   iojs: 'iojs',
   esw: 'esw'
-}
+};
 
 var getPath = function(options){
   return path.join(__dirname, formatterPath, options.format);

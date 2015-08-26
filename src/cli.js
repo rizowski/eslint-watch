@@ -19,7 +19,11 @@ getOptions(function(options){
   eslArgs = argParser.parse(args, parsedOptions);
 
   if (!parsedOptions.help) {
-    exitCode = eslintCli(eslArgs, parsedOptions).status;
+    var child = eslintCli(eslArgs, parsedOptions);
+
+    child.on('exit', function(code){
+      exitCode = code;
+    });
 
     if (parsedOptions.watch) {
       watcher(parsedOptions);
@@ -27,7 +31,7 @@ getOptions(function(options){
   } else {
     console.log(options.generateHelp());
   }
-})
+});
 
 
 process.on('exit', function () {

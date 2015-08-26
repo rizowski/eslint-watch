@@ -13,7 +13,7 @@ module.exports = function(args, options, childOptions){
     options = { _: './'};
   }
   if(options._ && options._.length === 0){
-    options._ = './'
+    options._ = './';
   }
   childOptions = childOptions ? childOptions : { stdio: 'inherit' };
 

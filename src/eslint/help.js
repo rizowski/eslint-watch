@@ -71,6 +71,7 @@ module.exports = function(cllbk){
       cllbk(parseHelp(eslintHelp));
     } catch(e){
       logger.log(e.stack);
+      throw(e);
     }
   });
 };

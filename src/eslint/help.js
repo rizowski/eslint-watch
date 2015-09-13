@@ -44,7 +44,7 @@ function parseRegular(arr){
 function parseHelp(helpText){
   var helpArr = helpText.split('\n');
   var newArr = [];
-  _.each(helpArr, function(row, index){
+  _.each(function(newArr, row, index){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {

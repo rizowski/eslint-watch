@@ -113,6 +113,7 @@ describe('eslint/help', function(){
       });
     });
   });
+
   it("doesn't set a description as undefined", function(){
     help(function(options){
       _.each(options, function(option){

@@ -23,7 +23,7 @@ function parseAlias(arr){
 
 function parseRegular(arr){
   if(!arr[0]){
-    return;
+    return false;
   }
   var optionText = arr[0];
   var type = arr[1];

@@ -127,4 +127,20 @@ describe('eslint/help', function(){
       expect(option.type).to.equal('Boolean');
     });
   });
+
+  it('clears headings', function(){
+    msg = title + '\n' +
+       '\n' +
+       optionsTxt + '\n' +
+       helpTxt + '\n' +
+       '\n' +
+       'HEADING:\n'+
+       cluck + '\n';
+    expect(function(){
+      help(function(options){
+        var option = options[2];
+        expect(option.type).to.equal('Boolean');
+      });
+    }).to.not.throw();
+  });
 });

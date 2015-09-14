@@ -129,7 +129,7 @@ describe('eslint/help', function(){
     });
   });
 
-  it('clears headings', function(){
+  it("shouldn't throw exceptions", function(){
     msg = title + '\n' +
        '\n' +
        optionsTxt + '\n' +
@@ -139,7 +139,7 @@ describe('eslint/help', function(){
        cluck + '\n';
     expect(function(){
       help(function(options){
-        var option = options[2];
+        var option = options[0];
         expect(option.type).to.equal('Boolean');
       });
     }).to.not.throw();

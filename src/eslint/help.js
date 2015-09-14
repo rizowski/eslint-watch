@@ -2,7 +2,7 @@
 
 var eslint = require('./cli');
 var _ = require('lodash');
-var logger = require('../log');
+var logger = require('../log')('eslint-help');
 
 function createOption(arr){
   var noAlias = arr[0].match(/--\w/);
@@ -13,6 +13,7 @@ function createOption(arr){
 
 function parseAlias(arr){
   var alias = arr[0];
+  logger.debug('Alias found: %s', alias);
   var option = parseRegular(_.without(arr, alias));
 
   if(alias){
@@ -22,6 +23,7 @@ function parseAlias(arr){
 }
 
 function parseRegular(arr){
+  logger.debug('Parsing %s', arr[0]);
   if(!arr[0]){
     return;
   }
@@ -64,8 +66,10 @@ function parseHelp(helpText){
 
 // rewrite in es6 this callback yucky stuff goes away.
 module.exports = function(cllbk){
+  logger.debug('Executing help');
   var spawn = eslint(['--help'], {help: true}, {});
   spawn.stdout.on('data', function(msg){
+    logger.debug('Help text received');
     var eslintHelp = msg.toString();
     try {
       cllbk(parseHelp(eslintHelp));

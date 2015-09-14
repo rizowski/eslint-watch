@@ -43,14 +43,14 @@ function parseRegular(arr){
 function parseHelp(helpText){
   var helpArr = helpText.split('\n');
   var newArr = [];
-  var previousLine =[];
+  var previousLine = [];
   _.each(helpArr, function(row, index){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {
       var str = row.replace(',', '');
       var arr = str.trim().split(' ');
-      if(str.length > 1 && previousLine[0] !== ''){
+      if(str.indexOf('-') >= 0 && previousLine[0] !== ''){
         var option = createOption(arr);
         if(option && option.option !== 'format' && option.option !== 'help'){
           newArr.push(option);

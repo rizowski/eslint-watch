@@ -2,11 +2,11 @@
 
 var eslint = require('./cli');
 var _ = require('lodash');
+var logger = require('../log');
 
-function createOption(str){
-  var arr = str.trim().split(' ');
-  var result = arr[0].match(/--\w/);
-  var option = result ? parseRegular(arr) : parseAlias(arr);
+function createOption(arr){
+  var noAlias = arr[0].match(/--\w/);
+  var option = noAlias ? parseRegular(arr) : parseAlias(arr);
   var isEmpty = _.isEmpty(option);
   return isEmpty ? undefined : option;
 }
@@ -28,7 +28,6 @@ function parseRegular(arr){
   var optionText = arr[0];
   var type = arr[1];
   var option = {};
-
   option.option = optionText.replace('--', '');
   option.type = type ? type : 'Boolean';
 
@@ -44,15 +43,20 @@ function parseRegular(arr){
 function parseHelp(helpText){
   var helpArr = helpText.split('\n');
   var newArr = [];
+  var previousLine = [];
   _.each(helpArr, function(row, index){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {
-      row = row.replace(',', '');
-      var option = createOption(row);
-      if(option && option.option !== 'format' && option.option !== 'help'){
-        newArr.push(option);
+      var str = row.replace(',', '');
+      var arr = str.trim().split(' ');
+      if(str.indexOf('-') >= 0 && previousLine[0] !== ''){
+        var option = createOption(arr);
+        if(option && option.option !== 'format' && option.option !== 'help'){
+          newArr.push(option);
+        }
       }
+      previousLine = arr;
     }
   });
   return newArr;
@@ -63,6 +67,11 @@ module.exports = function(cllbk){
   var spawn = eslint(['--help'], {help: true}, {});
   spawn.stdout.on('data', function(msg){
     var eslintHelp = msg.toString();
-    cllbk(parseHelp(eslintHelp));
+    try {
+      cllbk(parseHelp(eslintHelp));
+    } catch(e){
+      logger.log(e.stack);
+      throw(e);
+    }
   });
 };

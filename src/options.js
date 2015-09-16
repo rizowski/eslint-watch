@@ -41,6 +41,7 @@ module.exports = function(cllbk){
       cllbk(options);
     } catch(e){
       logger.log(e);
+      throw(e);
     }
   });
 };

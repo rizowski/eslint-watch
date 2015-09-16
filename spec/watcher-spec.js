@@ -6,16 +6,23 @@ var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
 var expect = chai.expect;
-var watcher = require('../src/watcher');
 var chokidar = require('chokidar');
-var logger = require('../src/log');
+var proxy = require('proxyquire');
 
 describe('Watcher', function () {
+  var watcher;
   var watchOnSpy;
   var watchAddSpy;
 
   before(function(){
-    sinon.stub(logger, 'log', function(){ });
+    watcher = proxy('../src/watcher',{
+      './log': function(){
+        return {
+          log: function(){},
+          debug: function(){}
+        };
+      }
+    });
   });
 
   beforeEach(function () {

@@ -3,12 +3,14 @@ var child = require('child_process');
 var path = require('path');
 var os = require('os');
 
-var logger = require('../log');
+var logger = require('../log')('eslint-cli');
 
 var cmd = os.platform() === 'win32' ? '.cmd' : '';
 var eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
-
+logger.debug(cmd);
+logger.debug(eslint);
 var spawn = child.spawn;
+
 
 module.exports = function(args, options, childOptions){
   if(!options){

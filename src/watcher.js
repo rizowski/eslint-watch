@@ -6,7 +6,7 @@ var _ = require('lodash');
 
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
-var logger = require('./log');
+var logger = require('./log')('watcher');
 
 var defaultExtensions = ['.js'];
 var events = {
@@ -95,6 +95,7 @@ function watcher(options) {
     directoryPaths = _.difference(specifiedPaths, filePaths);
     watchPaths(watch, filePaths, directoryPaths, extensions);
   } else {
+    logger.debug('Watching default path %s', extensions);
     // The default case requires a different glob pattern.
     watchDefaultPath(watch, extensions);
   }

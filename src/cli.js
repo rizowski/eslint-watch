@@ -7,7 +7,7 @@ var eslint = require('./eslint');
 var getOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
-var logger = require('./log');
+var logger = require('./log')('esw-cli');
 
 var eslintCli = eslint.cli;
 
@@ -23,6 +23,7 @@ function runLint(args, options){
   var child = eslintCli(args, options);
 
   child.on('exit', function(code){
+    logger.debug('Exiting setting exit code to: %s', code);
     exitCode = code;
   });
   return child;
@@ -31,6 +32,7 @@ function runLint(args, options){
 function keyListener(args, options){
   var stdin = process.stdin;
   stdin.on('keypress', function(ch, key){
+    logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
       runLint(args, options);
     }
@@ -43,16 +45,18 @@ function keyListener(args, options){
 }
 
 getOptions(function(options){
+  logger.debug('Arguments passed: %s', args);
   parsedOptions = options.parse(args);
+  logger.debug('Parsing args');
   eslArgs = argParser.parse(args, parsedOptions);
 
   if (!parsedOptions.help) {
+    logger.debug('Running initial lint');
     runLint(eslArgs, parsedOptions);
-
     if (parsedOptions.watch) {
+      logger.debug('-w seen');
       keyListener(eslArgs, parsedOptions);
       watcher(parsedOptions);
-
     }
   } else {
     logger.log(options.generateHelp());

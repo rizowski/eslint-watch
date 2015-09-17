@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha spec --recursive -R spec",
+    "test": "mocha spec --recursive -R spec --timeout 5000",
     "tdd": "mocha -w spec --recursive -R spec",
     "ci": "npm run coverage && npm run lint",
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --recursive -u exports -R spec spec/*"

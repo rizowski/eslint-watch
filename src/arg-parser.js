@@ -43,7 +43,7 @@ module.exports = {
     var formatSpecified = false;
     logger.debug('Directories to check: %s', dirs);
     _.each(args, function(item){
-      if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs])) {
+      if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs, bin.node])) {
         arr.push(item);
       }
       if (formats[item]) {

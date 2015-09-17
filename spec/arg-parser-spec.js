@@ -33,7 +33,13 @@ describe('arg-parser', function () {
     it('should remove esw',function(){
       var args = ['bla','/bin/esw', '/something/else'];
       var arr = parser.parse(args, options);
-      expect(arr).not.include('/bin/esw');
+      expect(arr).to.not.include('/bin/esw');
+    });
+
+    it('removes node with a path', function(){
+      var args = ['/bla/path/to/node', 'node', 'nodish'];
+      var arr = parser.parse(args, options);
+      expect(arr).to.not.include('/bla/path/to/node');
     });
   });
 

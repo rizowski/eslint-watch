@@ -9,11 +9,11 @@
 [![Join the chat at https://gitter.im/rizowski/eslint-watch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rizowski/eslint-watch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Don't want to import Webpack, Grunt, or some other task package into your project? Then this is the tool for you.
-Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs.com/package/eslint). Eslint Watch provides file watching and command line improvements to the currently exisiting eslint command line interface. All commands that Eslint offers can be used with the addition of a watch command and a couple new templating views. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!
+Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs.com/package/eslint). Eslint Watch provides file watching and command line improvements to the currently existing Eslint command line interface. All commands that Eslint offers can be used with the addition of a watch command and a couple new templating views. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!
 
 ## Requirements
 To use this tool we require eslint to be installed on your project. The versions supported are:
-  - `"eslint": ">=0.19.0 <=2.0.0"`
+  - `"eslint": ">=0.19.0 <2.0.0"`
 
 ## Getting started
 To run eslint-watch without the global install, make an npm script.
@@ -39,24 +39,29 @@ Options:
   -h, --help                  Show help
   -f, --format String         Use a specific output format - default: simple-detail
   -w, --watch                 Enable file watch
-  -c, --config path::String   Use configuration from this file
-  --rulesdir [path::String]   Use additional rules from this directory
-  -v, --version               Outputs the version number
+  -c, --config path::String   Use configuration from this file or shareable config
   --no-eslintrc               Disable use of configuration from .eslintrc
   --env [String]              Specify environments
   --ext [String]              Specify JavaScript file extensions - default: .js
-  --plugin [String]           Specify plugins
   --global [String]           Define global variables
+  --parser String             Specify the parser to be used - default: espree
+  --cache                     Only check changed files - default: false
+  --cache-file String         Path to the cache file - default: .eslintcache
+  --rulesdir [path::String]   Use additional rules from this directory
+  --plugin [String]           Specify plugins
   --rule Object               Specify rules
   --ignore-path path::String  Specify path of ignore file
   --no-ignore                 Disable use of .eslintignore
   --ignore-pattern String     Pattern of files to ignore (in addition to those in .eslintignore)
-  --no-color                  Disable color in piped output
-  -o, --output-file path::String  Specify file to write report to
-  --quiet                     Report errors only - default: false
   --stdin                     Lint code provided on <STDIN> - default: false
   --stdin-filename String     Specify filename to process STDIN as
+  --quiet                     Report errors only - default: false
+  --max-warnings Number       of warnings to trigger nonzero exit code - default: -1
+  -o, --output-file path::String  Specify file to write report to
+  --no-color                  Disable color in piped output
   --init                      Run config initialization wizard - default: false
+  --fix                       Automatically fix problems
+  -v, --version               Outputs the version number
 ```
 
 ## Functionality

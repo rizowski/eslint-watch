@@ -2,17 +2,18 @@
 
 var eslint = require('./cli');
 var _ = require('lodash');
+var logger = require('../log')('eslint-help');
 
-function createOption(str){
-  var arr = str.trim().split(' ');
-  var result = arr[0].match(/--\w/);
-  var option = result ? parseRegular(arr) : parseAlias(arr);
+function createOption(arr){
+  var noAlias = arr[0].match(/--\w/);
+  var option = noAlias ? parseRegular(arr) : parseAlias(arr);
   var isEmpty = _.isEmpty(option);
   return isEmpty ? undefined : option;
 }
 
 function parseAlias(arr){
   var alias = arr[0];
+  logger.debug('Alias found: %s', alias);
   var option = parseRegular(_.without(arr, alias));
 
   if(alias){
@@ -22,13 +23,13 @@ function parseAlias(arr){
 }
 
 function parseRegular(arr){
+  logger.debug('Parsing %s', arr[0]);
   if(!arr[0]){
     return;
   }
   var optionText = arr[0];
   var type = arr[1];
   var option = {};
-
   option.option = optionText.replace('--', '');
   option.type = type ? type : 'Boolean';
 
@@ -44,15 +45,20 @@ function parseRegular(arr){
 function parseHelp(helpText){
   var helpArr = helpText.split('\n');
   var newArr = [];
+  var previousLine = [];
   _.each(helpArr, function(row, index){
     if(index === 0 || index === 1 || index === 2){
       return;
     } else {
-      row = row.replace(',', '');
-      var option = createOption(row);
-      if(option && option.option !== 'format' && option.option !== 'help'){
-        newArr.push(option);
+      var str = row.replace(',', '');
+      var arr = str.trim().split(' ');
+      if(str.indexOf('-') >= 0 && previousLine[0] !== ''){
+        var option = createOption(arr);
+        if(option && option.option !== 'format' && option.option !== 'help'){
+          newArr.push(option);
+        }
       }
+      previousLine = arr;
     }
   });
   return newArr;
@@ -60,9 +66,16 @@ function parseHelp(helpText){
 
 // rewrite in es6 this callback yucky stuff goes away.
 module.exports = function(cllbk){
+  logger.debug('Executing help');
   var spawn = eslint(['--help'], {help: true}, {});
   spawn.stdout.on('data', function(msg){
+    logger.debug('Help text received');
     var eslintHelp = msg.toString();
-    cllbk(parseHelp(eslintHelp));
+    try {
+      cllbk(parseHelp(eslintHelp));
+    } catch(e){
+      logger.log(e.stack);
+      throw(e);
+    }
   });
 };

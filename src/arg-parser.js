@@ -44,10 +44,12 @@ module.exports = {
     logger.debug('Directories to check: %s', dirs);
     _.each(args, function(item){
       if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs, bin.node])) {
+        logger.debug('Pushing item: %s', item);
         arr.push(item);
       }
       if (formats[item]) {
         formatSpecified = true;
+        logger.debug('Format specified');
         arr.push(getPath(options));
       }
     });
@@ -56,7 +58,8 @@ module.exports = {
       arr.push(getPath(options));
     }
     if (!dirs.length) {
-      arr[arr.length] = defaultPath;
+      arr.push(defaultPath);
+      logger.debug('Setting default path: %s', defaultPath);
     }
     return arr;
   }

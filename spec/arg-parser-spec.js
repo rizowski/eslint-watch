@@ -17,29 +17,35 @@ describe('arg-parser', function () {
     options = { '_': [] };
   });
 
+  it('appends the path at the end of parsing', function(){
+    var args = ['cool'];
+    var arr = parser.parse(args, options);
+    expect(arr).to.eql(['cool', './']);
+  });
+
   describe('defaults',function(){
     it('should remove iojs',function(){
       var args = ['/some/path/to/iojs', 'some/long/path'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.include('/some/path/to/iojs');
+      expect(arr).to.eql(['some/long/path', './']);
     });
 
     it('should remove node', function(){
       var args = ['node', 'some/long/path'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.include('node');
+      expect(arr).to.eql(['some/long/path', './']);
     });
 
     it('should remove esw',function(){
       var args = ['bla','/bin/esw', '/something/else'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.include('/bin/esw');
+      expect(arr).to.eql(['bla', '/something/else', './']);
     });
 
     it('removes node with a path', function(){
       var args = ['/bla/path/to/node', 'node', 'nodish'];
       var arr = parser.parse(args, options);
-      expect(arr).to.not.include('/bla/path/to/node');
+      expect(arr).to.eql(['nodish', './']);
     });
   });
 

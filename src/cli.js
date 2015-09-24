@@ -55,7 +55,12 @@ getOptions(function(options){
     runLint(eslArgs, parsedOptions);
     if (parsedOptions.watch) {
       logger.debug('-w seen');
-      keyListener(eslArgs, parsedOptions);
+      try{
+        keyListener(eslArgs, parsedOptions);
+      } catch(e){
+        logger.debug('Stdin is being wrapped');
+        logger.debug(e);
+      }
       watcher(parsedOptions);
     }
   } else {

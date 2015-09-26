@@ -31,6 +31,10 @@ function runLint(args, options){
 
 function keyListener(args, options){
   var stdin = process.stdin;
+  if(!stdin.setRawMode){
+    logger.debug('Process might be wrapped exitig keybinding');
+    return;
+  }
   stdin.on('keypress', function(ch, key){
     logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
@@ -55,19 +59,13 @@ getOptions(function(options){
     runLint(eslArgs, parsedOptions);
     if (parsedOptions.watch) {
       logger.debug('-w seen');
-      try{
-        keyListener(eslArgs, parsedOptions);
-      } catch(e){
-        logger.debug('Stdin is being wrapped');
-        logger.debug(e);
-      }
+      keyListener(eslArgs, parsedOptions);
       watcher(parsedOptions);
     }
   } else {
     logger.log(options.generateHelp());
   }
 });
-
 
 process.on('exit', function () {
   process.exit(exitCode);

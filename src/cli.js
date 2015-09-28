@@ -15,8 +15,6 @@ var parsedOptions;
 var eslArgs;
 var exitCode;
 
-keypress(process.stdin);
-
 var args = process.argv;
 
 function runLint(args, options){
@@ -31,6 +29,11 @@ function runLint(args, options){
 
 function keyListener(args, options){
   var stdin = process.stdin;
+  if(!stdin.setRawMode){
+    logger.debug('Process might be wrapped exitig keybinding');
+    return;
+  }
+  keypress(stdin);
   stdin.on('keypress', function(ch, key){
     logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
@@ -62,7 +65,6 @@ getOptions(function(options){
     logger.log(options.generateHelp());
   }
 });
-
 
 process.on('exit', function () {
   process.exit(exitCode);

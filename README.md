@@ -2,9 +2,11 @@
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
 [![Build status](https://ci.appveyor.com/api/projects/status/0v5dn6wqofyp6ldb/branch/master?svg=true)](https://ci.appveyor.com/project/rizowski/eslint-watch/branch/master)
 [![NPM version](https://badge.fury.io/js/eslint-watch.svg)](http://badge.fury.io/js/eslint-watch)
-[![Dependancies](https://david-dm.org/rizowski/eslint-watch.svg)](https://david-dm.org/rizowski/eslint-watch#info=dependencies)
+[![Dependency Status](https://www.versioneye.com/user/projects/5607150e5a262f001e00033e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5607150e5a262f001e00033e)
 [![devDependency Status](https://david-dm.org/rizowski/eslint-watch/dev-status.svg)](https://david-dm.org/rizowski/eslint-watch#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
+
+[![Reference Status](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat)](https://www.versioneye.com/nodejs/eslint-watch/references)
 
 [![Join the chat at https://gitter.im/rizowski/eslint-watch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rizowski/eslint-watch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 

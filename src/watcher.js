@@ -7,6 +7,7 @@ var _ = require('lodash');
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
 var logger = require('./log')('watcher');
+logger.debug('Loaded');
 
 var defaultExtensions = ['.js'];
 var events = {
@@ -14,6 +15,16 @@ var events = {
 };
 
 var cli = new eslint.CLIEngine();
+var watch = chokidar.watch()
+  .on(events.change, function (path) {
+    logger.debug('CHANGED');
+    if(!cli.isPathIgnored(path)){
+      var config = cli.getConfigForFile(path);
+      lintFile(path, config);
+    }
+  }).on('error', function(err){
+    logger.log(err);
+  });
 
 /**
  * Given an array of paths and extensions, figure out which paths refer to files.
@@ -27,36 +38,41 @@ function findFilePaths(paths, extensions) {
   });
 }
 
+function addGlobToWatcher(path){
+  logger.debug('Watching: %s', path);
+  watch.add(path);
+}
+
 // Add files and paths to the watcher
-function watchPaths(watch, filePaths, directoryPaths, extensions) {
+function watchPaths(filePaths, directoryPaths, extensions) {
   if (filePaths.length > 0) {
+    logger.debug('watchPaths (filePaths): %o', filePaths);
     watch.add(filePaths);
   }
 
   if (directoryPaths.length > 0) {
+    logger.debug('WatchPaths (directories): %o', directoryPaths);
     // Remove any trailing slashes from the directory paths for Windows compatibility
     directoryPaths = _.map(directoryPaths, function (directoryPath) {
-       return directoryPath.replace(/\/+$/, '');
+      return directoryPath.replace(/\/+$/, '');
     });
 
     // For example:
     // +(directory1|directory2)/**/*+(.ext1|.ext2)
-    watch.add('+(' + directoryPaths.join('|') + ')/**/*+(' + extensions.join('|') + ')$');
+    addGlobToWatcher('+(' + directoryPaths.join('|') + ')/**/*+(' + extensions.join('|') + ')$');
   }
 };
 
-function watchDefaultPath(watch, extensions) {
-  watch.add('**/*+(' + extensions.join('|') + ')$');
-}
-
 function successMessage(result) {
-  if (result.errorCount === 0 && result.warningCount === 0) {
+  logger.debug('result: %o', result);
+  if (!result.errorCount && !result.warningCount) {
     return success(result) + chalk.grey(' (' + new Date().toLocaleTimeString() + ')');
   }
   return '';
 }
 
 function lintFile(path, config) {
+  logger.debug('lintFile: %s', path);
   var results = cli.executeOnFiles([path], config).results;
   logger.log(successMessage(results[0]));
   logger.log(formatter(results));
@@ -67,7 +83,6 @@ function watcher(options) {
   var directoryPaths;
   var filePaths;
   var extensions;
-  var watch = chokidar.watch();
 
   /**
    * If the user has specified extensions, those will be passed in as an array,
@@ -93,21 +108,14 @@ function watcher(options) {
      */
     filePaths = findFilePaths(specifiedPaths, extensions);
     directoryPaths = _.difference(specifiedPaths, filePaths);
-    watchPaths(watch, filePaths, directoryPaths, extensions);
+    watchPaths(filePaths, directoryPaths, extensions);
   } else {
     logger.debug('Watching default path %s', extensions);
     // The default case requires a different glob pattern.
-    watchDefaultPath(watch, extensions);
+    addGlobToWatcher('**/*+(' + extensions.join('|') + ')$');
   }
 
-  logger.log('Watching', options._, '\n');
-
-  watch.on(events.change, function (path) {
-    if(!cli.isPathIgnored(path)){
-      var config = cli.getConfigForFile(path);
-      lintFile(path, config);
-    }
-  });
+  logger.debug('Watching: %o', options._);
 }
 
 module.exports = watcher;

@@ -3,6 +3,7 @@
 var eslint = require('./cli');
 var _ = require('lodash');
 var logger = require('../log')('eslint-help');
+logger.debug('Loaded');
 
 function createOption(arr){
   var noAlias = arr[0].match(/--\w/);

@@ -8,6 +8,7 @@ var getOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
 var logger = require('./log')('esw-cli');
+logger.debug('Loaded');
 
 var eslintCli = eslint.cli;
 
@@ -21,7 +22,7 @@ function runLint(args, options){
   var child = eslintCli(args, options);
 
   child.on('exit', function(code){
-    logger.debug('Exiting setting exit code to: %s', code);
+    logger.debug('Setting exit code to: %s', code);
     exitCode = code;
   });
   return child;
@@ -48,7 +49,7 @@ function keyListener(args, options){
 }
 
 getOptions(function(options){
-  logger.debug('Arguments passed: %s', args);
+  logger.debug('Arguments passed: %o', args);
   parsedOptions = options.parse(args);
   logger.debug('Parsing args');
   eslArgs = argParser.parse(args, parsedOptions);

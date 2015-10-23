@@ -37,7 +37,7 @@ function keyListener(args, options){
   stdin.on('keypress', function(ch, key){
     logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
-      logger.debug('Rerunning lint...')
+      logger.debug('Rerunning lint...');
       runLint(args, options);
     }
     if(key.ctrl && key.name === 'c') {

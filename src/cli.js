@@ -16,9 +16,8 @@ var parsedOptions;
 var eslArgs;
 var exitCode;
 
-var args = process.argv;
-
 function runLint(args, options){
+  logger.debug(args);
   var child = eslintCli(args, options);
 
   child.on('exit', function(code){
@@ -38,6 +37,7 @@ function keyListener(args, options){
   stdin.on('keypress', function(ch, key){
     logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
+      logger.debug('Rerunning lint...')
       runLint(args, options);
     }
     if(key.ctrl && key.name === 'c') {
@@ -49,6 +49,7 @@ function keyListener(args, options){
 }
 
 getOptions(function(options){
+  var args = process.argv;
   logger.debug('Arguments passed: %o', args);
   parsedOptions = options.parse(args);
   logger.debug('Parsing args');

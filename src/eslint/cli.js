@@ -13,7 +13,7 @@ var spawn = child.spawn;
 
 module.exports = function(args, options, childOptions){
   if(!options){
-    options = { _: './'};
+    options = { _: './' };
   }
   if(options._ && options._.length === 0){
     options._ = './';

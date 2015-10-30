@@ -32,7 +32,7 @@ function lintFile(path, config) {
 module.exports = function watcher(options) {
   chokidar.watch(options._)
     .on(events.change, function (path) {
-      logger.debug('CHANGED');
+      logger.debug('Changed:', path);
       if(!cli.isPathIgnored(path)){
         var config = cli.getConfigForFile(path);
         lintFile(path, config);

@@ -3,6 +3,7 @@ var optionator = require('optionator');
 var getOptions = require('./eslint').help;
 var _ = require('lodash');
 var logger = require('./log')('options');
+logger.debug('Loaded');
 
 var settings = {
   prepend: 'esw [options] [file.js ...] [dir ...]',

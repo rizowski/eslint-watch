@@ -1,6 +1,6 @@
 {
   "name": "eslint-watch",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "lw": "node ./bin/esw -w",
     "test": "mocha spec --recursive -R spec --timeout 5000",
     "tdd": "mocha -w spec --recursive -R spec",
-    "ci": "npm run coverage && npm run lint",
+    "ci": "npm run lint && npm run coverage",
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --recursive -u exports -R spec spec/*"
   },
   "repository": {
@@ -48,8 +48,8 @@
     "text-table": "^0.2.0"
   },
   "devDependencies": {
-    "chai": "^2.3.0",
-    "istanbul": "^0.3.18",
+    "chai": "^3.4.0",
+    "istanbul": "^0.4.0",
     "mocha": "^2.2.5",
     "mocha-sinon": "^1.1.4",
     "proxyquire": "^1.6.0",

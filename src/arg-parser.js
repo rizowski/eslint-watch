@@ -2,6 +2,7 @@
 var path = require('path');
 var _ = require('lodash');
 var logger = require('./log')('arg-parser');
+logger.debug('Loaded');
 
 var simpleDetail = 'simple-detail';
 var formatterPath = 'formatters';
@@ -24,13 +25,12 @@ var bin = {
 };
 
 var getPath = function(options){
-  logger.debug('getPath: %s', options.format);
+  logger.debug('GetPath: %s', options.format);
   return path.join(__dirname, formatterPath, options.format);
 };
 
 var contains = function(str, items){
-  logger.debug(items);
-  logger.debug('contains %s', str);
+  logger.debug('Contains: %s', str);
   return _.some(items, function(item){
     return str.indexOf(item) >= 0;
   });
@@ -41,7 +41,7 @@ module.exports = {
     var arr = [];
     var dirs = options._;
     var formatSpecified = false;
-    logger.debug('Directories to check: %s', dirs);
+    logger.debug('Directories to check: %o', dirs);
     _.each(args, function(item){
       if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs, bin.node])) {
         logger.debug('Pushing item: %s', item);
@@ -54,6 +54,7 @@ module.exports = {
       }
     });
     if (options.format === simpleDetail && !formatSpecified) {
+      logger.debug('setting custom formatter');
       arr.push(formatKey);
       arr.push(getPath(options));
     }

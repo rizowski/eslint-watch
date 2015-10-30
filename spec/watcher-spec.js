@@ -6,89 +6,79 @@ var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
 var expect = chai.expect;
-var chokidar = require('chokidar');
 var proxy = require('proxyquire');
 
 describe('Watcher', function () {
   var watcher;
-  var watchOnSpy;
-  var watchAddSpy;
+  var onSpy;
+  var errorSpy;
+  var watcherOptions;
+  var on;
+  var path;
+  var isIgnored;
 
   before(function(){
+    var cliEngine = function(){};
+    cliEngine.prototype.isPathIgnored = function() {
+      return isIgnored;
+    };
+    cliEngine.prototype.getConfigForFile = function() {};
+    cliEngine.prototype.executeOnFiles = function() {
+      return {
+        results: [{ errorCount: 0, warningCount: 0 }]
+      };
+    };
     watcher = proxy('../src/watcher',{
       './log': function(){
         return {
           log: function(){},
           debug: function(){}
         };
-      }
+      },
+      'chokidar': {
+        watch: function(options){
+          watcherOptions = options;
+          return {
+            on: on
+          };
+        },
+      },
+      'eslint': {
+        CLIEngine: cliEngine
+      },
+      './formatters/simple-detail': function(){},
+      './formatters/helpers/success': function(){}
     });
   });
 
-  beforeEach(function () {
-    watchOnSpy = sinon.spy(function () {
-      // No operations
-    });
-
-    watchAddSpy = sinon.spy(function () {
-      // No operations
-    });
-
-    sinon.stub(chokidar, 'watch', function () {
+  beforeEach(function(){
+    onSpy = sinon.spy();
+    errorSpy = sinon.spy();
+    path = '';
+    isIgnored = false;
+    on = function(event, cllbk){
+      onSpy(event);
+      cllbk(path);
       return {
-        on: watchOnSpy,
-        add: watchAddSpy
+        on: errorSpy
       };
-    });
+    };
   });
 
-  afterEach(function () {
-    chokidar.watch.restore();
+  it('calls the on event', function(){
+    watcher({ _: [] });
+    expect(onSpy.called).to.be.true;
   });
 
-  it('should call the chokidar on function to activate watching', function () {
-    watcher({
-      _: './'
-    });
-
-    expect(watchOnSpy.calledOnce).to.be.true;
+  it('watches the directories under _ attribute', function() {
+    var arr = ['hello'];
+    watcher({ _: arr });
+    expect(watcherOptions).to.equal(arr);
   });
 
-  it('should use the correct default extension and directory', function () {
-    watcher({
-      _: './'
-    });
-
-    expect(watchAddSpy.calledWith('**/*+(.js)$')).to.be.true;
+  it('it calls the on changed event', function() {
+    watcher({ _: [] });
+    expect(onSpy).to.have.been.calledWith('change');
   });
 
-  it('should use the correct watch pattern when a directory is specified', function () {
-    watcher({
-      _: ['directory']
-    });
-
-    expect(watchAddSpy.calledOnce).to.be.true;
-    expect(watchAddSpy.calledWith('+(directory)/**/*+(.js)$')).to.be.true;
-  });
-
-  it('should use the correct watch pattern when a file and extension are specified', function () {
-    watcher({
-      _: ['file.test'],
-      ext: ['.test']
-    });
-
-    expect(watchAddSpy.calledOnce).to.be.true;
-    expect(watchAddSpy.calledWith(['file.test'])).to.be.true;
-  });
-
-  it('should use the correct watch pattern when a complex set of files, directories, and extensions are specified', function () {
-    watcher({
-      _: ['file.test', 'file.js', 'directory1', 'directory2'],
-      ext: ['.js', '.test']
-    });
-
-    expect(watchAddSpy.calledTwice).to.be.true;
-    expect(watchAddSpy.calledWith(['file.test', 'file.js']));
-    expect(watchAddSpy.calledWith('+(directory1|directory2)/**/*+(.js|.test)$'));
-  });
 });

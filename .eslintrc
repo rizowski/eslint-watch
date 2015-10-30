@@ -10,6 +10,12 @@
     "quotes": [2, "single", "avoid-escape"],
     "strict": [2, "global"],
     "no-unused-vars": 2,
-    "semi": [2, "always"]
+    "no-underscore-dangle": 1,
+    "semi": [2, "always"],
+    "no-undef": 2,
+    "no-use-before-define": 2,
+    "block-scoped-var": 2,
+    "space-in-parens": [2, "never"],
+    "object-curly-spacing": [2, "always"]
   }
 }

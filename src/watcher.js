@@ -11,6 +11,9 @@ logger.debug('Loaded');
 var events = {
   change: 'change'
 };
+var chokidarOptions = {
+  ignored: /\.git|node_modules|bower_components/
+};
 
 var cli = new eslint.CLIEngine();
 
@@ -30,7 +33,7 @@ function lintFile(path, config) {
 }
 
 module.exports = function watcher(options) {
-  chokidar.watch(options._)
+  chokidar.watch(options._, chokidarOptions)
     .on(events.change, function (path) {
       logger.debug('Changed:', path);
       if(!cli.isPathIgnored(path)){

@@ -2,6 +2,7 @@
 var chokidar = require('chokidar');
 var eslint = require('eslint');
 var chalk = require('chalk');
+var _ = require('lodash');
 
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
@@ -32,11 +33,17 @@ function lintFile(path, config) {
   logger.log(formatter(results));
 }
 
+function isWatchableExtension(path){
+  return _.some(cli.options.extensions, function (ext){
+    return path.indexOf(ext) > -1;
+  });
+}
+
 module.exports = function watcher(options) {
   chokidar.watch(options._, chokidarOptions)
     .on(events.change, function (path) {
       logger.debug('Changed:', path);
-      if(!cli.isPathIgnored(path)){
+      if(!cli.isPathIgnored(path) && isWatchableExtension(path)){
         var config = cli.getConfigForFile(path);
         lintFile(path, config);
       }

@@ -89,7 +89,7 @@ describe('Watcher', function () {
   });
 
   it('calls the getConfigForFile method if extension exists in path', function(){
-    path = 'yup.js'
+    path = 'yup.js';
     watcher({ _: paths });
     expect(configForFileSpy).to.have.been.called;
   });

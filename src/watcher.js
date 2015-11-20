@@ -35,9 +35,7 @@ function lintFile(path, config) {
 }
 
 function isWatchableExtension(filePath){
-  return _.some(cli.options.extensions, function (ext){
-    return path.extname(filePath) === ext;
-  });
+  return _.contains(cli.options.extensions, path.extname(filePath));
 }
 
 module.exports = function watcher(options) {

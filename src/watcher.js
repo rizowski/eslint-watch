@@ -3,6 +3,7 @@ var chokidar = require('chokidar');
 var eslint = require('eslint');
 var chalk = require('chalk');
 var _ = require('lodash');
+var path = require('path');
 
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
@@ -33,9 +34,9 @@ function lintFile(path, config) {
   logger.log(formatter(results));
 }
 
-function isWatchableExtension(path){
+function isWatchableExtension(filePath){
   return _.some(cli.options.extensions, function (ext){
-    return path.indexOf(ext) > -1;
+    return path.extname(filePath) === ext;
   });
 }
 

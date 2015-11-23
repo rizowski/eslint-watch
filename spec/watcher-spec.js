@@ -16,16 +16,37 @@ describe('Watcher', function () {
   var on;
   var path;
   var isIgnored;
+  var configForFileSpy;
+  var paths;
 
-  before(function(){
-    var cliEngine = function(){};
-    cliEngine.prototype.isPathIgnored = function() {
-      return isIgnored;
-    };
-    cliEngine.prototype.getConfigForFile = function() {};
-    cliEngine.prototype.executeOnFiles = function() {
+  beforeEach(function(){
+    onSpy = sinon.spy();
+    errorSpy = sinon.spy();
+    configForFileSpy = sinon.spy();
+    path = '';
+    paths = ['some/path', 'some/other/path.js'];
+    isIgnored = false;
+    var cliEngine = function(){
       return {
-        results: [{ errorCount: 0, warningCount: 0 }]
+        options: {
+          extensions: ['.js']
+        },
+        isPathIgnored: function() {
+          return isIgnored;
+        },
+        getConfigForFile: configForFileSpy,
+        executeOnFiles: function() {
+          return {
+            results: [{ errorCount: 0, warningCount: 0 }]
+          };
+        }
+      };
+    };
+    on = function(event, cllbk){
+      onSpy(event);
+      cllbk(path);
+      return {
+        on: errorSpy
       };
     };
     watcher = proxy('../src/watcher',{
@@ -51,20 +72,6 @@ describe('Watcher', function () {
     });
   });
 
-  beforeEach(function(){
-    onSpy = sinon.spy();
-    errorSpy = sinon.spy();
-    path = '';
-    isIgnored = false;
-    on = function(event, cllbk){
-      onSpy(event);
-      cllbk(path);
-      return {
-        on: errorSpy
-      };
-    };
-  });
-
   it('calls the on event', function(){
     watcher({ _: [] });
     expect(onSpy.called).to.be.true;
@@ -79,6 +86,19 @@ describe('Watcher', function () {
   it('it calls the on changed event', function() {
     watcher({ _: [] });
     expect(onSpy).to.have.been.calledWith('change');
+  });
+
+  it('calls the getConfigForFile method if extension exists in path', function(){
+    path = 'yup.js';
+    watcher({ _: paths });
+    expect(configForFileSpy).to.have.been.called;
+  });
+
+  it('does not call getConfigForFile if extensions do not exist in the path', function(){
+    path = 'nope';
+    paths = ['some/path.js'];
+    watcher({ _: paths });
+    expect(configForFileSpy).to.not.have.been.called;
   });
 
 });

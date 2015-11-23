@@ -2,6 +2,8 @@
 var chokidar = require('chokidar');
 var eslint = require('eslint');
 var chalk = require('chalk');
+var _ = require('lodash');
+var path = require('path');
 
 var success = require('./formatters/helpers/success');
 var formatter = require('./formatters/simple-detail');
@@ -10,6 +12,9 @@ logger.debug('Loaded');
 
 var events = {
   change: 'change'
+};
+var chokidarOptions = {
+  ignored: /\.git|node_modules|bower_components/
 };
 
 var cli = new eslint.CLIEngine();
@@ -29,11 +34,15 @@ function lintFile(path, config) {
   logger.log(formatter(results));
 }
 
+function isWatchableExtension(filePath){
+  return _.contains(cli.options.extensions, path.extname(filePath));
+}
+
 module.exports = function watcher(options) {
-  chokidar.watch(options._)
+  chokidar.watch(options._, chokidarOptions)
     .on(events.change, function (path) {
       logger.debug('Changed:', path);
-      if(!cli.isPathIgnored(path)){
+      if(!cli.isPathIgnored(path) && isWatchableExtension(path)){
         var config = cli.getConfigForFile(path);
         lintFile(path, config);
       }

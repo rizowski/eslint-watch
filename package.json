@@ -45,7 +45,8 @@
     "keypress": "^0.2.1",
     "lodash": "^3.10.1",
     "optionator": "^0.6.0",
-    "text-table": "^0.2.0"
+    "text-table": "^0.2.0",
+    "unicons": "0.0.2"
   },
   "devDependencies": {
     "chai": "^3.4.0",

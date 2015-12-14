@@ -1,8 +1,9 @@
 'use strict';
+var unicon = require('unicons');
 
 module.exports = {
-  ex: '\u0021',
-  check: '\u2713',
-  x: '\u2716',
+  ex: unicon.warning,
+  check: unicon.check,
+  x: unicon.cross,
   endLine: '\n'
 };

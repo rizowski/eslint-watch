@@ -1,17 +1,18 @@
-'use strict';
-var optionator = require('optionator');
-var getOptions = require('./eslint').help;
-var _ = require('lodash');
-var logger = require('./log')('options');
+import optionator from 'optionator';
+import { help as getEslintOptions } from './eslint';
+import _ from 'lodash';
+import Logger from './log';
+
+let logger = Logger('options');
 logger.debug('Loaded');
 
-var settings = {
+let settings = {
   prepend: 'esw [options] [file.js ...] [dir ...]',
   concatRepeatedArrays: true,
   mergeRepeatedObjects: true
 };
 
-var myOptions = [{
+let myOptions = [{
   heading: 'Options'
 }, {
   option: 'help',
@@ -31,18 +32,13 @@ var myOptions = [{
   description: 'Enable file watch'
 }];
 
-module.exports = function(cllbk){
-  getOptions(function(eslintOptions){
-    var options;
-    var newOptions = _.union(myOptions, eslintOptions);
-    settings.options = newOptions;
-
-    try {
-      options = optionator(settings);
-      cllbk(options);
-    } catch(e){
-      logger.log(e);
-      throw(e);
-    }
-  });
+export default () => {
+  return getEslintOptions()
+    .then(eslintOptions => {
+      settings.options = _.union(myOptions, eslintOptions);
+      return optionator(settings);
+    })
+    .catch(err => {
+      logger.log(err);
+    });
 };

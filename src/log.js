@@ -1,12 +1,9 @@
-'use strict';
-var debug = require('debug');
+import debug from 'debug';
 
-module.exports = function(thing){
+export default thing => {
   return {
-    log: function(){
-      var args = Array.prototype.slice.call(arguments);
-      console.log(args.join(' '));
-    },
+    log: console.log,
+    error: console.error,
     debug: debug('esw:' + thing)
   };
 };

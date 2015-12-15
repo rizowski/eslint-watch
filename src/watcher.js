@@ -1,23 +1,24 @@
-'use strict';
-var chokidar = require('chokidar');
-var eslint = require('eslint');
-var chalk = require('chalk');
-var _ = require('lodash');
-var path = require('path');
+import chokidar from 'chokidar';
+import { CLIEngine } from 'eslint';
+import chalk from 'chalk';
+import _ from 'lodash';
+import path from 'path';
 
-var success = require('./formatters/helpers/success');
-var formatter = require('./formatters/simple-detail');
-var logger = require('./log')('watcher');
+import success from './formatters/helpers/success';
+import formatter from './formatters/simple-detail';
+import Logger from './log';
+
+let logger = Logger('watcher');
 logger.debug('Loaded');
 
-var events = {
+let events = {
   change: 'change'
 };
-var chokidarOptions = {
+let chokidarOptions = {
   ignored: /\.git|node_modules|bower_components/
 };
 
-var cli = new eslint.CLIEngine();
+let cli = new CLIEngine();
 
 function successMessage(result) {
   logger.debug('result: %o', result);
@@ -29,7 +30,7 @@ function successMessage(result) {
 
 function lintFile(path, config) {
   logger.debug('lintFile: %s', path);
-  var results = cli.executeOnFiles([path], config).results;
+  let results = cli.executeOnFiles([path], config).results;
   logger.log(successMessage(results[0]));
   logger.log(formatter(results));
 }
@@ -40,13 +41,13 @@ function isWatchableExtension(filePath){
 
 module.exports = function watcher(options) {
   chokidar.watch(options._, chokidarOptions)
-    .on(events.change, function (path) {
+    .on(events.change, path => {
       logger.debug('Changed:', path);
       if(!cli.isPathIgnored(path) && isWatchableExtension(path)){
-        var config = cli.getConfigForFile(path);
+        let config = cli.getConfigForFile(path);
         lintFile(path, config);
       }
-    }).on('error', function(err){
+    }).on('error', err => {
       logger.log(err);
     });
 

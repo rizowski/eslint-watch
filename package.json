@@ -6,10 +6,12 @@
   "scripts": {
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha spec --recursive -R spec --timeout 5000",
+    "pretest": "npm run lint",
+    "test": "node_modules/.bin/_mocha spec --recursive --timeout 5000 --compilers js:babel-core/register",
     "tdd": "mocha -w spec --recursive -R spec",
-    "ci": "npm run lint && npm run coverage",
-    "coverage": "istanbul cover node_modules/.bin/_mocha -- --recursive -u exports -R spec spec/*"
+    "ci": "npm run coverage",
+    "coverage": "istanbul cover npm test",
+    "build": "babel src -d build -s inline"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
   "keywords": [
     "eslint",
     "plugin",
+    "cli",
     "command line tool",
     "watch",
     "javascript",
@@ -40,17 +43,23 @@
   },
   "dependencies": {
     "chalk": "^1.0.0",
-    "chokidar": "^1.0.1",
+    "chokidar": "^1.4.1",
     "debug": "^2.2.0",
     "keypress": "^0.2.1",
     "lodash": "^3.10.1",
-    "optionator": "^0.6.0",
+    "optionator": "^0.7.1",
+    "source-map-support": "^0.4.0",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
+    "babel": "^6.3.13",
+    "babel-cli": "^6.3.17",
+    "babel-core": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-runtime": "^6.3.13",
     "chai": "^3.4.0",
-    "istanbul": "^0.4.0",
-    "mocha": "^2.2.5",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4",
     "mocha-sinon": "^1.1.4",
     "proxyquire": "^1.6.0",
     "sinon": "^1.14.1",

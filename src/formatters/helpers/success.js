@@ -1,8 +1,6 @@
-'use strict';
-var chalk = require('chalk');
-var c = require('./characters');
-var space = ' ';
+import { green, white } from 'chalk';
+import c from './characters';
 
-module.exports = function(result){
-  return chalk.green(c.check) + space + chalk.white(result.filePath);
+export default function success(result){
+  return `${green(c.check)} ${white(result.filePath)}`;
 };

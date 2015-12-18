@@ -39,63 +39,70 @@ describe('eslint/help', function(){
   });
 
   it('has an alias if one is provided', function(done){
-    help(function(options){
-      var option = options[0];
-      expect(option.alias).to.equal('c');
-      done();
-    });
+    return help()
+      .then(function(options){
+        var option = options[0];
+        expect(option.alias).to.equal('c');
+        done();
+      });
   });
 
   it('does not have an alias if not provided', function(done){
-    help(function(options){
-      var option = options[1];
-      expect(option.alias).to.equal(undefined);
-      done();
-    });
+    return help()
+      .then(function(options){
+        var option = options[1];
+        expect(option.alias).to.equal(undefined);
+        done();
+      });
   });
 
   it('has a type', function(done){
-    help(function(options){
-      var option = options[0];
-      expect(option.type).to.equal('Boolean');
-      done();
-    });
+    return help()
+      .then(function(options){
+        var option = options[0];
+        expect(option.type).to.equal('Boolean');
+        done();
+      });
   });
 
   it('has a full description', function(done){
-    help(function(options){
-      var option = options[0];
-      expect(option.description).to.equal('Goes Cluck');
-      done();
-    });
+    return help()
+      .then(function(options){
+        var option = options[0];
+        expect(option.description).to.equal('Goes Cluck');
+        done();
+      });
   });
 
   it('filters out help', function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.notEqual(option.option, 'help');
+    return help()
+      .then(function(options){
+        _.each(options, function(option){
+          assert.notEqual(option.option, 'help');
+        });
+        done();
       });
-      done();
-    });
   });
 
   it('filters out format', function(done){
     msg += '-f --format String     Stringify' + '\n';
-    help(function(options){
-      _.each(options, function(option){
-        assert.notEqual(option.option, 'format');
+    return help()
+      .then(function(options){
+        _.each(options, function(option){
+          assert.notEqual(option.option, 'format');
+        });
+        done();
       });
-      done();
-    });
   });
 
   it("doesn't set an option as undefined", function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.option);
+    return help()
+      .then(function(options){
+        _.each(options, function(option){
+          assert.ok(option.option);
+        });
+        done();
       });
-      done();
-    });
   });
 
   it("doesn't set an alias as undefined", function(done){
@@ -104,38 +111,42 @@ describe('eslint/help', function(){
         optionsTxt + '\n' +
         helpTxt + '\n' +
         cluck + '\n';
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.alias);
+    return help()
+      .then(function(options){
+        _.each(options, function(option){
+          assert.ok(option.alias);
+        });
+        done();
       });
-      done();
-    });
   });
 
   it("doesn't set a type as undefined", function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.type);
+    return help()
+      .then(function(options){
+        _.each(options, function(option){
+          assert.ok(option.type);
+        });
+        done();
       });
-      done();
-    });
   });
 
   it("doesn't set a description as undefined", function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.description);
+    return help()
+      .then(function(options){
+        _.each(options, function(option){
+          assert.ok(option.description);
+        });
+        done();
       });
-      done();
-    });
   });
 
   it("sets the default to Boolean if type isn't provided", function(done){
-    help(function(options){
-      var option = options[2];
-      expect(option.type).to.equal('Boolean');
-      done();
-    });
+    return help()
+      .then(function(options){
+        var option = options[2];
+        expect(option.type).to.equal('Boolean');
+        done();
+      });
   });
 
   it("shouldn't throw exceptions", function(done){
@@ -147,11 +158,12 @@ describe('eslint/help', function(){
        'HEADING:\n'+
        cluck + '\n';
     expect(function(){
-      help(function(options){
-        var option = options[0];
-        expect(option.type).to.equal('Boolean');
-        done();
-      });
+      return help()
+        .then(function(options){
+          var option = options[0];
+          expect(option.type).to.equal('Boolean');
+          done();
+        });
     }).to.not.throw();
   });
 });

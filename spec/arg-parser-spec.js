@@ -15,40 +15,40 @@ describe('arg-parser', () => {
     options = { '_': [] };
   });
 
-  it('appends the path at the end of parsing', function(){
+  it('appends the path at the end of parsing', () => {
     let args = ['cool'];
     let arr = parser.parse(args, options);
     expect(arr).to.eql(['cool', './']);
   });
 
-  describe('defaults',function(){
-    it('should remove iojs',function(){
+  describe('defaults',() => {
+    it('should remove iojs',() => {
       let args = ['/some/path/to/iojs', 'some/long/path'];
       let arr = parser.parse(args, options);
       expect(arr).to.eql(['some/long/path', './']);
     });
 
-    it('should remove node', function(){
+    it('should remove node', () => {
       let args = ['node', 'some/long/path'];
       let arr = parser.parse(args, options);
       expect(arr).to.eql(['some/long/path', './']);
     });
 
-    it('should remove esw',function(){
+    it('should remove esw',() => {
       let args = ['bla','/bin/esw', '/something/else'];
       let arr = parser.parse(args, options);
       expect(arr).to.eql(['bla', '/something/else', './']);
     });
 
-    it('removes node with a path', function(){
+    it('removes node with a path', () => {
       let args = ['/bla/path/to/node', 'node', 'nodish'];
       let arr = parser.parse(args, options);
       expect(arr).to.eql(['nodish', './']);
     });
   });
 
-  describe('watch', function(){
-    it('parses for -w', function(){
+  describe('watch', () => {
+    it('parses for -w', () => {
       let args = ['node', 'some/long/path/to/prog', '-w'];
       let arr = parser.parse(args, options);
       expect(arr).to.not.contain('-w');

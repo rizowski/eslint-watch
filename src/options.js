@@ -39,6 +39,6 @@ export default () => {
       return optionator(settings);
     })
     .catch(err => {
-      logger.log(err);
+      logger.error(err);
     });
 };

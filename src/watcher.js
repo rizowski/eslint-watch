@@ -48,7 +48,7 @@ module.exports = function watcher(options) {
         lintFile(path, config);
       }
     }).on('error', err => {
-      logger.log(err);
+      logger.error(err);
     });
 
   logger.debug('Watching: %o', options._);

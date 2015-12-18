@@ -66,6 +66,8 @@ getOptions()
     } else {
       logger.log(options.generateHelp());
     }
+  }).catch(err => {
+    logger.error(err);
   });
 
 process.on('exit', () => {

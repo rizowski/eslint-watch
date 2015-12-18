@@ -18,9 +18,12 @@ To use this tool we require eslint to be installed on your project. The versions
 To run eslint-watch without the global install, make an npm script.
 
 ### NPM 2
-  - `npm i eslint-watch [-g]`
+  - `npm i -g eslint-watch`
+  - `npm i -s eslint-watch`
+
 ### NPM 3
-  - `npm i eslint eslint-watch [-g]`
+  - `npm i -g eslint eslint-watch`
+  - `npm i -s eslint eslint-watch`
 
 ## Features added
   - Watching

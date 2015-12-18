@@ -1,5 +1,5 @@
 # Eslint Watch
-[![](https://nodei.co/npm/eslint-watch.png?downloads=true&downloadRank=true&stars=true)](https://github.com/rizowski/eslint-watch) [![](https://nodei.co/npm-dl/eslint-watch.png?months=6&height=3)](https://github.com/rizowski/eslint-watch)
+[![](https://nodei.co/npm/eslint-watch.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/eslint-watch) [![](https://nodei.co/npm-dl/eslint-watch.png?months=6&height=3)](https://www.npmjs.com/package/eslint-watch)
 
 [![](https://img.shields.io/badge/release-notes-blue.svg)](https://github.com/rizowski/eslint-watch/releases/latest)
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
@@ -18,12 +18,10 @@ To use this tool we require eslint to be installed on your project. The versions
 To run eslint-watch without the global install, make an npm script.
 
 ### NPM 2
-  - `npm i -g eslint-watch`
-  - `npm i -s eslint-watch`
+  - `npm i -g eslint-watch` or `npm i -s eslint-watch`
 
 ### NPM 3
-  - `npm i -g eslint eslint-watch`
-  - `npm i -s eslint eslint-watch`
+  - `npm i -g eslint eslint-watch` or `npm i -s eslint eslint-watch`
 
 ## Features added
   - Watching

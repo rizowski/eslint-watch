@@ -31,7 +31,7 @@ function getPath (options) {
   return path.join(__dirname, formatterPath, options.format);
 };
 
-function contains(str, items) {
+function contains(str, items){
   logger.debug('Contains: %s', str);
   return _.some(items, item => {
     return str.indexOf(item) >= 0;
@@ -42,6 +42,7 @@ let parse = (args, options) => {
   let arr = [];
   let dirs = options._;
   let formatSpecified = false;
+  logger.debug('args: %o', args);
   logger.debug('Directories to check: %o', dirs);
   _.each(args, item => {
     if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs, bin.node])) {

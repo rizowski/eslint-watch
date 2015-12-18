@@ -1,5 +1,3 @@
-'use strict';
-
 var proxy = require('proxyquire');
 var chai = require('chai');
 var expect = chai.expect;
@@ -82,7 +80,7 @@ describe('eslint/help', function(){
   });
 
   it('filters out format', function(done){
-        msg += '-f --format String     Stringify' + '\n';
+    msg += '-f --format String     Stringify' + '\n';
     help(function(options){
       _.each(options, function(option){
         assert.notEqual(option.option, 'format');

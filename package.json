@@ -11,6 +11,7 @@
     "tdd": "mocha -w spec --recursive -R spec",
     "ci": "npm run coverage",
     "coverage": "istanbul cover npm test",
+    "prepublish": "npm run build",
     "build": "babel src -d build -s inline"
   },
   "repository": {

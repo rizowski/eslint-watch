@@ -66,17 +66,16 @@ function parseHelp(helpText){
   return newArr;
 }
 
-// rewrite in es6 this callback yucky stuff goes away.
 export default () => {
   logger.debug('Executing help');
+
   return new Promise((resolve) => {
     let spawn = eslint(['--help'], { help: true }, { });
+
     spawn.stdout.on('data', msg => {
       logger.debug('Help text received');
       let eslintHelp = msg.toString();
       resolve(parseHelp(eslintHelp));
     });
-  }).catch(err => {
-    logger.log(err);
   });
 };

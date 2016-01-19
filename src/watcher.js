@@ -39,7 +39,7 @@ function isWatchableExtension(filePath){
   return _.contains(cli.options.extensions, path.extname(filePath));
 }
 
-module.exports = function watcher(options) {
+export default function watcher(options) {
   chokidar.watch(options._, chokidarOptions)
     .on(events.change, path => {
       logger.debug('Changed:', path);

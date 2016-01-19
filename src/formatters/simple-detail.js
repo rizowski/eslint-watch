@@ -71,7 +71,7 @@ function simpleDetail(results) {
     cleanMsg = `${green(`${c.check} Clean`)} ${messageTime}\n`;
   }
 
-  output = (totalErrors || totalWarnings) ? output + messageTime + '\n' : cleanMsg;
+  output = (totalErrors || totalWarnings) ? `${output}${messageTime}\n` : cleanMsg;
 
   return output;
 }

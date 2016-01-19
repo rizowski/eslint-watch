@@ -16,31 +16,25 @@ describe('arg-parser', () => {
   });
 
   it('appends the path at the end of parsing', () => {
-    let args = ['cool'];
+    let args = ['/bin/esw', 'cool'];
     let arr = parser.parse(args, options);
-    expect(arr).to.eql(['cool', './']);
+    expect(arr).to.include('./');
   });
 
   describe('defaults',() => {
-    it('should remove iojs',() => {
-      let args = ['/some/path/to/iojs', 'some/long/path'];
+    it('should remove the first argument', () => {
+      let args = ['node', 'cmd', 'some/long/path'];
       let arr = parser.parse(args, options);
-      expect(arr).to.eql(['some/long/path', './']);
+      expect(arr).to.not.include('node');
     });
 
-    it('should remove node', () => {
-      let args = ['node', 'some/long/path'];
+    it('should remove the second argument',() => {
+      let args = ['/path/to/node','/bin/esw', '/something/else'];
       let arr = parser.parse(args, options);
-      expect(arr).to.eql(['some/long/path', './']);
+      expect(arr).to.not.include('/bin/esw');
     });
 
-    it('should remove esw',() => {
-      let args = ['bla','/bin/esw', '/something/else'];
-      let arr = parser.parse(args, options);
-      expect(arr).to.eql(['bla', '/something/else', './']);
-    });
-
-    it('removes node with a path', () => {
+    it('removes the first two arguments', () => {
       let args = ['/bla/path/to/node', 'node', 'nodish'];
       let arr = parser.parse(args, options);
       expect(arr).to.eql(['nodish', './']);
@@ -77,13 +71,6 @@ describe('arg-parser', () => {
   });
 
   describe('formatters', () => {
-    let contains = (arr, what) => {
-      let result = false;
-      for (let i = 0; i < arr.length; i++) {
-        result = result || arr[i].indexOf(what) > -1;
-      }
-      return result;
-    };
     let occurance = (arr, what) => {
       let result = 0;
       for (let i = 0; i < arr.length; i++) {
@@ -107,21 +94,25 @@ describe('arg-parser', () => {
 
     it('sets the full path to the formatters folder', () => {
       options.format = 'simple';
-      let arr = parser.parse(['-f', 'simple'], options);
-      let result = contains(arr, 'src\\formatters\\simple');
-      expect(result).to.be.true;
+      let arr = parser.parse(['node', 'cmd', '-f', 'simple'], options);
+      expect(arr).to.include('src\\formatters\\simple');
     });
 
     it('sets the default formatter to simple-detail using args', () => {
       options.format = 'simple-detail';
-      let arr = parser.parse(['-f', 'simple-detail'], options);
-      let result = contains(arr, 'formatters\\simple-detail');
-      expect(result).to.be.true;
+      let arr = parser.parse(['node', 'cmd', '-f', 'simple-detail'], options);
+      expect(arr).to.include('src\\formatters\\simple-detail');
+    });
+
+    it('sets the deafault formatter to simple-detail without args', () =>{
+      options.format = 'simple-detail';
+      let arr = parser.parse(['node', 'cmd'], options);
+      expect(arr).to.include('src\\formatters\\simple-detail');
     });
 
     it('handles passing in default', () => {
       options.format = 'simple-detail';
-      let arr = parser.parse(['-f', 'simple-detail'], options);
+      let arr = parser.parse(['node', 'cmd', '-f', 'simple-detail'], options);
       let result = occurance(arr, 'formatters\\simple-detail');
       expect(result).to.equal(1);
     });

@@ -15,15 +15,10 @@ let keys = {
   '-w': true,
   '--watch': true
 };
-let formats = { // still don't like this can cause too much duplication
+let formats = {
   'simple': true,
   'simple-success': true,
   'simple-detail': true
-};
-let bin = {
-  node: 'node',
-  iojs: 'iojs',
-  esw: 'esw'
 };
 
 function getPath (options) {
@@ -31,21 +26,16 @@ function getPath (options) {
   return path.join(__dirname, formatterPath, options.format);
 };
 
-function contains(str, items){
-  logger.debug('Contains: %s', str);
-  return _.some(items, item => {
-    return str.indexOf(item) >= 0;
-  });
-};
-
-let parse = (args, options) => {
+let parse = (cliArgs, options) => {
   let arr = [];
   let dirs = options._;
   let formatSpecified = false;
+  logger.debug('cliArgs: %o', cliArgs);
+  let args = _.slice(cliArgs, 2, cliArgs.length);
   logger.debug('args: %o', args);
   logger.debug('Directories to check: %o', dirs);
   _.each(args, item => {
-    if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs, bin.node])) {
+    if (!keys[item] && !formats[item]) {
       logger.debug('Pushing item: %s', item);
       arr.push(item);
     }

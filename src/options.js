@@ -37,8 +37,5 @@ export default () => {
     .then(eslintOptions => {
       settings.options = _.union(myOptions, eslintOptions);
       return optionator(settings);
-    })
-    .catch(err => {
-      logger.error(err);
     });
 };

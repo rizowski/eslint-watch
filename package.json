@@ -6,10 +6,11 @@
   "scripts": {
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha spec --recursive -R spec --timeout 5000",
+    "test": "mocha spec --recursive -R spec --timeout 7000",
     "tdd": "mocha -w spec --recursive -R spec",
     "ci": "npm run lint && npm run coverage",
-    "coverage": "istanbul cover node_modules/.bin/_mocha -- --recursive -u exports -R spec spec/*"
+    "ci-win": "npm run lint && npm test",
+    "coverage": "istanbul cover _mocha -- --recursive spec -R spec --timeout 7000"
   },
   "repository": {
     "type": "git",

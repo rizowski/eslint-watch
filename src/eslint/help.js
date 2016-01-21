@@ -5,6 +5,18 @@ var _ = require('lodash');
 var logger = require('../log')('eslint-help');
 logger.debug('Loaded');
 
+function parseNo(option, str){
+  if(!str) return;
+  var cmd = str.replace('--', '');
+  if(/no-/.test(cmd)){
+    logger.debug('Parsing no option', str);
+    cmd = cmd.replace('no-', '');
+    option.default = 'true';
+  }
+  option.option = cmd;
+  return option;
+}
+
 function parseRegular(arr){
   logger.debug('Parsing %s', arr[0]);
   if(!arr[0]){
@@ -13,7 +25,8 @@ function parseRegular(arr){
   var optionText = arr[0];
   var type = arr[1];
   var option = {};
-  option.option = optionText.replace('--', '');
+  option = parseNo(option, optionText);
+
   option.type = type ? type : 'Boolean';
 
   var helpText = _.without(arr, optionText, type, '');
@@ -37,7 +50,8 @@ function parseAlias(arr){
 }
 
 function createOption(arr){
-  var noAlias = arr[0].match(/--\w/);
+  var noAlias = /^--/.test(arr[0]);
+  logger.debug('noAlias', noAlias);
   var option = noAlias ? parseRegular(arr) : parseAlias(arr);
   var isEmpty = _.isEmpty(option);
   return isEmpty ? undefined : option;
@@ -48,7 +62,7 @@ function parseHelp(helpText){
   var newArr = [];
   var previousLine = [];
   _.each(helpArr, function(row, index){
-    if(index === 0 || index === 1 || index === 2){
+    if(index <= 2){
       return;
     } else {
       var str = row.replace(',', '');
@@ -72,11 +86,6 @@ module.exports = function(cllbk){
   spawn.stdout.on('data', function(msg){
     logger.debug('Help text received');
     var eslintHelp = msg.toString();
-    try {
-      cllbk(parseHelp(eslintHelp));
-    } catch(e){
-      logger.log(e.stack);
-      throw(e);
-    }
+    cllbk(parseHelp(eslintHelp));
   });
 };

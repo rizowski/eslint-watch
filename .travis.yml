@@ -4,6 +4,7 @@ node_js:
   - "2"
   - "3"
   - "4"
+  - "5"
 os:
   - linux
 #  - osx
@@ -16,6 +17,6 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
 before_install:
-  - npm install eslint --save
+  - npm install eslint
 script:
   - npm run ci

@@ -18,32 +18,26 @@ describe('arg-parser', function () {
   });
 
   it('appends the path at the end of parsing', function(){
-    var args = ['cool'];
+    var args = ['/bin/esw', 'cmd', 'cool'];
     var arr = parser.parse(args, options);
     expect(arr).to.eql(['cool', './']);
   });
 
   describe('defaults',function(){
-    it('should remove iojs',function(){
-      var args = ['/some/path/to/iojs', 'some/long/path'];
+    it('should remove the first argument',function(){
+      var args = ['node', 'cmd', 'some/long/path'];
       var arr = parser.parse(args, options);
-      expect(arr).to.eql(['some/long/path', './']);
+      expect(arr).to.not.include('node');
     });
 
-    it('should remove node', function(){
-      var args = ['node', 'some/long/path'];
+    it('should remove the second command',function(){
+      var args = ['/path/to/node','/bin/esw', '/something/else'];
       var arr = parser.parse(args, options);
-      expect(arr).to.eql(['some/long/path', './']);
+      expect(arr).to.not.include('/bin/esw');
     });
 
-    it('should remove esw',function(){
-      var args = ['bla','/bin/esw', '/something/else'];
-      var arr = parser.parse(args, options);
-      expect(arr).to.eql(['bla', '/something/else', './']);
-    });
-
-    it('removes node with a path', function(){
-      var args = ['/bla/path/to/node', 'node', 'nodish'];
+    it('removes the first two arguments', function(){
+      var args = ['/path/to/node', 'node', 'nodish'];
       var arr = parser.parse(args, options);
       expect(arr).to.eql(['nodish', './']);
     });
@@ -79,13 +73,6 @@ describe('arg-parser', function () {
   });
 
   describe('formatters', function () {
-    var find = function (arr, what) {
-      var result = false;
-      for (var i = 0; i < arr.length; i++) {
-        result = result || arr[i].indexOf(what) > -1;
-      }
-      return result;
-    };
     var occurance = function (arr, what) {
       var result = 0;
       for (var i = 0; i < arr.length; i++) {
@@ -109,21 +96,25 @@ describe('arg-parser', function () {
 
     it('sets the full path to the formatters folder', function () {
       options.format = 'simple';
-      var arr = parser.parse(['-f', 'simple'], options);
-      var result = find(arr, 'src\\formatters\\simple');
-      expect(result).to.be.true;
+      var arr = parser.parse(['node', 'cmd', '-f', 'simple'], options);
+      expect(arr).to.include('src\\formatters\\simple');
     });
 
     it('sets the default formatter to simple-detail using args', function () {
       options.format = 'simple-detail';
-      var arr = parser.parse(['-f', 'simple-detail'], options);
-      var result = find(arr, 'formatters\\simple-detail');
-      expect(result).to.be.true;
+      var arr = parser.parse(['node', 'cmd', '-f', 'simple-detail'], options);
+      expect(arr).to.include('src\\formatters\\simple-detail');
+    });
+
+    it('sets the deafault formatter to simple-detail without args', function () {
+      options.format = 'simple-detail';
+      var arr = parser.parse(['node', 'cmd'], options);
+      expect(arr).to.include('src\\formatters\\simple-detail');
     });
 
     it('handles passing in default', function () {
       options.format = 'simple-detail';
-      var arr = parser.parse(['-f', 'simple-detail'], options);
+      var arr = parser.parse(['node', 'cmd', '-f', 'simple-detail'], options);
       var result = occurance(arr, 'formatters\\simple-detail');
       expect(result).to.equal(1);
     });

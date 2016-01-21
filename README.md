@@ -1,13 +1,10 @@
-# Eslint Watch ([Release Notes](https://github.com/rizowski/eslint-watch/releases/latest))
+# Eslint Watch
+[![](https://nodei.co/npm/eslint-watch.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/eslint-watch) [![](https://nodei.co/npm-dl/eslint-watch.png?months=6&height=3)](https://www.npmjs.com/package/eslint-watch)
+
+[![](https://img.shields.io/badge/release-notes-blue.svg)](https://github.com/rizowski/eslint-watch/releases/latest)
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
 [![Build status](https://ci.appveyor.com/api/projects/status/0v5dn6wqofyp6ldb/branch/master?svg=true)](https://ci.appveyor.com/project/rizowski/eslint-watch/branch/master)
-[![NPM version](https://badge.fury.io/js/eslint-watch.svg)](http://badge.fury.io/js/eslint-watch)
-[![Dependency Status](https://www.versioneye.com/user/projects/5607150e5a262f001e00033e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5607150e5a262f001e00033e)
-[![devDependency Status](https://david-dm.org/rizowski/eslint-watch/dev-status.svg)](https://david-dm.org/rizowski/eslint-watch#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
-
-[![Reference Status](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat)](https://www.versioneye.com/nodejs/eslint-watch/references)
-
 [![Join the chat at https://gitter.im/rizowski/eslint-watch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rizowski/eslint-watch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Don't want to import Webpack, Grunt, or some other task package into your project? Then this is the tool for you.
@@ -19,7 +16,12 @@ To use this tool we require eslint to be installed on your project. The versions
 
 ## Getting started
 To run eslint-watch without the global install, make an npm script.
-  - `npm install eslint-watch [-g]`
+
+### NPM 2
+  - `npm i -g eslint-watch` or `npm i -D eslint-watch`
+
+### NPM 3
+  - `npm i -g eslint eslint-watch` or `npm i -D eslint eslint-watch`
 
 ## Features added
   - Watching
@@ -38,33 +40,35 @@ To run eslint-watch without the global install, make an npm script.
 esw [options] [file.js ...] [dir ...]
 
 Options:
-  -h, --help                 Show help
-  -f, --format String        Use a specific output format - default: simple-detail
-  -w, --watch                Enable file watch
-  -c, --config path::String  Use configuration from this file or shareable config
-  --no-eslintrc              Disable use of configuration from .eslintrc
-  --env [String]             Specify environments
-  --ext [String]             Specify JavaScript file extensions - default: .js
-  --global [String]          Define global variables
-  --parser String            Specify the parser to be used - default: espree
-  --cache                    Only check changed files - default: false
-  --cache-file String        Path to the cache file - default: .eslintcache
-  --rulesdir [path::String]  Use additional rules from this directory
-  --plugin [String]          Specify plugins
-  --rule Object              Specify rules
+  -h, --help                  Show help
+  -f, --format String         Use a specific output format - default: simple-detail
+  -w, --watch                 Enable file watch
+  -c, --config path::String   Use configuration from this file or shareable config
+  --no-eslintrc               Disable use of configuration from .eslintrc
+  --env [String]              Specify environments
+  --ext [String]              Specify JavaScript file extensions - default: .js
+  --global [String]           Define global variables
+  --parser String             Specify the parser to be used - default: espree
+  --cache                     Only check changed files - default: false
+  --cache-file path::String   Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+  --cache-location path::String  Path to the cache file or directory
+  --rulesdir [path::String]   Use additional rules from this directory
+  --plugin [String]           Specify plugins
+  --rule Object               Specify rules
   --ignore-path path::String  Specify path of ignore file
-  --no-ignore                Disable use of .eslintignore
-  --ignore-pattern String    Pattern of files to ignore (in addition to those in .eslintignore)
-  --stdin                    Lint code provided on <STDIN> - default: false
-  --stdin-filename String    Specify filename to process STDIN as
-  --quiet                    Report errors only - default: false
-  --max-warnings Number      of warnings to trigger nonzero exit code - default: -1
+  --no-ignore                 Disable use of .eslintignore
+  --ignore-pattern [String]   Pattern of files to ignore (in addition to those in .eslintignore)
+  --stdin                     Lint code provided on <STDIN> - default: false
+  --stdin-filename String     Specify filename to process STDIN as
+  --quiet                     Report errors only - default: false
+  --max-warnings Number       of warnings to trigger nonzero exit code - default: -1
   -o, --output-file path::String  Specify file to write report to
-  --no-color                 Disable color in piped output
-  --init                     Run config initialization wizard - default: false
-  --fix                      Automatically fix problems
-  --debug                    Output debugging information
-  -v, --version              Outputs the version number
+  --no-color                  Disable color in piped output
+  --init                      Run config initialization wizard - default: false
+  --fix                       Automatically fix problems
+  --debug                     Output debugging information
+  -v, --version               Outputs the version number
+  --no-inline-config          Allow comments to change eslint config/rules
 ```
 
 ## Functionality

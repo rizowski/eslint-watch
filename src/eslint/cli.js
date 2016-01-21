@@ -1,25 +1,22 @@
-'use strict';
-var child = require('child_process');
-var path = require('path');
-var os = require('os');
+import { spawn } from 'child_process';
+import path from 'path';
+import os from 'os';
 
-var logger = require('../log')('eslint-cli');
+import Logger from '../log';
+
+let logger = Logger('eslint-cli');
+
 logger.debug('Loaded');
 
-var cmd = os.platform() === 'win32' ? '.cmd' : '';
-var eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
+let cmd = os.platform() === 'win32' ? '.cmd' : '';
+let eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
 logger.debug('EsLint path: %s', eslint);
-var spawn = child.spawn;
 
-module.exports = function(args, options, childOptions){
-  if(!options){
-    options = { _: './' };
-  }
-  if(options._ && options._.length === 0){
+export default (args, options={ _: './' }, childOptions={ stdio: 'inherit' }) => {
+  if(options._ && !options._.length){
     options._ = './';
   }
 
-  childOptions = childOptions ? childOptions : { stdio: 'inherit' };
   logger.debug('Linting: %o', options._);
   return spawn(eslint, args, childOptions);
 };

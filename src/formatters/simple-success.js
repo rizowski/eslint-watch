@@ -1,18 +1,15 @@
-'use strict';
-var success = require('./helpers/success');
-var error = require('./helpers/error-warning');
-var c = require('./helpers/characters');
+import _ from 'lodash';
+import success from './helpers/success';
+import error from './helpers/error-warning';
 
-module.exports = function (results) {
-  var message = '';
-  for (var i = 0; i < results.length; i++) {
-    var result = results[i];
+export default function simpleSuccess(results) {
+  let message = '';
+  _.each(results, result => {
     if (result.errorCount === 0 && result.warningCount === 0) {
-      message += success(result) + c.endLine;
+      message += `${success(result)}\n`;
     } else {
-      message += error(result);
-      message += c.endLine;
+      message += `${error(result)}\n`;
     }
-  }
+  });
   return message;
 };

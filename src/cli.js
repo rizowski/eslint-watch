@@ -1,26 +1,25 @@
 /* eslint no-process-exit: 0*/
-'use strict';
+import keypress from 'keypress';
+import 'source-map-support/register';
 
-var keypress = require('keypress');
+import { cli as eslintCli } from './eslint';
+import getOptions from './options';
+import watcher from './watcher';
+import argParser from './arg-parser';
+import Logger from './log';
 
-var eslint = require('./eslint');
-var getOptions = require('./options');
-var watcher = require('./watcher');
-var argParser = require('./arg-parser');
-var logger = require('./log')('esw-cli');
-logger.debug('Loaded');
+let logger = Logger('esw-cli');
+logger.debug('loaded');
 
-var eslintCli = eslint.cli;
-
-var parsedOptions;
-var eslArgs;
-var exitCode;
+let parsedOptions;
+let eslArgs;
+let exitCode;
 
 function runLint(args, options){
   logger.debug(args);
-  var child = eslintCli(args, options);
+  let child = eslintCli(args, options);
 
-  child.on('exit', function(code){
+  child.on('exit', code => {
     logger.debug('Setting exit code to: %s', code);
     exitCode = code;
   });
@@ -28,13 +27,13 @@ function runLint(args, options){
 }
 
 function keyListener(args, options){
-  var stdin = process.stdin;
+  let stdin = process.stdin;
   if(!stdin.setRawMode){
     logger.debug('Process might be wrapped exitig keybinding');
     return;
   }
   keypress(stdin);
-  stdin.on('keypress', function(ch, key){
+  stdin.on('keypress', (ch, key) => {
     logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
       logger.debug('Rerunning lint...');
@@ -48,26 +47,30 @@ function keyListener(args, options){
   stdin.resume();
 }
 
-getOptions(function(options){
-  var args = process.argv;
-  logger.debug('Arguments passed: %o', args);
-  parsedOptions = options.parse(args);
-  logger.debug('Parsing args');
-  eslArgs = argParser.parse(args, parsedOptions);
+getOptions()
+  .then(options => {
+    let args = process.argv;
+    logger.debug('Arguments passed: %o', args);
+    parsedOptions = options.parse(args);
+    logger.debug('Parsing args');
+    eslArgs = argParser.parse(args, parsedOptions);
 
-  if (!parsedOptions.help) {
-    logger.debug('Running initial lint');
-    runLint(eslArgs, parsedOptions);
-    if (parsedOptions.watch) {
-      logger.debug('-w seen');
-      keyListener(eslArgs, parsedOptions);
-      watcher(parsedOptions);
+    if (!parsedOptions.help) {
+      logger.debug('Running initial lint');
+      runLint(eslArgs, parsedOptions);
+      if (parsedOptions.watch) {
+        logger.debug('-w seen');
+        keyListener(eslArgs, parsedOptions);
+        watcher(parsedOptions);
+      }
+    } else {
+      logger.log(options.generateHelp());
     }
-  } else {
-    logger.log(options.generateHelp());
-  }
-});
+  }).catch(err => {
+    logger.error(err);
+    process.exit(1);
+  });
 
-process.on('exit', function () {
+process.on('exit', () => {
   process.exit(exitCode);
 });

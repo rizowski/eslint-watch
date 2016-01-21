@@ -5,3 +5,6 @@ spec
 .gitignore
 .travis.yml
 appveyor.yml
+coverage
+
+src

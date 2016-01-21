@@ -1,15 +1,8 @@
-'use strict';
-var chalk = require('chalk');
-var space = ' ';
-var divider = '/';
+import { red, yellow, white } from 'chalk';
 
-module.exports = function(result){
+export default function errorWarning(result){
   if(result.errorCount || result.warningCount){
-    return chalk.red(result.errorCount) + divider +
-      chalk.yellow(result.warningCount) + space +
-      chalk.white(result.filePath);
-  } else {
-    return chalk.red(result.messages.length) + space +
-      chalk.white(result.filePath);
+    return `${red(result.errorCount)}/${yellow(result.warningCount)} ${white(result.filePath)}`;
   }
+  return `${red(result.messages.length)} ${white(result.filePath)}`;
 };

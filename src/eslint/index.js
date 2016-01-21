@@ -1,6 +1,4 @@
-'use strict';
+import cli from './cli';
+import help from './help';
 
-module.exports = {
-  cli: require('./cli'),
-  help: require('./help')
-};
+export { cli, help };

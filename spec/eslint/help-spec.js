@@ -1,27 +1,23 @@
-'use strict';
+import proxy from 'proxyquire';
+import { expect, assert } from 'chai';
+import _ from 'lodash';
 
-var proxy = require('proxyquire');
-var chai = require('chai');
-var expect = chai.expect;
-var assert = chai.assert;
-var _ = require('lodash');
+describe('eslint/help', () => {
+  let title = 'title with options';
+  let optionsTxt = 'Options:';
+  let helpTxt = '--help      This has no alias or type';
+  let cluck = '-c --cluck Boolean     Goes Cluck';
+  let noAlias = '--see String     no alias';
+  let noType = '-n --nope      no type to be found here';
+  let msg;
+  let help;
 
-describe('eslint/help', function(){
-  var title = 'title with options';
-  var optionsTxt = 'Options:';
-  var helpTxt = '--help      This has no alias or type';
-  var cluck = '-c --cluck Boolean     Goes Cluck';
-  var noAlias = '--see String     no alias';
-  var noType = '-n --nope      no type to be found here';
-  var msg;
-  var help;
-
-  before(function(){
+  before(() => {
     help = proxy('../../src/eslint/help', {
-      './cli': function(){
+      './cli': () => {
         return {
           stdout: {
-            on: function(name, callback){
+            on: (name, callback) => {
               callback(msg);
             }
           }
@@ -30,7 +26,7 @@ describe('eslint/help', function(){
     });
   });
 
-  beforeEach(function(){
+  beforeEach(() => {
     msg = title + '\n' +
         '\n' +
         optionsTxt + '\n' +
@@ -40,107 +36,118 @@ describe('eslint/help', function(){
         noType + '\n';
   });
 
-  it('has an alias if one is provided', function(done){
-    help(function(options){
-      var option = options[0];
-      expect(option.alias).to.equal('c');
-      done();
-    });
-  });
-
-  it('does not have an alias if not provided', function(done){
-    help(function(options){
-      var option = options[1];
-      expect(option.alias).to.equal(undefined);
-      done();
-    });
-  });
-
-  it('has a type', function(done){
-    help(function(options){
-      var option = options[0];
-      expect(option.type).to.equal('Boolean');
-      done();
-    });
-  });
-
-  it('has a full description', function(done){
-    help(function(options){
-      var option = options[0];
-      expect(option.description).to.equal('Goes Cluck');
-      done();
-    });
-  });
-
-  it('filters out help', function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.notEqual(option.option, 'help');
+  it('has an alias if one is provided', (done) => {
+    return help()
+      .then((options) => {
+        let option = options[0];
+        expect(option.alias).to.equal('c');
+        done();
       });
-      done();
-    });
   });
 
-  it('filters out format', function(done){
-        msg += '-f --format String     Stringify' + '\n';
-    help(function(options){
-      _.each(options, function(option){
-        assert.notEqual(option.option, 'format');
+  it('does not have an alias if not provided', (done) => {
+    return help()
+      .then((options) => {
+        let option = options[1];
+        expect(option.alias).to.equal(undefined);
+        done();
       });
-      done();
-    });
   });
 
-  it("doesn't set an option as undefined", function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.option);
+  it('has a type', (done) => {
+    return help()
+      .then((options) => {
+        let option = options[0];
+        expect(option.type).to.equal('Boolean');
+        done();
       });
-      done();
-    });
   });
 
-  it("doesn't set an alias as undefined", function(done){
+  it('has a full description', (done) => {
+    return help()
+      .then((options) => {
+        let option = options[0];
+        expect(option.description).to.equal('Goes Cluck');
+        done();
+      });
+  });
+
+  it('filters out help', (done) => {
+    return help()
+      .then((options) => {
+        _.each(options, (option) => {
+          assert.notEqual(option.option, 'help');
+        });
+        done();
+      });
+  });
+
+  it('filters out format', (done) => {
+    msg += '-f --format String     Stringify' + '\n';
+    return help()
+      .then((options) => {
+        _.each(options, (option) => {
+          assert.notEqual(option.option, 'format');
+        });
+        done();
+      });
+  });
+
+  it("doesn't set an option as undefined", (done) => {
+    return help()
+      .then((options) => {
+        _.each(options, (option) => {
+          assert.ok(option.option);
+        });
+        done();
+      });
+  });
+
+  it("doesn't set an alias as undefined", (done) => {
      msg = title + '\n' +
         '\n' +
         optionsTxt + '\n' +
         helpTxt + '\n' +
         cluck + '\n';
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.alias);
+    return help()
+      .then((options) => {
+        _.each(options, (option) => {
+          assert.ok(option.alias);
+        });
+        done();
       });
-      done();
-    });
   });
 
-  it("doesn't set a type as undefined", function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.type);
+  it("doesn't set a type as undefined", (done) => {
+    return help()
+      .then((options) => {
+        _.each(options, (option) => {
+          assert.ok(option.type);
+        });
+        done();
       });
-      done();
-    });
   });
 
-  it("doesn't set a description as undefined", function(done){
-    help(function(options){
-      _.each(options, function(option){
-        assert.ok(option.description);
+  it("doesn't set a description as undefined", (done) => {
+    return help()
+      .then((options) => {
+        _.each(options, (option) => {
+          assert.ok(option.description);
+        });
+        done();
       });
-      done();
-    });
   });
 
-  it("sets the default to Boolean if type isn't provided", function(done){
-    help(function(options){
-      var option = options[2];
-      expect(option.type).to.equal('Boolean');
-      done();
-    });
+  it("sets the default to Boolean if type isn't provided", (done) => {
+    return help()
+      .then((options) => {
+        let option = options[2];
+        expect(option.type).to.equal('Boolean');
+        done();
+      });
   });
 
-  it("shouldn't throw exceptions", function(done){
+  it("shouldn't throw exceptions", (done) => {
     msg = title + '\n' +
        '\n' +
        optionsTxt + '\n' +
@@ -148,12 +155,13 @@ describe('eslint/help', function(){
        '\n' +
        'HEADING:\n'+
        cluck + '\n';
-    expect(function(){
-      help(function(options){
-        var option = options[0];
-        expect(option.type).to.equal('Boolean');
-        done();
-      });
+    expect(() => {
+      return help()
+        .then((options) => {
+          let option = options[0];
+          expect(option.type).to.equal('Boolean');
+          done();
+        });
     }).to.not.throw();
   });
 });

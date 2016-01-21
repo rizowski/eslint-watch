@@ -7,13 +7,13 @@ var path = require('path');
 var eswPath = path.resolve(__dirname, '../../bin/esw');
 var testFiles = path.resolve(__dirname, 'test-files');
 
-describe.only('integration', function(){
+describe('integration', function(){
   var esw;
   before(function(){
     esw = function(cmd){
       var result = {};
       try{
-        result.message = child.execSync(eswPath + ' ' + cmd).toString();
+        result.message = child.execSync('node ' + eswPath + ' ' + cmd).toString();
         result.error = false;
       } catch(e){
         result.error = true;

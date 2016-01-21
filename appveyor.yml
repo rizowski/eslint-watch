@@ -28,4 +28,4 @@ notifications:
     on_build_failure: True
 
 test_script:
-  - npm run ci
+  - npm run ci-win

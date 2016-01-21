@@ -28,5 +28,4 @@ notifications:
     on_build_failure: True
 
 test_script:
-  - npm run test
-  - npm run lint
+  - npm run ci

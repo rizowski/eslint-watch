@@ -18,32 +18,21 @@ var formats = { // still don't like this can cause too much duplication
   'simple-success': true,
   'simple-detail': true
 };
-var bin = {
-  node: 'node',
-  iojs: 'iojs',
-  esw: 'esw'
-};
 
 var getPath = function(options){
   logger.debug('GetPath: %s', options.format);
   return path.join(__dirname, formatterPath, options.format);
 };
 
-var contains = function(str, items){
-  logger.debug('Contains: %s', str);
-  return _.some(items, function(item){
-    return str.indexOf(item) >= 0;
-  });
-};
-
 module.exports = {
-  parse: function (args, options) {
+  parse: function (cliArgs, options) {
     var arr = [];
     var dirs = options._;
     var formatSpecified = false;
+    var args = _.slice(cliArgs, 2, cliArgs.length);
     logger.debug('Directories to check: %o', dirs);
     _.each(args, function(item){
-      if (!keys[item] && !formats[item] && !bin[item] && !contains(item, [bin.esw, bin.iojs, bin.node])) {
+      if (!keys[item] && !formats[item]) {
         logger.debug('Pushing item: %s', item);
         arr.push(item);
       }

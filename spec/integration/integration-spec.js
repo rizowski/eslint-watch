@@ -36,6 +36,11 @@ describe('integration', function(){
       expect(output.error).to.be.false;
       expect(output.message).to.not.have.string('Options');
     });
+
+    it("doesn't throw when a no option is used", function(){
+      var output = esw('--no-color');
+      expect(output.error).to.be.false;
+    });
   });
 
   describe('help', function(){

@@ -13,6 +13,7 @@ describe('eslint/help', function(){
   var cluck = '-c --cluck Boolean     Goes Cluck';
   var noAlias = '--see String     no alias';
   var noType = '-n --nope      no type to be found here';
+  var noColor = '  --no-color                  Disable color in piped output';
   var msg;
   var help;
 
@@ -155,5 +156,36 @@ describe('eslint/help', function(){
         done();
       });
     }).to.not.throw();
+  });
+
+  it('filters out no from help options', function(done) {
+    msg = title + '\n' +
+       '\n' +
+       optionsTxt + '\n' +
+       helpTxt + '\n' +
+       '\n' +
+       'HEADING:\n'+
+       noColor + '\n';
+    help(function(options) {
+      var colorOption = options[0];
+      expect(colorOption.option).to.equal('color');
+      done();
+    });
+  });
+
+  it('defaults no options to true', function(done){
+    msg = title + '\n' +
+       '\n' +
+       optionsTxt + '\n' +
+       helpTxt + '\n' +
+       '\n' +
+       'HEADING:\n'+
+       noColor + '\n';
+
+       help(function(options){
+        var colorOption = options[0];
+        expect(colorOption.default).to.equal('true');
+        done();
+       });
   });
 });

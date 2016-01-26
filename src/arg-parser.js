@@ -31,6 +31,7 @@ module.exports = {
     var formatSpecified = false;
     var args = _.slice(cliArgs, 2, cliArgs.length);
     logger.debug('Directories to check: %o', dirs);
+    logger.debug('Args %o', args);
     _.each(args, function(item){
       if (!keys[item] && !formats[item]) {
         logger.debug('Pushing item: %s', item);

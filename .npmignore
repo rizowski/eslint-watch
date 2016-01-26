@@ -4,4 +4,3 @@ spec
 .gitattributes
 .gitignore
 .travis.yml
-appveyor.yml

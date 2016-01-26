@@ -3,8 +3,16 @@ root = true
 [*]
 end_of_line = lf
 insert_final_newline = true
+charset = utf-8
 indent_style = space
 trim_trailing_whitespace = true
 
-[*.js]
+[*.{js,json}]
+spaces_around_brackets = inside
+indent_brace_style = K&R
+
+[*.{js,json,yml}]
 indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

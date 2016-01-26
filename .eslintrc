@@ -1,7 +1,6 @@
 {
   "env":{
-    "node": true,
-    "amd": true
+    "node": true
   },
   "rules":{
     "camelcase": 2,

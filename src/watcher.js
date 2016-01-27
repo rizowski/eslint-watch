@@ -34,7 +34,12 @@ function lintFile(path, config) {
   logger.log(formatter(results));
 }
 
-function isWatchableExtension(filePath){
+function isWatchableExtension(filePath, extensions) {
+  if (extensions) {
+    return _.contains(extensions, path.extname(filePath));
+  }
+
+  // Use the ESLint default extension, if none is provided
   return _.contains(cli.options.extensions, path.extname(filePath));
 }
 
@@ -42,7 +47,7 @@ module.exports = function watcher(options) {
   chokidar.watch(options._, chokidarOptions)
     .on(events.change, function (path) {
       logger.debug('Changed:', path);
-      if(!cli.isPathIgnored(path) && isWatchableExtension(path)){
+      if (!cli.isPathIgnored(path) && isWatchableExtension(path, options.ext)) {
         var config = cli.getConfigForFile(path);
         lintFile(path, config);
       }

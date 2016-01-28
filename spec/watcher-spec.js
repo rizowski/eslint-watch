@@ -101,4 +101,16 @@ describe('Watcher', function () {
     expect(configForFileSpy).to.not.have.been.called;
   });
 
+  it('calls getConfigForFile if the path does not match a custom extension', function(){
+    path = 'yup.js2';
+    watcher({ _: paths, ext: ['.js1', '.js2'] });
+    expect(configForFileSpy).to.have.been.called;
+  });
+
+  it('does not call getConfigForFile if the path does not match a custom extension', function(){
+    path = 'nope.js';
+    watcher({ _: paths, ext: ['.js1', '.js2'] });
+    expect(configForFileSpy).to.not.have.been.called;
+  });
+
 });

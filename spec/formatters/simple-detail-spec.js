@@ -5,7 +5,7 @@ var formatter = require('../../src/formatters/simple-detail');
 var chalk = require('chalk');
 var sinon = require('sinon');
 
-describe.only('simple-detail', function(){
+describe('simple-detail', function(){
   var sandbox;
   var errorResult;
   var warningResult;

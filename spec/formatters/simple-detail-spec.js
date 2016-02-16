@@ -7,8 +7,6 @@ var sinon = require('sinon');
 
 describe.only('simple-detail', function(){
   var sandbox;
-  var results;
-  var passingResult;
   var errorResult;
   var warningResult;
   var filePath;
@@ -28,11 +26,6 @@ describe.only('simple-detail', function(){
     sandbox.stub(chalk.styles, 'yellow', format);
     sandbox.stub(chalk.styles, 'red', format);
     sandbox.stub(chalk.styles, 'underline', format);
-    passingResult = {
-      errorCount: 0,
-      warningCount: 0,
-      messages: []
-    };
     errorResult = {
       errorCount: 1,
       warningCount: 0,
@@ -55,7 +48,6 @@ describe.only('simple-detail', function(){
       }],
       filePath: filePath
     };
-    results = [];
   });
 
   afterEach(function(){

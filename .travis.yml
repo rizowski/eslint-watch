@@ -24,5 +24,5 @@ before_install:
 script:
   - npm run ci
 after_success:
-  - codeclimate-test-reporter < ./coverage/lcov.info
   - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < ./coverage/lcov.info

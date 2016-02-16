@@ -5,7 +5,7 @@ var formatter = require('../../../src/formatters/helpers/error-warning');
 var chalk = require('chalk');
 var sinon = require('sinon');
 
-describe.only('error-warning-helper', function(){
+describe('error-warning-helper', function(){
   var sandbox;
   beforeEach(function (){
     sandbox = sinon.sandbox.create();

@@ -16,15 +16,11 @@ describe('Watcher', function () {
   var on;
   var path;
   var isIgnored;
-  var configForFileSpy;
-  var paths;
 
   beforeEach(function(){
     onSpy = sinon.spy();
     errorSpy = sinon.spy();
-    configForFileSpy = sinon.spy();
     path = '';
-    paths = ['some/path', 'some/other/path.js'];
     isIgnored = false;
     var cliEngine = function(){
       return {
@@ -34,7 +30,6 @@ describe('Watcher', function () {
         isPathIgnored: function() {
           return isIgnored;
         },
-        getConfigForFile: configForFileSpy,
         executeOnFiles: function() {
           return {
             results: [{ errorCount: 0, warningCount: 0 }]
@@ -83,34 +78,8 @@ describe('Watcher', function () {
     expect(watcherOptions).to.equal(arr);
   });
 
-  it('it calls the on changed event', function() {
+  it('calls the on changed event', function() {
     watcher({ _: [] });
     expect(onSpy).to.have.been.calledWith('change');
   });
-
-  it('calls the getConfigForFile method if extension exists in path', function(){
-    path = 'yup.js';
-    watcher({ _: paths });
-    expect(configForFileSpy).to.have.been.called;
-  });
-
-  it('does not call getConfigForFile if extensions do not exist in the path', function(){
-    path = 'nope';
-    paths = ['some/path.js'];
-    watcher({ _: paths });
-    expect(configForFileSpy).to.not.have.been.called;
-  });
-
-  it('calls getConfigForFile if the path does not match a custom extension', function(){
-    path = 'yup.js2';
-    watcher({ _: paths, ext: ['.js1', '.js2'] });
-    expect(configForFileSpy).to.have.been.called;
-  });
-
-  it('does not call getConfigForFile if the path does not match a custom extension', function(){
-    path = 'nope.js';
-    watcher({ _: paths, ext: ['.js1', '.js2'] });
-    expect(configForFileSpy).to.not.have.been.called;
-  });
-
 });

@@ -13,7 +13,8 @@ describe('integration', function(){
     esw = function(cmd){
       var result = {};
       try{
-        result.message = child.execSync('node ' + eswPath + ' ' + cmd).toString();
+        var command = 'node ' + eswPath + ' ' + cmd;
+        result.message = child.execSync(command).toString();
         result.error = false;
       } catch(e){
         result.error = true;
@@ -32,7 +33,7 @@ describe('integration', function(){
     });
 
     it("cache command doesn't show help", function(){
-      var output = esw('--cache --cache-location node_modules/.cache/esw');
+      var output = esw('--cache --cache-location node_modules/esw.cache');
       expect(output.error).to.be.false;
       expect(output.message).to.not.have.string('Options');
     });

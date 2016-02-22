@@ -78,7 +78,7 @@ describe('Watcher', function () {
     expect(watcherOptions).to.equal(arr);
   });
 
-  it('it calls the on changed event', function() {
+  it('calls the on changed event', function() {
     watcher({ _: [] });
     expect(onSpy).to.have.been.calledWith('change');
   });

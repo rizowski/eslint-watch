@@ -41,7 +41,7 @@ module.exports = function(cllbk){
       options = optionator(settings);
       cllbk(options);
     } catch(e){
-      logger.log(e);
+      logger.error(e);
       throw e;
     }
   });

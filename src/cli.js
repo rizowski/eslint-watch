@@ -8,7 +8,10 @@ var getOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
 var logger = require('./log')('esw-cli');
+var pkg = require('../package');
+
 logger.debug('Loaded');
+logger.debug('Eslint-Watch: ' + pkg.version);
 
 var eslintCli = eslint.cli;
 
@@ -18,11 +21,12 @@ var exitCode;
 
 function runLint(args, options){
   logger.debug(args);
-  var child = eslintCli(args, options);
-
-  child.on('exit', function(code){
-    logger.debug('Setting exit code to: %s', code);
+  var child = eslintCli(args, options, undefined, function onExit(code){
+    logger.debug('exitCode: %s', code);
     exitCode = code;
+  }, function onError(err){
+    console.error(err);
+    exitCode = 1;
   });
   return child;
 }
@@ -30,14 +34,15 @@ function runLint(args, options){
 function keyListener(args, options){
   var stdin = process.stdin;
   if(!stdin.setRawMode){
-    logger.debug('Process might be wrapped exitig keybinding');
+    logger.debug('Process might be wrapped exiting keybinding');
     return;
   }
   keypress(stdin);
   stdin.on('keypress', function(ch, key){
     logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
-      logger.debug('Rerunning lint...');
+      logger.debug('relinting...');
+      logger.debug(options);
       runLint(args, options);
     }
     if(key.ctrl && key.name === 'c') {

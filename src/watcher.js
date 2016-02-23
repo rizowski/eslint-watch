@@ -29,7 +29,7 @@ function successMessage(result) {
 
 module.exports = function watcher(options) {
   var cliOptions = {
-    config: options.config
+    configFile: options.config
   };
   logger.debug(cliOptions);
   logger.debug(options);
@@ -57,9 +57,7 @@ module.exports = function watcher(options) {
       if (!cli.isPathIgnored(path) && isWatchableExtension(path, options.ext)) {
         lintFile(path);
       }
-    }).on('error', function(err){
-      logger.log(err);
-    });
+    }).on('error', logger.error);
 
   logger.debug('Watching: %o', options._);
 };

@@ -1,6 +1,6 @@
 {
   "name": "eslint-watch",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {

@@ -15,3 +15,5 @@ typings
 *.swn
 *.swo
 *.swp
+
+*.DS_Store

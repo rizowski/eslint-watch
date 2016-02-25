@@ -16,6 +16,18 @@ var events = {
 var chokidarOptions = {
   ignored: /\.git|node_modules|bower_components/
 };
+var cliOptionProperties = [
+  'config', 'eslintrc', 'ext',
+  'parser', 'cache', 'cacheLocation',
+  'ignore', 'ignorePath', 'ignorePattern',
+  'fix'
+];
+var cliOptionMap = {
+  config: 'configFile',
+  eslintrc: 'useEslintrc',
+  ext: 'extensions',
+  cacheFile: 'cacheLocation'
+};
 
 function successMessage(result) {
   logger.debug('result: %o', result);
@@ -28,9 +40,13 @@ function successMessage(result) {
 ///https://github.com/eslint/eslint/blob/233440e524aa41545b66b2c3c7ca26fe790e32e0/tests/lib/cli-engine.js#L105-L107
 
 module.exports = function watcher(options) {
-  var cliOptions = {
-    configFile: options.config
-  };
+  var cliOptions = _(options)
+    .pick(cliOptionProperties)
+    .reduce(function(result, value, key){
+      key = cliOptionMap[key] || key;
+      result[key] = value;
+      return result;
+    }, {});
   logger.debug(cliOptions);
   logger.debug(options);
   var cli = new eslint.CLIEngine(cliOptions);
@@ -43,6 +59,7 @@ module.exports = function watcher(options) {
   }
 
   function isWatchableExtension(filePath, extensions) {
+    logger.debug(filePath, extensions);
     if (extensions) {
       return _.contains(extensions, path.extname(filePath));
     }

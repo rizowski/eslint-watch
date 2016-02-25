@@ -4,6 +4,10 @@
 var chalk = require('chalk');
 var table = require('text-table');
 var c = require('./helpers/characters');
+var Logger = require('../log');
+var logger = Logger('simple-detail');
+
+logger.debug('loaded');
 
 var tableSettings = {
   align: ['', '', 'r'],
@@ -22,7 +26,7 @@ function simpleDetail(results) {
   var output = '';
   var cleanMsg = '';
   var messageTime = chalk.gray('(' + new Date().toLocaleTimeString() + ')');
-
+  logger.debug(results);
   results.forEach(function (result) {
     var messages = result.messages;
     var warnings = 0;
@@ -68,7 +72,7 @@ function simpleDetail(results) {
     output += chalk.yellow(c.ex + ' ' + totalWarnings + ' ' + pluralize('warning', totalWarnings)) + ' ';
   }
 
-  if(results.length > 1 || results.length === 0) {
+  if(results.length > 0 || !results.length) {
     cleanMsg = chalk.green(c.check + ' Clean') + ' ' + messageTime + c.endLine;
   }
 

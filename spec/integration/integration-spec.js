@@ -71,19 +71,19 @@ describe('integration', function(){
 
   describe('linting', function(){
     it('finds 5 issues in test-files', function(){
-      var output = esw(testFiles);
+      var output = esw('--no-ignore ' + testFiles);
       expect(output.error).to.be.true;
       expect(output.message).to.have.string('7 errors');
     });
 
     it('finds 2 warnings', function(){
-      var output = esw(testFiles);
+      var output = esw('--no-ignore ' + testFiles);
       expect(output.error).to.be.true;
       expect(output.message).to.have.string('2 warnings');
     });
 
     it("doesn't find warnings with --quiet", function(){
-      var output = esw('--quiet ' + testFiles);
+      var output = esw('--quiet --no-ignore ' + testFiles);
       expect(output.error).to.be.true;
       expect(output.message).to.not.have.string('2 warnings');
     });

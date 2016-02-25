@@ -4,6 +4,10 @@
 var chalk = require('chalk');
 var table = require('text-table');
 var c = require('./helpers/characters');
+var Logger = require('../log');
+var logger = Logger('simple-detail');
+
+logger.debug('loaded');
 
 var tableSettings = {
   align: ['', '', 'r'],
@@ -22,7 +26,7 @@ function simpleDetail(results) {
   var output = '';
   var cleanMsg = '';
   var messageTime = chalk.gray('(' + new Date().toLocaleTimeString() + ')');
-
+  logger.debug(results);
   results.forEach(function (result) {
     var messages = result.messages;
     var warnings = 0;

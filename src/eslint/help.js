@@ -85,9 +85,7 @@ function parseHelp(helpText){
       return;
     } else {
       var str = row.replace(',', '');
-      // console.log(str);
       var arr = str.trim().split(' ');
-      // console.log(arr);
       if(str.indexOf('-') >= 0 && previousLine[0] !== ''){
         var option = createOption(arr);
         if(option && option.option !== 'format' && option.option !== 'help'){

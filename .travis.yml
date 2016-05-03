@@ -20,7 +20,7 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
 before_install:
-  - npm install eslint@1
+  - npm install eslint@2
 script:
   - npm run ci
 after_success:

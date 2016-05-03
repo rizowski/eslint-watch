@@ -4,6 +4,7 @@
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
+    "eslint": "eslint ./",
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
     "test": "mocha spec --recursive -R spec --timeout 10000",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "chai": "^3.4.0",
+    "eslint": "2",
     "istanbul": "^0.4.0",
     "mocha": "^2.2.5",
     "mocha-sinon": "^1.1.4",

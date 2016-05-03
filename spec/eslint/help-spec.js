@@ -14,6 +14,7 @@ describe('eslint/help', function(){
   var noAlias = '--see String     no alias';
   var noType = '-n --nope      no type to be found here';
   var noColor = '  --no-color                  Disable color in piped output';
+  var doubleExample = '--color, --no-color       Enables or disables color piped output';
   var msg;
   var help;
 
@@ -186,6 +187,26 @@ describe('eslint/help', function(){
         var colorOption = options[0];
         expect(colorOption.default).to.equal('true');
         done();
+       });
+  });
+
+  it('can parse doubled option options', function(done){
+    msg = title + '\n' +
+       '\n' +
+       optionsTxt + '\n' +
+       helpTxt + '\n' +
+       '\n' +
+       'HEADING:\n'+
+       doubleExample + '\n';
+       help(function(options){
+         var colorOption = options[0];
+         expect(colorOption).to.eql({
+           option: 'color',
+           type: 'Boolean',
+           alias: 'no-color',
+           description: 'Enables or disables color piped output'
+         });
+         done();
        });
   });
 });

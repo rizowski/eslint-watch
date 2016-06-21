@@ -101,7 +101,7 @@ function parseHelp(helpText){
 // rewrite in es6 this callback yucky stuff goes away.
 module.exports = function(cllbk){
   logger.debug('Executing help');
-  var spawn = eslint(['--help'], { help: true }, { });
+  var spawn = eslint(['--help'], {}, { });
   spawn.stdout.on('data', function(msg){
     logger.debug('Help text received');
     var eslintHelp = msg.toString();

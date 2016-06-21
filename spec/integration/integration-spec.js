@@ -3,9 +3,9 @@ var chai = require('chai');
 var expect = chai.expect;
 var child = require('child_process');
 var path = require('path');
-var pathNormalizer = require('../../src/path-normalizer');
+// var pathNormalizer = require('../../src/path-normalizer');
 
-var eswPath = pathNormalizer.normalize(path.resolve(__dirname, '../../bin/esw'));
+var eswPath = path.resolve(__dirname, '../../bin/esw');
 var testFiles = path.resolve(__dirname, 'test-files');
 
 describe('integration', function(){
@@ -14,7 +14,7 @@ describe('integration', function(){
     esw = function(cmd){
       var result = {};
       try{
-        var command = 'node ' + eswPath + ' ' + cmd;
+        var command = 'node "' + eswPath + '" ' + cmd;
         result.message = child.execSync(command).toString();
         result.error = false;
       } catch(e){

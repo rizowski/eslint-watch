@@ -61,11 +61,11 @@ module.exports = function watcher(options) {
   function isWatchableExtension(filePath, extensions) {
     logger.debug(filePath, extensions);
     if (extensions) {
-      return _.contains(extensions, path.extname(filePath));
+      return _.includes(extensions, path.extname(filePath));
     }
 
     // Use the ESLint default extension, if none is provided
-    return _.contains(cli.options.extensions, path.extname(filePath));
+    return _.includes(cli.options.extensions, path.extname(filePath));
   }
 
   chokidar.watch(options._, chokidarOptions)

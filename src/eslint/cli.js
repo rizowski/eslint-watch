@@ -3,26 +3,28 @@ var child = require('child_process');
 var path = require('path');
 var os = require('os');
 var fs = require('fs');
-var pathNormalizer = require('../path-normalizer');
+var _ = require('lodash');
 
 var logger = require('../log')('eslint-cli');
 logger.debug('Loaded');
 
-var cmd = os.platform() === 'win32' ? '.cmd' : '';
+var windows = os.platform() === 'win32';
 
-var eslint = (function loadEslintPath(){
+var cmd = windows ? '.cmd' : '';
+
+var eslintPath = (function loadEslintPath(){
   var eslintPath;
   try {
-    eslintPath = path.resolve('./node_modules/.bin/eslint' + cmd);
+    eslintPath = path.join('./', 'node_modules/.bin/eslint' + cmd);
     fs.accessSync(eslintPath);
   } catch (e) {
-    eslintPath = path.resolve(process.env._, '../eslint' + cmd);
+    eslintPath = path.join(process.env._, '../eslint' + cmd);
     fs.accessSync(eslintPath);
   }
-  return pathNormalizer.normalize(eslintPath);
+  return eslintPath;
 })();
 
-logger.debug('EsLint path: %s', eslint);
+logger.debug('EsLint path: %s', eslintPath);
 var spawn = child.spawn;
 
 function exitHandle(code){
@@ -33,18 +35,18 @@ function errorHandle(err){
 }
 
 module.exports = function(args, options, childOptions, exitHandler, errorHandler){
-  if(!options){
-    options = { _: './' };
-  }
-  if(options._ && options._.length === 0){
-    options._ = './';
-  }
   errorHandler = errorHandler || errorHandle;
   exitHandler = exitHandler || exitHandle;
+  childOptions = _.merge({}, childOptions, { env: process.env });
+  // console.log(options);
+  args = _.union([eslintPath], args);
 
-  childOptions = childOptions ? childOptions : { stdio: 'inherit' };
   logger.debug('eslint: %o', args);
-  return spawn('eslint', args, childOptions)
-    .on('error', errorHandler)// TEMP FIX - AHHHHH No plz. Just until 3.0.0
-    .on('exit', exitHandler);
+  var eslint = spawn(eslintPath, args, childOptions);
+  eslint.on('error', errorHandler);
+  eslint.stderr.on('error', errorHandler);
+  eslint.on('exit', exitHandler);
+  return eslint;
+    // .on('error', errorHandler)// TEMP FIX - AHHHHH No plz. Just until 3.0.0
+    // .on('exit', exitHandler);
 };

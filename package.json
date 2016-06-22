@@ -4,7 +4,7 @@
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
-    "eslint": "node ./bin/esw --no-ignore",
+    "eslint": "node ./bin/esw --no-ignore --color",
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
     "test": "mocha spec --recursive -R spec --timeout 10000",

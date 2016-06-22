@@ -1,6 +1,6 @@
 'use strict';
 var optionator = require('optionator');
-var getOptions = require('./eslint').help;
+var getOptions = require('./eslint/help');
 var _ = require('lodash');
 var logger = require('./log')('options');
 logger.debug('Loaded');

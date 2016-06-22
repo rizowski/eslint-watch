@@ -20,14 +20,11 @@ describe('eslint/help', function(){
 
   before(function(){
     help = proxy('../../src/eslint/help', {
-      './cli': function(){
-        return {
-          stdout: {
-            on: function(name, callback){
-              callback(msg);
-            }
-          }
-        };
+      './cli': function(args, options, childOptions, callback){
+        callback({
+          errored: false,
+          output: msg
+        });
       }
     });
   });

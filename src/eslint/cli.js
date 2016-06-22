@@ -1,9 +1,8 @@
 'use strict';
-var child = require('child_process');
 var path = require('path');
 var os = require('os');
 var fs = require('fs');
-var _ = require('lodash');
+var exec = require('../executor');
 
 var logger = require('../log')('eslint-cli');
 logger.debug('Loaded');
@@ -25,28 +24,17 @@ var eslintPath = (function loadEslintPath(){
 })();
 
 logger.debug('EsLint path: %s', eslintPath);
-var spawn = child.spawn;
+var spawn = exec.spawn;
 
-function exitHandle(code){
-  logger.debug(code);
-}
-function errorHandle(err){
-  throw err;
-}
-
-module.exports = function(args, options, childOptions, exitHandler, errorHandler){
-  errorHandler = errorHandler || errorHandle;
-  exitHandler = exitHandler || exitHandle;
-  childOptions = _.merge({}, childOptions, { env: process.env });
-  // console.log(options);
-  args = _.union([eslintPath], args);
-
+module.exports = function(args, options, childOptions, callback){
   logger.debug('eslint: %o', args);
-  var eslint = spawn(eslintPath, args, childOptions);
-  eslint.on('error', errorHandler);
-  eslint.stderr.on('error', errorHandler);
-  eslint.on('exit', exitHandler);
-  return eslint;
-    // .on('error', errorHandler)// TEMP FIX - AHHHHH No plz. Just until 3.0.0
-    // .on('exit', exitHandler);
+  spawn(eslintPath, args, childOptions, function eslint(result){
+    if(result.fatal){
+      throw result.output;
+    }
+    callback({
+      exitCode: result.exitCode,
+      output: result.output
+    });
+  });
 };

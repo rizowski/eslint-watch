@@ -99,12 +99,10 @@ function parseHelp(helpText){
 }
 
 // rewrite in es6 this callback yucky stuff goes away.
-module.exports = function(cllbk){
+module.exports = function(callback){
   logger.debug('Executing help');
-  var spawn = eslint(['--help'], { help: true }, { });
-  spawn.stdout.on('data', function(msg){
+  eslint(['--help'], {}, {}, function(result){
     logger.debug('Help text received');
-    var eslintHelp = msg.toString();
-    cllbk(parseHelp(eslintHelp));
+    callback(parseHelp(result.output));
   });
 };

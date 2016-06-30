@@ -7,6 +7,8 @@
 [![Test Coverage](https://codeclimate.com/github/rizowski/eslint-watch/badges/coverage.svg)](https://codeclimate.com/github/rizowski/eslint-watch/coverage)
 [![Join the chat at https://gitter.im/rizowski/eslint-watch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rizowski/eslint-watch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Donate (Ƀ): `13V7iDxBhnFASw7avGGRk64ExDGTirhx37`
+
 Don't want to import Webpack, Grunt, or some other task package into your project? Then this is the tool for you.
 Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs.com/package/eslint). Eslint Watch provides file watching and command line improvements to the currently existing Eslint command line interface. All commands that Eslint offers can be used with the addition of a watch command and a couple new templating views. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!
 
@@ -36,6 +38,7 @@ To run eslint-watch without the global install, make an npm script.
     - simple-success
 
 ## Options/Usage
+Eslint-Watch replaces only a few commands that it needs to take control over. All other commands are forwarded to Eslint unmodified. Please refer to their help text for full command support as the one provided below might not be up to date with the latest Eslint changes.
 ```
 esw [options] [file.js ...] [dir ...]
 
@@ -48,7 +51,8 @@ Options:
   --env [String]              Specify environments
   --ext [String]              Specify JavaScript file extensions - default: .js
   --global [String]           Define global variables
-  --parser String             Specify the parser to be used - default: espree
+  --parser String             Specify the parser to be used
+  --parser-options Object     Specify parser options
   --cache                     Only check changed files - default: false
   --cache-file path::String   Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
   --cache-location path::String  Path to the cache file or directory
@@ -56,19 +60,20 @@ Options:
   --plugin [String]           Specify plugins
   --rule Object               Specify rules
   --ignore-path path::String  Specify path of ignore file
-  --no-ignore                 Disable use of .eslintignore
+  --no-ignore                 Disable use of ignore files and patterns
   --ignore-pattern [String]   Pattern of files to ignore (in addition to those in .eslintignore)
   --stdin                     Lint code provided on <STDIN> - default: false
   --stdin-filename String     Specify filename to process STDIN as
   --quiet                     Report errors only - default: false
-  --max-warnings Number       of warnings to trigger nonzero exit code - default: -1
+  --max-warnings Int          Number of warnings to trigger nonzero exit code - default: -1
   -o, --output-file path::String  Specify file to write report to
-  --no-color                  Disable color in piped output
+  --color, --no-color         Force enabling/disabling of color
   --init                      Run config initialization wizard - default: false
   --fix                       Automatically fix problems
   --debug                     Output debugging information
-  -v, --version               Outputs the version number
-  --no-inline-config          Allow comments to change eslint config/rules
+  -v, --version               Output the version number
+  --no-inline-config          Prevent comments from changing config or rules
+  --print-config              Print the configuration to be used
 ```
 
 ## Functionality

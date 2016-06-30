@@ -3,7 +3,7 @@
 
 var keypress = require('keypress');
 
-var eslint = require('./eslint');
+var eslintCli = require('./eslint/cli');
 var getOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
@@ -13,22 +13,17 @@ var pkg = require('../package');
 logger.debug('Loaded');
 logger.debug('Eslint-Watch: ' + pkg.version);
 
-var eslintCli = eslint.cli;
-
 var parsedOptions;
 var eslArgs;
 var exitCode;
 
 function runLint(args, options){
   logger.debug(args);
-  var child = eslintCli(args, options, undefined, function onExit(code){
-    logger.debug('exitCode: %s', code);
-    exitCode = code;
-  }, function onError(err){
-    console.error(err);
-    exitCode = 1;
+  eslintCli(args, options, undefined, function completed(result){
+    logger.debug('lint completed. Exit Code: %o', result.exitCode);
+    exitCode = result.exitCode;
+    console.log(result.output);
   });
-  return child;
 }
 
 function keyListener(args, options){
@@ -59,7 +54,6 @@ getOptions(function(options){
   parsedOptions = options.parse(args);
   logger.debug('Parsing args');
   eslArgs = argParser.parse(args, parsedOptions);
-
   if (!parsedOptions.help) {
     logger.debug('Running initial lint');
     runLint(eslArgs, parsedOptions);

@@ -4,7 +4,7 @@
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
-    "eslint": "eslint ./",
+    "eslint": "node ./bin/esw --no-ignore --color",
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
     "test": "mocha spec --recursive -R spec --timeout 10000",
@@ -45,7 +45,7 @@
     "chokidar": "^1.4.3",
     "debug": "^2.2.0",
     "keypress": "^0.2.1",
-    "lodash": "^3.10.1",
+    "lodash": "^4.13.1",
     "optionator": "^0.8.1",
     "text-table": "^0.2.0"
   },

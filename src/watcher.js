@@ -20,7 +20,7 @@ var cliOptionProperties = [
   'config', 'eslintrc', 'ext',
   'parser', 'cache', 'cacheLocation',
   'ignore', 'ignorePath', 'ignorePattern',
-  'fix'
+  'fix', 'parserOptions', 'global'
 ];
 var cliOptionMap = {
   config: 'configFile',

@@ -76,6 +76,10 @@ Options:
   --print-config              Print the configuration to be used
 ```
 
+### Other Options
+
+Eslint-Watch uses [`chokidar`](https://github.com/paulmillr/chokidar) under the hood to watch for changes. Chokidar can be configured to poll for changes (this might be necessary if you are running Eslint-Watch inside a VM or Container) by setting the `CHOKIDAR_USEPOLLING` environment variable to `true`. 
+
 ## Functionality
 [![Simple lint and watch](http://i.imgur.com/gPZSXU0.png)](http://i.imgur.com/gPZSXU0.png)
 

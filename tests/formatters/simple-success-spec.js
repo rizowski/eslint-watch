@@ -1,4 +1,3 @@
-
 var formatter = require('../../src/formatters/simple-success');
 var chalk = require('chalk');
 

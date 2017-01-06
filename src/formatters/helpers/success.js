@@ -1,4 +1,3 @@
-
 var chalk = require('chalk');
 var c = require('./characters');
 var space = ' ';

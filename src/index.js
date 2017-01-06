@@ -1,6 +1,4 @@
 /* eslint no-process-exit: 0*/
-
-
 var keypress = require('keypress');
 
 var eslintCli = require('./eslint/cli');

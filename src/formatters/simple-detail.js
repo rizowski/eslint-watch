@@ -1,6 +1,5 @@
 // Template Author Sindre Sorhus @eslint
 // https://github.com/sindresorhus/eslint-stylish
-
 var chalk = require('chalk');
 var table = require('text-table');
 var c = require('./helpers/characters');

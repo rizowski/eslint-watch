@@ -1,4 +1,3 @@
-
 var proxy = require('proxyquire');
 
 describe('Watcher', function () {

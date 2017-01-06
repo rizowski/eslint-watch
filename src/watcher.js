@@ -1,4 +1,3 @@
-
 var chokidar = require('chokidar');
 var eslint = require('eslint');
 var chalk = require('chalk');

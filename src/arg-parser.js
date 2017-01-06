@@ -1,4 +1,3 @@
-
 var path = require('path');
 var _ = require('lodash');
 var logger = require('./log')('arg-parser');

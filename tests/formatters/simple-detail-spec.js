@@ -1,4 +1,3 @@
-
 var formatter = require('../../src/formatters/simple-detail');
 var chalk = require('chalk');
 var icons = require('../../src/formatters/helpers/characters');

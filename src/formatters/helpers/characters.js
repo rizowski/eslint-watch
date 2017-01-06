@@ -1,4 +1,3 @@
-
 var unicon = require('unicons');
 
 module.exports = {

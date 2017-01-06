@@ -1,4 +1,3 @@
-
 var optionator = require('optionator');
 var getOptions = require('./eslint/help');
 var _ = require('lodash');

@@ -5,16 +5,42 @@ var _ = require('lodash');
 var logger = require('../log')('eslint-help');
 logger.debug('Loaded');
 
+var namedOption = /^--/;
+
+function parseNo(option, str){
+  if(!str) return;
+
+  var cmd = str.replace('--', '');
+  if(/no-/.test(cmd)){
+    logger.debug('Parsing no option', str);
+    cmd = cmd.replace('no-', '');
+    option.default = 'true';
+  }
+  option.option = cmd;
+  return option;
+}
+
+function parseDouble(arr){
+  var description = _.without(arr.slice(2),'').join(' ');
+  return {
+    option: arr[0].replace('--', ''),
+    type: 'Boolean',
+    alias: arr[1].replace('--', ''),
+    description: description
+  };
+}
+
 function parseRegular(arr){
   logger.debug('Parsing %s', arr[0]);
   if(!arr[0]){
     return;
   }
   var optionText = arr[0];
-  var type = arr[1];
+  var type = arr[1] || 'Boolean';
   var option = {};
-  option.option = optionText.replace('--', '');
-  option.type = type ? type : 'Boolean';
+  option = parseNo(option, optionText);
+
+  option.type = type;
 
   var helpText = _.without(arr, optionText, type, '');
 
@@ -37,8 +63,15 @@ function parseAlias(arr){
 }
 
 function createOption(arr){
-  var noAlias = arr[0].match(/--\w/);
-  var option = noAlias ? parseRegular(arr) : parseAlias(arr);
+  var option;
+
+  if(namedOption.test(arr[0]) && namedOption.test(arr[1])){  // no alias defaulted boolean
+    option = parseDouble(arr);
+  } else if(namedOption.test(arr[0]) && !namedOption.test(arr[1])){ // just a no alias
+    option = parseRegular(arr);
+  } else {// aliased or other
+    option = parseAlias(arr);
+  }
   var isEmpty = _.isEmpty(option);
   return isEmpty ? undefined : option;
 }
@@ -48,7 +81,7 @@ function parseHelp(helpText){
   var newArr = [];
   var previousLine = [];
   _.each(helpArr, function(row, index){
-    if(index === 0 || index === 1 || index === 2){
+    if(index <= 2){
       return;
     } else {
       var str = row.replace(',', '');
@@ -66,17 +99,10 @@ function parseHelp(helpText){
 }
 
 // rewrite in es6 this callback yucky stuff goes away.
-module.exports = function(cllbk){
+module.exports = function(callback){
   logger.debug('Executing help');
-  var spawn = eslint(['--help'], { help: true }, { });
-  spawn.stdout.on('data', function(msg){
+  eslint(['--help'], {}, {}, function(result){
     logger.debug('Help text received');
-    var eslintHelp = msg.toString();
-    try {
-      cllbk(parseHelp(eslintHelp));
-    } catch(e){
-      logger.log(e.stack);
-      throw(e);
-    }
+    callback(parseHelp(result.output));
   });
 };

@@ -1,25 +1,40 @@
 'use strict';
-var child = require('child_process');
 var path = require('path');
 var os = require('os');
+var fs = require('fs');
+var exec = require('../executor');
 
 var logger = require('../log')('eslint-cli');
 logger.debug('Loaded');
 
-var cmd = os.platform() === 'win32' ? '.cmd' : '';
-var eslint = path.resolve('./node_modules/.bin/eslint' + cmd);
-logger.debug('EsLint path: %s', eslint);
-var spawn = child.spawn;
+var windows = os.platform() === 'win32';
 
-module.exports = function(args, options, childOptions){
-  if(!options){
-    options = { _: './' };
-  }
-  if(options._ && options._.length === 0){
-    options._ = './';
-  }
+var cmd = windows ? '.cmd' : '';
 
-  childOptions = childOptions ? childOptions : { stdio: 'inherit' };
-  logger.debug('Linting: %o', options._);
-  return spawn(eslint, args, childOptions);
+var eslintPath = (function loadEslintPath(){
+  var eslintPath;
+  try {
+    eslintPath = path.join('./', 'node_modules/.bin/eslint' + cmd);
+    fs.accessSync(eslintPath);
+  } catch (e) {
+    eslintPath = path.join(process.env._, '../eslint' + cmd);
+    fs.accessSync(eslintPath);
+  }
+  return eslintPath;
+})();
+
+logger.debug('EsLint path: %s', eslintPath);
+var spawn = exec.spawn;
+
+module.exports = function(args, options, childOptions, callback){
+  logger.debug('eslint: %o', args);
+  spawn(eslintPath, args, childOptions, function eslint(result){
+    if(result.fatal){
+      throw result.output;
+    }
+    callback({
+      exitCode: result.exitCode,
+      output: result.output
+    });
+  });
 };

@@ -1,31 +1,17 @@
-version: '{build}'
+# AppVeyor file
+# http://www.appveyor.com/docs/appveyor-yml
 
+version: "{build}"
 environment:
   matrix:
-  - nodejs_version: "0.12"
-  - nodejs_version: "2"
-  - nodejs_version: "3"
-  - nodejs_version: "4"
-
-# Install scripts. (runs after repo cloning)
+    - nodejs_version: 4
+    - nodejs_version: 5
+    - nodejs_version: 6
 install:
-  # Get the latest stable version of io.js
   - ps: Install-Product node $env:nodejs_version
-  - npm -g install npm@latest
-  - set PATH=%APPDATA%\npm;%PATH%
-  - node --version
-  - npm --version
-  - npm install eslint
   - npm install
-
-# No need for MSBuild on this project
 build: off
-
-notifications:
-  - provider: Webhook
-    url: https://webhooks.gitter.im/e/2c5e0e441ca25c240df9
-    on_build_failure: True
-
 test_script:
-  - npm run test
-  - npm run lint
+  - npm test
+matrix:
+  fast_finish: true

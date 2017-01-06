@@ -1,13 +1,15 @@
 language: node_js
 node_js:
-  - "0.12"
-  - "2"
-  - "3"
   - "4"
+  - "5"
+  - "6"
 os:
   - linux
 #  - osx
 #  - windows
+addons:
+  code_climate:
+    repo_token: 5eb0170c7d7906e985d916c3d0ac617b7ba26a6ed3049e60bf39045703a993c4
 notifications:
   webhooks:
     urls:
@@ -16,6 +18,9 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false     # default: false
 before_install:
-  - npm install eslint --save
+  - npm install eslint
 script:
   - npm run ci
+after_success:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < ./coverage/lcov.info

@@ -13,19 +13,18 @@ describe('eslint/help', function(){
   var cluck = '-c --cluck Boolean     Goes Cluck';
   var noAlias = '--see String     no alias';
   var noType = '-n --nope      no type to be found here';
+  var noColor = '  --no-color                  Disable color in piped output';
+  var doubleExample = '--color, --no-color       Enables or disables color piped output';
   var msg;
   var help;
 
   before(function(){
     help = proxy('../../src/eslint/help', {
-      './cli': function(){
-        return {
-          stdout: {
-            on: function(name, callback){
-              callback(msg);
-            }
-          }
-        };
+      './cli': function(args, options, childOptions, callback){
+        callback({
+          errored: false,
+          output: msg
+        });
       }
     });
   });
@@ -155,5 +154,56 @@ describe('eslint/help', function(){
         done();
       });
     }).to.not.throw();
+  });
+
+  it('filters out no from help options', function(done) {
+    msg = title + '\n' +
+       '\n' +
+       optionsTxt + '\n' +
+       helpTxt + '\n' +
+       '\n' +
+       'HEADING:\n'+
+       noColor + '\n';
+    help(function(options) {
+      var colorOption = options[0];
+      expect(colorOption.option).to.equal('color');
+      done();
+    });
+  });
+
+  it('defaults no options to true', function(done){
+    msg = title + '\n' +
+       '\n' +
+       optionsTxt + '\n' +
+       helpTxt + '\n' +
+       '\n' +
+       'HEADING:\n'+
+       noColor + '\n';
+
+       help(function(options){
+        var colorOption = options[0];
+        expect(colorOption.default).to.equal('true');
+        done();
+       });
+  });
+
+  it('can parse doubled option options', function(done){
+    msg = title + '\n' +
+       '\n' +
+       optionsTxt + '\n' +
+       helpTxt + '\n' +
+       '\n' +
+       'HEADING:\n'+
+       doubleExample + '\n';
+       help(function(options){
+         var colorOption = options[0];
+         expect(colorOption).to.eql({
+           option: 'color',
+           type: 'Boolean',
+           alias: 'no-color',
+           description: 'Enables or disables color piped output'
+         });
+         done();
+       });
   });
 });

@@ -1,9 +1,6 @@
 'use strict';
-var chai = require('chai');
-var expect = chai.expect;
 var formatter = require('../../src/formatters/simple');
 var chalk = require('chalk');
-var sinon = require('sinon');
 
 describe('simple formatter', function(){
   var sandbox;

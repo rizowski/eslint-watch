@@ -7,11 +7,11 @@
     "eslint": "node ./bin/esw --no-ignore --color",
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha spec --recursive -R spec --timeout 10000",
+    "test": "mocha spec --timeout 10000 --recursive --retries 3 -r spec/globals",
     "tdd": "mocha -w spec --recursive -R spec",
     "ci": "npm run lint && npm run coverage",
     "ci-win": "npm run lint && npm test",
-    "coverage": "istanbul cover _mocha -- --recursive spec -R spec --timeout 10000"
+    "coverage": "istanbul cover _mocha -- --recursive spec -R spec --timeout 10000 --retries 3 -r spec/globals"
   },
   "repository": {
     "type": "git",
@@ -54,7 +54,7 @@
     "chai": "^3.4.0",
     "eslint": "3",
     "istanbul": "^0.4.3",
-    "mocha": "^2.2.5",
+    "mocha": "^3.2.0",
     "mocha-sinon": "^1.1.4",
     "proxyquire": "^1.6.0",
     "sinon": "^1.17.4",

@@ -1,9 +1,6 @@
 'use strict';
 
 var proxy = require('proxyquire');
-var chai = require('chai');
-var expect = chai.expect;
-var assert = chai.assert;
 var _ = require('lodash');
 
 describe('eslint/help', function(){

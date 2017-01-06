@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 var path = require('path');
-var eswPath = path.join(__dirname, '..', 'src', 'cli');
+var eswPath = path.join(__dirname, '..', 'src');
 
 require(eswPath);

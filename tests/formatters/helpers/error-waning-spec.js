@@ -1,9 +1,6 @@
 'use strict';
-var chai = require('chai');
-var expect = chai.expect;
 var formatter = require('../../../src/formatters/helpers/error-warning');
 var chalk = require('chalk');
-var sinon = require('sinon');
 
 describe('error-warning-helper', function(){
   var sandbox;

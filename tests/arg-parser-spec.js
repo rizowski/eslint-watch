@@ -1,12 +1,4 @@
 'use strict';
-var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
-
-chai.use(sinonChai);
-
-var expect = chai.expect;
-
 describe('arg-parser', function () {
   var parser, options;
   before(function () {

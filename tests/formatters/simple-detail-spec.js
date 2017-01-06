@@ -1,9 +1,6 @@
 'use strict';
-var chai = require('chai');
-var expect = chai.expect;
 var formatter = require('../../src/formatters/simple-detail');
 var chalk = require('chalk');
-var sinon = require('sinon');
 var icons = require('../../src/formatters/helpers/characters');
 
 describe('simple-detail', function(){

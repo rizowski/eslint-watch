@@ -61,7 +61,7 @@ describe('simple-detail', function(){
     it('prints out a checkmark with the date', function(){
       var time = new Date().toLocaleTimeString();
       var result = formatter([]);
-      expect(result).to.equal('✓ Clean ' + '(' + time + ')\n');
+      expect(result).to.equal(icons.check + ' Clean ' + '(' + time + ')\n');
     });
   });
 

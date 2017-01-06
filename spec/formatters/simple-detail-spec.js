@@ -4,6 +4,7 @@ var expect = chai.expect;
 var formatter = require('../../src/formatters/simple-detail');
 var chalk = require('chalk');
 var sinon = require('sinon');
+var icons = require('../../src/formatters/helpers/characters');
 
 describe('simple-detail', function(){
   var sandbox;
@@ -69,7 +70,7 @@ describe('simple-detail', function(){
     it('prints out errors if there are any', function(){
       var time = new Date().toLocaleTimeString();
       var result = formatter([errorResult]);
-      expect(result).to.equal(filePath + ' (1/0)\n  ✖  0:0  broken something or other  broken-things\n\n✖ 1 error (' + time + ')\n');
+      expect(result).to.equal(filePath + ' (1/0)\n  ' + icons.x + '  0:0  broken something or other  broken-things\n\n' + icons.x + ' 1 error (' + time + ')\n');
     });
 
     it('prints out errors if there are multiple', function(){
@@ -83,7 +84,7 @@ describe('simple-detail', function(){
     it('prints out any warnings if there are any', function(){
       var time = new Date().toLocaleTimeString();
       var result = formatter([warningResult]);
-      expect(result).to.equal(filePath + ' (0/1)\n  !  1:2  you should do this  advised\n\n! 1 warning (' + time + ')\n');
+      expect(result).to.equal(filePath + ' (0/1)\n  ' + icons.ex + '  1:2  you should do this  advised\n\n' + icons.ex + ' 1 warning (' + time + ')\n');
     });
 
     it('prints out warnings if there are multiple', function(){

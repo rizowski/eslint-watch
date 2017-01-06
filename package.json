@@ -48,7 +48,7 @@
     "lodash": "^4.13.1",
     "optionator": "^0.8.1",
     "text-table": "^0.2.0",
-    "unicons": "0.0.2"
+    "unicons": "0.0.3"
   },
   "devDependencies": {
     "chai": "^3.4.0",

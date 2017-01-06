@@ -1,6 +1,11 @@
 {
-  "env":{
-    "node": true
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
   },
   "rules":{
     "camelcase": 2,

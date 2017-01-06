@@ -1,4 +1,4 @@
-'use strict';
+
 var formatter = require('../../../src/formatters/helpers/error-warning');
 var chalk = require('chalk');
 

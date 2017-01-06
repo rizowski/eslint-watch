@@ -1,4 +1,4 @@
-'use strict';
+
 var unicon = require('unicons');
 
 module.exports = {

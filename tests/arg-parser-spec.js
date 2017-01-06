@@ -1,4 +1,4 @@
-'use strict';
+
 describe('arg-parser', function () {
   var parser, options;
   before(function () {

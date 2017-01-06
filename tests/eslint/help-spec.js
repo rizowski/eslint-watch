@@ -1,4 +1,4 @@
-'use strict';
+
 
 var proxy = require('proxyquire');
 var _ = require('lodash');

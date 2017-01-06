@@ -1,5 +1,5 @@
 /* eslint no-process-exit: 0*/
-'use strict';
+
 
 var keypress = require('keypress');
 

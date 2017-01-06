@@ -1,4 +1,4 @@
-'use strict';
+
 var success = require('./helpers/success');
 var error = require('./helpers/error-warning');
 var c = require('./helpers/characters');

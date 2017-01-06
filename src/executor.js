@@ -1,4 +1,4 @@
-'use strict';
+
 var child = require('child_process');
 var _ = require('lodash');
 var Logger = require('./log');

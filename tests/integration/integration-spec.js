@@ -1,4 +1,4 @@
-'use strict';
+
 var child = require('child_process');
 var path = require('path');
 // var pathNormalizer = require('../../src/path-normalizer');

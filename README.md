@@ -5,9 +5,10 @@
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
 [![Test Coverage](https://codeclimate.com/github/rizowski/eslint-watch/badges/coverage.svg)](https://codeclimate.com/github/rizowski/eslint-watch/coverage)
-[![Join the chat at https://gitter.im/rizowski/eslint-watch](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rizowski/eslint-watch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Donate (Ƀ): `13V7iDxBhnFASw7avGGRk64ExDGTirhx37`
+Donate:
+  (Ƀitcoin): `13V7iDxBhnFASw7avGGRk64ExDGTirhx37`
+  (PayPal): [https://www.paypal.me/rizowski](https://www.paypal.me/rizowski)
 
 Don't want to import Webpack, Grunt, or some other task package into your project? Then this is the tool for you.
 Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs.com/package/eslint). Eslint Watch provides file watching and command line improvements to the currently existing Eslint command line interface. All commands that Eslint offers can be used with the addition of a watch command and a couple new templating views. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!

@@ -1,4 +1,3 @@
-'use strict';
 var formatter = require('../../../src/formatters/helpers/success');
 var chalk = require('chalk');
 

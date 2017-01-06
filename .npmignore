@@ -1,7 +1,9 @@
-spec
+coverage
+src
+tests
+.babelrc
 .editorconfig
 .eslint*
-.gitattributes
-.gitignore
+.git*
 .travis.yml
 appveyor.yml

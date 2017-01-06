@@ -1,5 +1,3 @@
-'use strict';
-
 var eslint = require('./cli');
 var _ = require('lodash');
 var logger = require('../log')('eslint-help');

@@ -7,11 +7,13 @@
     "eslint": "node ./bin/esw --no-ignore --color",
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
-    "test": "mocha tests --timeout 10000 --recursive --retries 3 -r tests/globals",
+    "test": "mocha tests --timeout 10000 --recursive --retries 3 -r tests/globals --compilers js:babel-core/register",
     "tdd": "mocha -w tests --recursive -R spec",
     "ci": "npm run lint && npm run coverage",
     "ci-win": "npm run lint && npm test",
-    "coverage": "istanbul cover _mocha -- --recursive tests -R spec --timeout 10000 --retries 3 -r tests/globals"
+    "coverage": "istanbul cover _mocha -- --recursive tests --timeout 10000 --retries 3 -r tests/globals --compilers js:babel-core/register",
+    "build": "babel src -d build -s inline",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -41,23 +43,33 @@
     "eslint": ">=0.19.0 <4.0.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.20.0",
+    "bluebird": "^3.4.7",
     "chalk": "^1.1.3",
     "chokidar": "^1.4.3",
-    "debug": "^2.2.0",
+    "debug": "^2.6.0",
     "keypress": "^0.2.1",
-    "lodash": "^4.13.1",
-    "optionator": "^0.8.1",
+    "lodash": "^4.17.4",
+    "optionator": "^0.8.2",
+    "source-map-support": "^0.4.8",
     "text-table": "^0.2.0",
     "unicons": "0.0.3"
   },
   "devDependencies": {
-    "chai": "^3.4.0",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.21.0",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-async-to-bluebird": "^1.1.0",
+    "babel-preset-es2015-node4": "^2.1.1",
+    "babel-preset-stage-3": "^6.17.0",
+    "chai": "^3.5.0",
     "eslint": "3",
-    "istanbul": "^0.4.3",
+    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "mocha-sinon": "^1.1.4",
-    "proxyquire": "^1.6.0",
-    "sinon": "^1.17.4",
-    "sinon-chai": "^2.7.0"
+    "mocha-sinon": "^1.1.6",
+    "proxyquire": "^1.7.10",
+    "sinon": "^1.17.7",
+    "sinon-chai": "^2.8.0"
   }
 }

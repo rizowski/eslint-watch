@@ -1,3 +1,4 @@
+import _ from 'lodash';
 var path = require('path');
 var os = require('os');
 var fs = require('fs');
@@ -10,8 +11,8 @@ var windows = os.platform() === 'win32';
 
 var cmd = windows ? '.cmd' : '';
 
-var eslintPath = (function loadEslintPath(){
-  var eslintPath;
+const eslintPath = (function loadEslintPath(){
+  let eslintPath;
   try {
     eslintPath = path.join('./', 'node_modules/.bin/eslint' + cmd);
     fs.accessSync(eslintPath);
@@ -23,17 +24,18 @@ var eslintPath = (function loadEslintPath(){
 })();
 
 logger.debug('EsLint path: %s', eslintPath);
-var spawn = exec.spawn;
+var spawn = exec.spawnSync;
 
-module.exports = function(args, options, childOptions, callback){
+/**
+  This needs to be changed so you execute eslint in this fashion
+  var result = eslint(eslintArgs..., childOptions);
+*/
+
+module.exports = function(args, options){
   logger.debug('eslint: %o', args);
-  spawn(eslintPath, args, childOptions, function eslint(result){
-    if(result.fatal){
-      throw result.output;
-    }
-    callback({
-      exitCode: result.exitCode,
-      output: result.output
-    });
-  });
+  var result = spawn(eslintPath, args, _.merge({ stdio: 'inherit' }, options));
+  if(result.error){
+    throw Error(result.stderr.toString());
+  }
+  return result.output.toString();
 };

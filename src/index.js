@@ -2,7 +2,7 @@
 var keypress = require('keypress');
 
 var eslintCli = require('./eslint/cli');
-var getOptions = require('./options');
+var helpOptions = require('./options');
 var watcher = require('./watcher');
 var argParser = require('./arg-parser');
 var logger = require('./log')('esw-cli');
@@ -46,24 +46,22 @@ function keyListener(args, options){
   stdin.resume();
 }
 
-getOptions(function(options){
-  var args = process.argv;
-  logger.debug('Arguments passed: %o', args);
-  parsedOptions = options.parse(args);
-  logger.debug('Parsing args');
-  eslArgs = argParser.parse(args, parsedOptions);
-  if (!parsedOptions.help) {
-    logger.debug('Running initial lint');
-    runLint(eslArgs, parsedOptions);
-    if (parsedOptions.watch) {
-      logger.debug('-w seen');
-      keyListener(eslArgs, parsedOptions);
-      watcher(parsedOptions);
-    }
-  } else {
-    logger.log(options.generateHelp());
+var args = process.argv;
+logger.debug('Arguments passed: %o', args);
+parsedOptions = helpOptions.parse(args);
+logger.debug('Parsing args');
+eslArgs = argParser.parse(args, parsedOptions);
+if (!parsedOptions.help) {
+  logger.debug('Running initial lint');
+  runLint(eslArgs, parsedOptions);
+  if (parsedOptions.watch) {
+    logger.debug('-w seen');
+    keyListener(eslArgs, parsedOptions);
+    watcher(parsedOptions);
   }
-});
+} else {
+  logger.log(helpOptions.generateHelp());
+}
 
 process.on('exit', function () {
   process.exit(exitCode);

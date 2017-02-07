@@ -1,10 +1,8 @@
-var child = require('child_process');
+import { spawn, spawnSync } from 'child_process';
 var _ = require('lodash');
 var Logger = require('./log');
 
 var logger = Logger('executor');
-
-var spawn = child.spawn;
 
 module.exports = {
   spawn: function(cmd, args, options, callback){
@@ -45,5 +43,9 @@ module.exports = {
       logger.debug('expected error: %s', line);
       error.push(line);
     });
+  },
+  spawnSync: (cmd, args, childOptions) =>{
+    // https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options
+    return spawnSync(cmd, args, childOptions);
   }
 };

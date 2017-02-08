@@ -1,41 +1,37 @@
 import _ from 'lodash';
-var path = require('path');
-var os = require('os');
-var fs = require('fs');
-var exec = require('../executor');
+import { spawnSync } from '../executor';
+import path from 'path';
+import os from 'os';
+import fs from 'fs';
+import Logger from '../log';
 
-var logger = require('../log')('eslint-cli');
+const logger = Logger('eslint-cli');
 logger.debug('Loaded');
 
-var windows = os.platform() === 'win32';
-
-var cmd = windows ? '.cmd' : '';
+const windows = os.platform() === 'win32';
+const cmd = windows ? '.cmd' : '';
 
 const eslintPath = (function loadEslintPath(){
   let eslintPath;
   try {
     eslintPath = path.join('./', 'node_modules/.bin/eslint' + cmd);
     fs.accessSync(eslintPath);
+    logger.debug(`Eslint installed locally ${eslintPath}`);
   } catch (e) {
-    eslintPath = path.join(process.env._, '../eslint' + cmd);
-    fs.accessSync(eslintPath);
+    try {
+      eslintPath = path.join(process.env._, '../eslint' + cmd);
+      fs.accessSync(eslintPath);
+      logger.debug(`Eslint installed globally ${eslintPath}`);
+    } catch (e) {
+      throw new Error('Eslint needs to be installed globally or locally.');
+    }
   }
   return eslintPath;
 })();
 
 logger.debug('EsLint path: %s', eslintPath);
-var spawn = exec.spawnSync;
 
-/**
-  This needs to be changed so you execute eslint in this fashion
-  var result = eslint(eslintArgs..., childOptions);
-*/
-
-module.exports = function(args, options){
+export default function eslintCli(args, options){
   logger.debug('eslint: %o', args);
-  var result = spawn(eslintPath, args, _.merge({ stdio: 'inherit' }, options));
-  if(result.error){
-    throw Error(result.stderr.toString());
-  }
-  return result.output.toString();
+  return spawnSync(eslintPath, args, _.merge({ stdio: 'inherit' }, options));
 };

@@ -15,6 +15,9 @@
     "build": "babel src -d build -s inline",
     "prepublish": "npm run build"
   },
+  "engines":{
+    "node": ">=4"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/rizowski/eslint-watch.git"

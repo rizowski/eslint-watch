@@ -28,7 +28,6 @@ const eslintPath = (function loadEslintPath(){
 })();
 
 const settings = {
-  statusCode: 0,
   eslintPath,
   platform,
   isWindows: platform === 'win32',

@@ -52,7 +52,11 @@ module.exports = function watcher(options) {
 
   function lintFile(path) {
     logger.debug('lintFile: %s', path);
-    var results = cli.executeOnFiles([path]).results;
+    var report = cli.executeOnFiles([path]);
+    if (options.fix) {
+      eslint.CLIEngine.outputFixes(report);
+    }
+    var results = report.results;
     logger.log(successMessage(results[0]));
     logger.log(formatter(results));
   }

@@ -67,7 +67,7 @@ export default function watcher(options) {
     .on(events.change, function changeEvent(path) {
       logger.debug('Changed:', path);
       if (!cli.isPathIgnored(path) && isWatchableExtension(path, options.ext)) {
-        const watchPath = options.fullLint ? watchDir : [path];
+        const watchPath = options.changed ? [path] : watchDir;
         lintFile(watchPath);
       }
     }).on('error', logger.error);

@@ -29,9 +29,9 @@ var myOptions = [{
   type: 'Boolean',
   description: 'Enable file watch'
 },{
-  option: 'full-lint',
+  option: 'changed',
   type: 'Boolean',
-  description: 'Enable full lint on watch'
+  description: 'Enables single file linting while watch is enabled'
 }];
 
 const eslintOptions = getOptions();

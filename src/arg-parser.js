@@ -11,7 +11,7 @@ let formatKey = '-f';
 let keys = {
   '-w': true,
   '--watch': true,
-  '--full-lint': true
+  '--changed': true
 };
 let formats = { // still don't like this can cause too much duplication
   'simple': true,

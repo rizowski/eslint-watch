@@ -72,7 +72,7 @@ function simpleDetail(results) {
   }
 
   if(results.length > 0 || !results.length) {
-    cleanMsg = chalk.green(c.check + ' Clean') + ' ' + messageTime + c.endLine;
+    cleanMsg = chalk.green(c.check + ' Clean') + ' ' + messageTime;
   }
 
   output = (totalErrors || totalWarnings) ? output + messageTime + c.endLine : cleanMsg;

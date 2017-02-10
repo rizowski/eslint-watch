@@ -15,7 +15,7 @@
     "build": "babel src -d build -s inline",
     "prepublish": "npm run build"
   },
-  "engines":{
+  "engines": {
     "node": ">=4"
   },
   "repository": {

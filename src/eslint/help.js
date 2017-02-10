@@ -97,10 +97,11 @@ function parseHelp(helpText){
 }
 
 // rewrite in es6 this callback yucky stuff goes away.
-module.exports = function(callback){
+export default function eslintHelp(){
   logger.debug('Executing help');
-  eslint(['--help'], {}, {}, function(result){
-    logger.debug('Help text received');
-    callback(parseHelp(result.output));
-  });
+  const result = eslint(['--help'], { stdio: [ process.stdin, null, process.stderr] });
+  if(!result.message){
+    throw new Error('Help text not received from Eslint.');
+  }
+  return parseHelp(result.message);
 };

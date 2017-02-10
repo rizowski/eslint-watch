@@ -1,6 +1,6 @@
-var unicon = require('unicons');
+import unicon from 'unicons';
 
-module.exports = {
+export default {
   ex: unicon.warning,
   check: unicon.check,
   x: unicon.cross,

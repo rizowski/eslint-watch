@@ -1,34 +1,34 @@
-var path = require('path');
-var _ = require('lodash');
-var logger = require('./log')('arg-parser');
+let path = require('path');
+let _ = require('lodash');
+let logger = require('./log')('arg-parser');
 logger.debug('Loaded');
 
-var simpleDetail = 'simple-detail';
-var formatterPath = 'formatters';
+let simpleDetail = 'simple-detail';
+let formatterPath = 'formatters';
 
-var defaultPath = './';
-var formatKey = '-f';
-var keys = {
+let defaultPath = './';
+let formatKey = '-f';
+let keys = {
   '-w': true,
   '--watch': true
 };
-var formats = { // still don't like this can cause too much duplication
+let formats = { // still don't like this can cause too much duplication
   'simple': true,
   'simple-success': true,
   'simple-detail': true
 };
 
-var getPath = function(options){
+let getPath = function(options){
   logger.debug('GetPath: %s', options.format);
   return path.join(__dirname, formatterPath, options.format);
 };
 
 module.exports = {
   parse: function (cliArgs, options) {
-    var arr = [];
-    var dirs = options._;
-    var formatSpecified = false;
-    var args = _.slice(cliArgs, 2, cliArgs.length);
+    let arr = [];
+    let dirs = options._;
+    let formatSpecified = false;
+    let args = _.slice(cliArgs, 2, cliArgs.length);
     logger.debug('Directories to check: %o', dirs);
     logger.debug('Args %o', args);
     _.each(args, function(item){

@@ -50,8 +50,12 @@ module.exports = {
     logger.debug(args);
     let child = spawnSync(cmd, args, childOptions);
     if(child.error){
+      logger.debug('Critical error occurred.');
       throw new Error(child.stderr.toString());
     }
-    return child.output.toString();;
+    return {
+      exitCode: child.status,
+      message: child.output.toString()
+    };
   }
 };

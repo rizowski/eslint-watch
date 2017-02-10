@@ -1,31 +1,32 @@
 /* eslint no-process-exit: 0*/
-var keypress = require('keypress');
+import keypress from 'keypress';
 
-var eslintCli = require('./eslint/cli');
-var helpOptions = require('./options');
-var watcher = require('./watcher');
-var argParser = require('./arg-parser');
-var logger = require('./log')('esw-cli');
-var pkg = require('../package');
+import eslintCli from './eslint/cli';
+import helpOptions from './options';
+import watcher from './watcher';
+import argParser from './arg-parser';
+import Logger from './log';
+import pkg from '../package';
+
+const logger = Logger('esw-cli');
 
 logger.debug('Loaded');
 logger.debug('Eslint-Watch: ' + pkg.version);
 
-var parsedOptions;
-var eslArgs;
-var exitCode;
+let parsedOptions;
+let eslArgs;
+let exitCode;
 
 function runLint(args, options){
   logger.debug(args);
-  eslintCli(args, options, undefined, function completed(result){
-    logger.debug('lint completed. Exit Code: %o', result.exitCode);
-    exitCode = result.exitCode;
-    console.log(result.output);
-  });
+  const result = eslintCli(args, options);
+  logger.debug('lint completed. Exit Code: %o', result.exitCode);
+  exitCode = result.exitCode;
+  logger.log(result.message);
 }
 
 function keyListener(args, options){
-  var stdin = process.stdin;
+  let stdin = process.stdin;
   if(!stdin.setRawMode){
     logger.debug('Process might be wrapped exiting keybinding');
     return;
@@ -46,7 +47,7 @@ function keyListener(args, options){
   stdin.resume();
 }
 
-var args = process.argv;
+let args = process.argv;
 logger.debug('Arguments passed: %o', args);
 parsedOptions = helpOptions.parse(args);
 logger.debug('Parsing args');

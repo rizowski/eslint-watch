@@ -103,5 +103,6 @@ export default function eslintHelp(){
   if(!result.message){
     throw new Error('Help text not received from Eslint.');
   }
-  return parseHelp(result.message);
+  const eslintOptions = parseHelp(result.message);
+  return eslintOptions;
 };

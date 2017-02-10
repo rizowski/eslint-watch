@@ -30,18 +30,8 @@ var myOptions = [{
   description: 'Enable file watch'
 }];
 
-module.exports = function(cllbk){
-  getOptions(function(eslintOptions){
-    var options;
-    var newOptions = _.union(myOptions, eslintOptions);
-    settings.options = newOptions;
+const eslintOptions = getOptions();
+const newOptions = _.union(myOptions, eslintOptions);
+settings.options = newOptions;
 
-    try {
-      options = optionator(settings);
-      cllbk(options);
-    } catch(e){
-      logger.error(e);
-      throw e;
-    }
-  });
-};
+module.exports = optionator(settings);

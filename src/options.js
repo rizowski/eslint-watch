@@ -28,6 +28,10 @@ var myOptions = [{
   alias: 'w',
   type: 'Boolean',
   description: 'Enable file watch'
+},{
+  option: 'full-lint',
+  type: 'Boolean',
+  description: 'Enable full lint on watch'
 }];
 
 const eslintOptions = getOptions();

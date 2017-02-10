@@ -11,11 +11,10 @@ import pkg from '../package';
 const logger = Logger('esw-cli');
 
 logger.debug('Loaded');
-logger.debug('Eslint-Watch: ' + pkg.version);
+logger.debug(`Eslint-Watch: ${pkg.version}`);
 
-let parsedOptions;
-let eslArgs;
 let exitCode;
+const args = process.argv;
 
 function runLint(args, options){
   logger.debug(args);
@@ -32,7 +31,7 @@ function keyListener(args, options){
     return;
   }
   keypress(stdin);
-  stdin.on('keypress', function(ch, key){
+  stdin.on('keypress', function keyPressListener(ch, key){
     logger.debug('%s was pressed', key.name);
     if(key.name === 'return'){
       logger.debug('relinting...');
@@ -47,11 +46,10 @@ function keyListener(args, options){
   stdin.resume();
 }
 
-let args = process.argv;
 logger.debug('Arguments passed: %o', args);
-parsedOptions = helpOptions.parse(args);
+const parsedOptions = helpOptions.parse(args);
 logger.debug('Parsing args');
-eslArgs = argParser.parse(args, parsedOptions);
+const eslArgs = argParser.parse(args, parsedOptions);
 if (!parsedOptions.help) {
   logger.debug('Running initial lint');
   runLint(eslArgs, parsedOptions);
@@ -64,6 +62,7 @@ if (!parsedOptions.help) {
   logger.log(helpOptions.generateHelp());
 }
 
-process.on('exit', function () {
+process.on('exit', () => {
+  logger.debug(`Exiting: ${exitCode}`);
   process.exit(exitCode);
 });

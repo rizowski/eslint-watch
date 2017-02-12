@@ -32,6 +32,10 @@ var myOptions = [{
   option: 'changed',
   type: 'Boolean',
   description: 'Enables single file linting while watch is enabled'
+},{
+  option: 'esw-version',
+  type: 'Boolean',
+  description: "Prints Eslint-Watch's Version"
 }];
 
 const eslintOptions = getOptions();

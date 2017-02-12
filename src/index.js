@@ -48,19 +48,24 @@ function keyListener(args, options){
 
 logger.debug('Arguments passed: %o', args);
 const parsedOptions = helpOptions.parse(args);
-logger.debug('Parsing args');
-const eslArgs = argParser.parse(args, parsedOptions);
-if (!parsedOptions.help) {
-  logger.debug('Running initial lint');
-  runLint(eslArgs, parsedOptions);
-  if (parsedOptions.watch) {
-    logger.debug('-w seen');
-    keyListener(eslArgs, parsedOptions);
-    watcher(parsedOptions);
-  }
+if(parsedOptions.eswVersion){
+  logger.log(pkg.version);
 } else {
-  logger.log(helpOptions.generateHelp());
+  logger.debug('Parsing args');
+  const eslArgs = argParser.parse(args, parsedOptions);
+  if (!parsedOptions.help) {
+    logger.debug('Running initial lint');
+    runLint(eslArgs, parsedOptions);
+    if (parsedOptions.watch) {
+      logger.debug('-w seen');
+      keyListener(eslArgs, parsedOptions);
+      watcher(parsedOptions);
+    }
+  } else {
+    logger.log(helpOptions.generateHelp());
+  }
 }
+
 
 process.on('exit', () => {
   logger.debug(`Exiting: ${exitCode}`);

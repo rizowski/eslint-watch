@@ -35,7 +35,7 @@ var myOptions = [{
 },{
   option: 'esw-version',
   type: 'Boolean',
-  description: `Prints Eslint-Watch's Version`
+  description: "Prints Eslint-Watch's Version"
 }];
 
 const eslintOptions = getOptions();

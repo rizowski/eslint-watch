@@ -47,6 +47,13 @@ describe('arg-parser', function () {
       var arr = parser.parse(args, options);
       expect(arr).to.not.contain(watch);
     });
+
+    it('parses for --full-lint', function(){
+      const lint = '--changed';
+      const args = ['node', 'some/long/path', lint];
+      const arr = parser.parse(args, options);
+      expect(arr).to.not.contain(lint);
+    });
   });
 
   describe('path', function () {

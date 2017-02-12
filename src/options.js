@@ -28,6 +28,10 @@ var myOptions = [{
   alias: 'w',
   type: 'Boolean',
   description: 'Enable file watch'
+},{
+  option: 'changed',
+  type: 'Boolean',
+  description: 'Enables single file linting while watch is enabled'
 }];
 
 const eslintOptions = getOptions();

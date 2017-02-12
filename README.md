@@ -48,6 +48,7 @@ Options:
   -f, --format String          Use a specific output format - default: simple-detail
   -w, --watch                  Enable file watch
   --changed                    Enables single file linting while watch is enabled
+  --esw-version                Prints Eslint-Watch's Version
   -c, --config path::String    Use configuration from this file or shareable config
   --no-eslintrc                Disable use of configuration from .eslintrc
   --env [String]               Specify environments

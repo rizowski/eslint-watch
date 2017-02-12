@@ -1,6 +1,7 @@
 /* eslint no-process-exit: 0*/
 import keypress from 'keypress';
 
+import settings from './settings';
 import eslintCli from './eslint/cli';
 import helpOptions from './options';
 import watcher from './watcher';
@@ -48,6 +49,8 @@ function keyListener(args, options){
 
 logger.debug('Arguments passed: %o', args);
 const parsedOptions = helpOptions.parse(args);
+settings.cliOptions = parsedOptions;
+
 logger.debug('Parsing args');
 const eslArgs = argParser.parse(args, parsedOptions);
 if (!parsedOptions.help) {

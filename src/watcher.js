@@ -3,6 +3,7 @@ import eslint from 'eslint';
 import _ from 'lodash';
 import path from 'path';
 
+import settings from './settings';
 import formatter from './formatters/simple-detail';
 import Logger from './log';
 
@@ -27,6 +28,19 @@ const cliOptionMap = {
   cacheFile: 'cacheLocation'
 };
 
+function filterWarnings(results){
+  return _.reduce(results, (curr, result) =>{
+    if(result.warningCount){
+      let newResult = _.omit(result, 'messages');
+      newResult.messages = _.find(result.messages, (m) => m.severity > 1);
+      curr.push(newResult);
+      return curr;
+    }
+    curr.push(result);
+    return curr;
+  }, []);
+}
+
 ///https://github.com/eslint/eslint/blob/233440e524aa41545b66b2c3c7ca26fe790e32e0/tests/lib/cli-engine.js#L105-L107
 
 export default function watcher(options) {
@@ -47,8 +61,7 @@ export default function watcher(options) {
     if (options.fix) {
       eslint.CLIEngine.outputFixes(report);
     }
-
-    let results = report.results;
+    const results = settings.cliOptions.quiet ? filterWarnings(report.results) : report.results;
     logger.log(formatter(results));
   }
 

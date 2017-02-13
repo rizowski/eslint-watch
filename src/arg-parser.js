@@ -1,7 +1,7 @@
 import path from 'path';
 import _ from 'lodash';
 
-import Logger from './log';
+import Logger from './logger';
 
 const logger = Logger('arg-parser');
 logger.debug('Loaded');

@@ -1,6 +1,6 @@
 import { spawnSync } from 'child_process';
 
-import Logger from './log';
+import Logger from './logger';
 const logger = Logger('executor');
 
 export default {

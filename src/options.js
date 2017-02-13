@@ -1,7 +1,7 @@
 var optionator = require('optionator');
 var getOptions = require('./eslint/help');
 var _ = require('lodash');
-var logger = require('./log')('options');
+var logger = require('./logger')('options');
 logger.debug('Loaded');
 
 var settings = {

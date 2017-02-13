@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import table from 'text-table';
 
 import c from './helpers/characters';
-import Logger from '../log';
+import Logger from '../logger';
 
 const logger = Logger('simple-detail');
 

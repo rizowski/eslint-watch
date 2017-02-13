@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import Logger from '../log';
+import Logger from '../logger';
 import eslint from './cli';
 
 const logger = Logger('eslint-help');

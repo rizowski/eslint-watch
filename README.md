@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
 [![Test Coverage](https://codeclimate.com/github/rizowski/eslint-watch/badges/coverage.svg)](https://codeclimate.com/github/rizowski/eslint-watch/coverage)
+[![Reference Status](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat-square)](https://www.versioneye.com/nodejs/eslint-watch/references)
 
 Donate:
   (Ƀitcoin): `13V7iDxBhnFASw7avGGRk64ExDGTirhx37`

@@ -1,16 +1,19 @@
-var optionator = require('optionator');
-var getOptions = require('./eslint/help');
-var _ = require('lodash');
-var logger = require('./logger')('options');
+import optionator from 'optionator';
+import _ from 'lodash';
+
+import getOptions from './eslint/help';
+import Logger from './logger';
+
+const logger = Logger('options');
 logger.debug('Loaded');
 
-var settings = {
+const settings = {
   prepend: 'esw [options] [file.js ...] [dir ...]',
   concatRepeatedArrays: true,
   mergeRepeatedObjects: true
 };
 
-var myOptions = [{
+const myOptions = [{
   heading: 'Options'
 }, {
   option: 'help',
@@ -42,4 +45,4 @@ const eslintOptions = getOptions();
 const newOptions = _.union(myOptions, eslintOptions);
 settings.options = newOptions;
 
-module.exports = optionator(settings);
+export default optionator(settings);

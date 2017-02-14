@@ -1,32 +1,35 @@
-let path = require('path');
-let _ = require('lodash');
-let logger = require('./log')('arg-parser');
+import path from 'path';
+import _ from 'lodash';
+
+import Logger from './logger';
+
+const logger = Logger('arg-parser');
 logger.debug('Loaded');
 
-let simpleDetail = 'simple-detail';
-let formatterPath = 'formatters';
+const simpleDetail = 'simple-detail';
+const formatterPath = 'formatters';
 
-let defaultPath = './';
-let formatKey = '-f';
-let keys = {
+const defaultPath = './';
+const formatKey = '-f';
+const keys = {
   '-w': true,
   '--watch': true,
   '--changed': true,
   '--esw-version': true
 };
-let formats = { // still don't like this can cause too much duplication
+const formats = {
   'simple': true,
   'simple-success': true,
   'simple-detail': true
 };
 
-let getPath = function(options){
+const getPath = function getPath(options){
   logger.debug('GetPath: %s', options.format);
   return path.join(__dirname, formatterPath, options.format);
 };
 
-module.exports = {
-  parse: function (cliArgs, options) {
+export default {
+  parse: function argParser(cliArgs, options) {
     let arr = [];
     let dirs = options._;
     let formatSpecified = false;

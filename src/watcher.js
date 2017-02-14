@@ -5,7 +5,7 @@ import path from 'path';
 
 import settings from './settings';
 import formatter from './formatters/simple-detail';
-import Logger from './log';
+import Logger from './logger';
 
 const logger = Logger('watcher');
 

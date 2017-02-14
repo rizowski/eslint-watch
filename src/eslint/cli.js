@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { spawnSync } from '../executor';
-import Logger from '../log';
+import Logger from '../logger';
 import settings from '../settings';
 
 const logger = Logger('eslint-cli');

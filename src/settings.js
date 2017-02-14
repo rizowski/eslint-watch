@@ -1,6 +1,6 @@
 /* Internal Settings */
 import os from 'os';
-import Logger from './log';
+import Logger from './logger';
 import path from 'path';
 import fs from 'fs';
 

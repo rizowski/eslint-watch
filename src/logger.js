@@ -1,6 +1,6 @@
-var debug = require('debug');
+import debug from 'debug';
 
-module.exports = function(thing){
+export default function createLogger(thing){
   return {
     log: console.log,
     error: console.error,

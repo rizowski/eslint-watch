@@ -1,14 +1,17 @@
-var eslint = require('./cli');
-var _ = require('lodash');
-var logger = require('../log')('eslint-help');
+import _ from 'lodash';
+
+import Logger from '../logger';
+import eslint from './cli';
+
+const logger = Logger('eslint-help');
 logger.debug('Loaded');
 
-var namedOption = /^--/;
+const namedOption = /^--/;
 
 function parseNo(option, str){
   if(!str) return;
 
-  var cmd = str.replace('--', '');
+  let cmd = str.replace('--', '');
   if(/no-/.test(cmd)){
     logger.debug('Parsing no option', str);
     cmd = cmd.replace('no-', '');
@@ -19,7 +22,7 @@ function parseNo(option, str){
 }
 
 function parseDouble(arr){
-  var description = _.without(arr.slice(2),'').join(' ');
+  let description = _.without(arr.slice(2),'').join(' ');
   return {
     option: arr[0].replace('--', ''),
     type: 'Boolean',
@@ -33,16 +36,16 @@ function parseRegular(arr){
   if(!arr[0]){
     return;
   }
-  var optionText = arr[0];
-  var type = arr[1] || 'Boolean';
-  var option = {};
+  let optionText = arr[0];
+  let type = arr[1] || 'Boolean';
+  let option = {};
   option = parseNo(option, optionText);
 
   option.type = type;
 
-  var helpText = _.without(arr, optionText, type, '');
+  let helpText = _.without(arr, optionText, type, '');
 
-  var description = helpText.join(' ');
+  let description = helpText.join(' ');
   if(description){
     option.description = description;
   }
@@ -50,9 +53,9 @@ function parseRegular(arr){
 }
 
 function parseAlias(arr){
-  var alias = arr[0];
+  let alias = arr[0];
   logger.debug('Alias found: %s', alias);
-  var option = parseRegular(_.without(arr, alias));
+  let option = parseRegular(_.without(arr, alias));
 
   if(alias){
     option.alias = alias.replace('-','');
@@ -61,7 +64,7 @@ function parseAlias(arr){
 }
 
 function createOption(arr){
-  var option;
+  let option;
 
   if(namedOption.test(arr[0]) && namedOption.test(arr[1])){  // no alias defaulted boolean
     option = parseDouble(arr);
@@ -70,22 +73,22 @@ function createOption(arr){
   } else {// aliased or other
     option = parseAlias(arr);
   }
-  var isEmpty = _.isEmpty(option);
+  let isEmpty = _.isEmpty(option);
   return isEmpty ? undefined : option;
 }
 
 function parseHelp(helpText){
-  var helpArr = helpText.split('\n');
-  var newArr = [];
-  var previousLine = [];
+  let helpArr = helpText.split('\n');
+  let newArr = [];
+  let previousLine = [];
   _.each(helpArr, function(row, index){
     if(index <= 2){
       return;
     } else {
-      var str = row.replace(',', '');
-      var arr = str.trim().split(' ');
+      let str = row.replace(',', '');
+      let arr = str.trim().split(' ');
       if(str.indexOf('-') >= 0 && previousLine[0] !== ''){
-        var option = createOption(arr);
+        let option = createOption(arr);
         if(option && option.option !== 'format' && option.option !== 'help'){
           newArr.push(option);
         }
@@ -96,7 +99,6 @@ function parseHelp(helpText){
   return newArr;
 }
 
-// rewrite in es6 this callback yucky stuff goes away.
 export default function eslintHelp(){
   logger.debug('Executing help');
   const result = eslint(['--help'], { stdio: [ process.stdin, null, process.stderr] });

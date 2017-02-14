@@ -6,7 +6,7 @@ import eslintCli from './eslint/cli';
 import helpOptions from './options';
 import watcher from './watcher';
 import argParser from './arg-parser';
-import Logger from './log';
+import Logger from './logger';
 import pkg from '../package';
 
 const logger = Logger('esw-cli');

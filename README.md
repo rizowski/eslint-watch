@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
 [![Test Coverage](https://codeclimate.com/github/rizowski/eslint-watch/badges/coverage.svg)](https://codeclimate.com/github/rizowski/eslint-watch/coverage)
+[![Reference Status](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat-square)](https://www.versioneye.com/nodejs/eslint-watch/references)
 
 Donate:
   (Ƀitcoin): `13V7iDxBhnFASw7avGGRk64ExDGTirhx37`
@@ -16,6 +17,7 @@ Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs
 ## Requirements
 To use this tool we require eslint to be installed on your project. The versions supported are:
   - `"eslint": ">=0.19.0 <4.0.0"`
+  - `node >= 4.0.0`
 
 ## Getting started
 To run eslint-watch without the global install, make an npm script.
@@ -48,6 +50,7 @@ Options:
   -f, --format String          Use a specific output format - default: simple-detail
   -w, --watch                  Enable file watch
   --changed                    Enables single file linting while watch is enabled
+  --esw-version                Prints Eslint-Watch's Version
   -c, --config path::String    Use configuration from this file or shareable config
   --no-eslintrc                Disable use of configuration from .eslintrc
   --env [String]               Specify environments

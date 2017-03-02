@@ -14,5 +14,5 @@
 ### Debug output:
 
 ```
-
+// to grab debug output set DEBUG=esw:*
 ```

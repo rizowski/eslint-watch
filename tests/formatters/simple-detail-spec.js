@@ -1,16 +1,16 @@
-var formatter = require('../../src/formatters/simple-detail');
-var chalk = require('chalk');
-var icons = require('../../src/formatters/helpers/characters');
+let formatter = require('../../src/formatters/simple-detail');
+let chalk = require('chalk');
+let icons = require('../../src/formatters/helpers/characters');
 
 describe('simple-detail', function(){
-  var sandbox;
-  var errorResult;
-  var warningResult;
-  var filePath;
+  let sandbox;
+  let errorResult;
+  let warningResult;
+  let filePath;
 
   beforeEach(function (){
     sandbox = sinon.sandbox.create();
-    var format = {
+    let format = {
       open: '',
       close: '',
       closeRe: ''
@@ -55,8 +55,8 @@ describe('simple-detail', function(){
     // Possible this test might fail. haha oh well...
     // Works for now.
     it('prints out a checkmark with the date', function(){
-      var time = new Date().toLocaleTimeString();
-      var result = formatter([]);
+      let time = new Date().toLocaleTimeString();
+      let result = formatter([]);
       expect(result).to.equal(icons.check + ' Clean ' + '(' + time + ')');
     });
   });
@@ -64,13 +64,13 @@ describe('simple-detail', function(){
   describe('errors', function(){
     // can break sometimes
     it('prints out errors if there are any', function(){
-      var time = new Date().toLocaleTimeString();
-      var result = formatter([errorResult]);
+      let time = new Date().toLocaleTimeString();
+      let result = formatter([errorResult]);
       expect(result).to.equal(filePath + ' (1/0)\n  ' + icons.x + '  0:0  broken something or other  broken-things\n\n' + icons.x + ' 1 error (' + time + ')\n');
     });
 
     it('prints out errors if there are multiple', function(){
-      var result = formatter([errorResult, errorResult]);
+      let result = formatter([errorResult, errorResult]);
       expect(result).to.includes('errors');
     });
   });
@@ -78,32 +78,32 @@ describe('simple-detail', function(){
   describe('warnings', function(){
     // can break
     it('prints out any warnings if there are any', function(){
-      var time = new Date().toLocaleTimeString();
-      var result = formatter([warningResult]);
+      let time = new Date().toLocaleTimeString();
+      let result = formatter([warningResult]);
       expect(result).to.equal(filePath + ' (0/1)\n  ' + icons.ex + '  1:2  you should do this  advised\n\n' + icons.ex + ' 1 warning (' + time + ')\n');
     });
 
     it('prints out warnings if there are multiple', function(){
-      var result = formatter([warningResult, warningResult]);
+      let result = formatter([warningResult, warningResult]);
       expect(result).to.include('warnings');
     });
   });
 
   describe('errors/warnings', function(){
     it('prints out warnings and errors', function(){
-      var result = formatter([errorResult, warningResult]);
+      let result = formatter([errorResult, warningResult]);
       expect(result).to.include('1 error');
       expect(result).to.include('1 warning');
     });
 
     it('prints out both errors and warnings', function(){
-      var result = formatter([errorResult, errorResult, warningResult, warningResult]);
+      let result = formatter([errorResult, errorResult, warningResult, warningResult]);
       expect(result).to.include('2 warnings');
       expect(result).to.include('2 errors');
     });
 
     it('prints out both errors and warnings for one file', function(){
-      var results = [{
+      let results = [{
         errorCount: 1,
         warningCount: 1,
         messages: [{
@@ -122,7 +122,7 @@ describe('simple-detail', function(){
         }],
         filePath: filePath
       }];
-      var result = formatter(results);
+      let result = formatter(results);
       expect(result).to.include('(1/1)');
       expect(result).to.include('1 warning');
       expect(result).to.include('1 error');

@@ -1,5 +1,5 @@
 function a(){
 
 }
-var blah = '';
-var _notPrivates = true;
+let blah = '';
+let _notPrivates = true;

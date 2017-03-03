@@ -1,5 +1,5 @@
 'use-strict';
 
-var somethng = '';
+let somethng = '';
 
 function _reallyNotPrivate(){}

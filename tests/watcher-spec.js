@@ -1,20 +1,20 @@
-var proxy = require('proxyquire');
+let proxy = require('proxyquire');
 
 describe('Watcher', function () {
-  var watcher;
-  var onSpy;
-  var errorSpy;
-  var watcherOptions;
-  var on;
-  var path;
-  var isIgnored;
+  let watcher;
+  let onSpy;
+  let errorSpy;
+  let watcherOptions;
+  let on;
+  let path;
+  let isIgnored;
 
   beforeEach(function(){
     onSpy = sinon.spy();
     errorSpy = sinon.spy();
     path = '';
     isIgnored = false;
-    var cliEngine = function(){
+    let cliEngine = function(){
       return {
         options: {
           extensions: ['.js']
@@ -65,7 +65,7 @@ describe('Watcher', function () {
   });
 
   it('watches the directories under _ attribute', function() {
-    var arr = ['hello'];
+    let arr = ['hello'];
     watcher({ _: arr, format: 'simple-detail' });
     expect(watcherOptions).to.equal(arr);
   });

@@ -1,25 +1,10 @@
 {
   "parser": "babel-eslint",
+  "extends": "rizowski",
   "env": {
-    "node": true,
     "es6": true
   },
   "parserOptions": {
     "sourceType": "module"
-  },
-  "rules":{
-    "camelcase": 2,
-    "eol-last": 2,
-    "no-trailing-spaces": 2,
-    "quotes": [2, "single", "avoid-escape"],
-    "strict": [2, "global"],
-    "no-unused-vars": 2,
-    "no-underscore-dangle": 1,
-    "semi": [2, "always"],
-    "no-undef": 2,
-    "no-use-before-define": 2,
-    "block-scoped-var": 2,
-    "space-in-parens": [2, "never"],
-    "object-curly-spacing": [2, "always"]
   }
 }

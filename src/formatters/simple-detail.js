@@ -10,7 +10,7 @@ const logger = Logger('simple-detail');
 
 logger.debug('loaded');
 
-var tableSettings = {
+let tableSettings = {
   align: ['', '', 'r'],
   stringLength: (str) => chalk.stripColor(str).length
 };

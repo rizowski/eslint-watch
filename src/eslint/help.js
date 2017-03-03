@@ -84,17 +84,17 @@ function parseHelp(helpText){
   _.each(helpArr, function(row, index){
     if(index <= 2){
       return;
-    } else {
-      let str = row.replace(',', '');
-      let arr = str.trim().split(' ');
-      if(str.indexOf('-') >= 0 && previousLine[0] !== ''){
-        let option = createOption(arr);
-        if(option && option.option !== 'format' && option.option !== 'help'){
-          newArr.push(option);
-        }
-      }
-      previousLine = arr;
     }
+    let str = row.replace(',', '');
+    let arr = str.trim().split(' ');
+    if(str.indexOf('-') >= 0 && previousLine[0] !== ''){
+      let option = createOption(arr);
+      if(option && option.option !== 'format' && option.option !== 'help'){
+        newArr.push(option);
+      }
+    }
+    previousLine = arr;
+
   });
   return newArr;
 }

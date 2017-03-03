@@ -52,9 +52,9 @@ describe('integration', function(){
     });
 
     it('has simple-detail as default format', function(){
-     let output = esw('--help');
-     expect(output.error).to.be.false;
-     expect(output.message).to.have.string('default: simple-detail');
+      let output = esw('--help');
+      expect(output.error).to.be.false;
+      expect(output.message).to.have.string('default: simple-detail');
     });
   });
 

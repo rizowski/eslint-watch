@@ -1,17 +1,17 @@
-var proxy = require('proxyquire');
-var _ = require('lodash');
+let proxy = require('proxyquire');
+let _ = require('lodash');
 
 describe('eslint/help', function(){
-  var title = 'title with options';
-  var optionsTxt = 'Options:';
-  var helpTxt = '--help      This has no alias or type';
-  var cluck = '-c --cluck Boolean     Goes Cluck';
-  var noAlias = '--see String     no alias';
-  var noType = '-n --nope      no type to be found here';
-  var noColor = '  --no-color                  Disable color in piped output';
-  var doubleExample = '--color, --no-color       Enables or disables color piped output';
-  var msg;
-  var help;
+  let title = 'title with options';
+  let optionsTxt = 'Options:';
+  let helpTxt = '--help      This has no alias or type';
+  let cluck = '-c --cluck Boolean     Goes Cluck';
+  let noAlias = '--see String     no alias';
+  let noType = '-n --nope      no type to be found here';
+  let noColor = '  --no-color                  Disable color in piped output';
+  let doubleExample = '--color, --no-color       Enables or disables color piped output';
+  let msg;
+  let help;
 
   before(function(){
     help = proxy('../../src/eslint/help', {
@@ -31,25 +31,25 @@ describe('eslint/help', function(){
 
   it('has an alias if one is provided', function(){
     const options = help();
-    var option = options[0];
+    let option = options[0];
     expect(option.alias).to.equal('c');
   });
 
   it('does not have an alias if not provided', function(){
     const options = help();
-    var option = options[1];
+    let option = options[1];
     expect(option.alias).to.equal(undefined);
   });
 
   it('has a type', function(){
     const options = help();
-    var option = options[0];
+    let option = options[0];
     expect(option.type).to.equal('Boolean');
   });
 
   it('has a full description', function(){
     const options = help();
-    var option = options[0];
+    let option = options[0];
     expect(option.description).to.equal('Goes Cluck');
   });
 
@@ -103,7 +103,7 @@ describe('eslint/help', function(){
 
   it("sets the default to Boolean if type isn't provided", function(){
     const options = help();
-    var option = options[2];
+    let option = options[2];
     expect(option.type).to.equal('Boolean');
   });
 
@@ -129,7 +129,7 @@ describe('eslint/help', function(){
       'HEADING:\n'+
       noColor + '\n';
     const options = help();
-    var colorOption = options[0];
+    let colorOption = options[0];
     expect(colorOption.option).to.equal('color');
   });
 
@@ -142,7 +142,7 @@ describe('eslint/help', function(){
       'HEADING:\n'+
       noColor + '\n';
     const options = help();
-    var colorOption = options[0];
+    let colorOption = options[0];
     expect(colorOption.default).to.equal('true');
   });
 
@@ -155,7 +155,7 @@ describe('eslint/help', function(){
       'HEADING:\n'+
       doubleExample + '\n';
     const options = help();
-    var colorOption = options[0];
+    let colorOption = options[0];
     expect(colorOption).to.eql({
       option: 'color',
       type: 'Boolean',

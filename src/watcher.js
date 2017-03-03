@@ -4,7 +4,6 @@ import _ from 'lodash';
 import path from 'path';
 
 import settings from './settings';
-import formatter from './formatters/simple-detail';
 import Logger from './logger';
 
 const logger = Logger('watcher');
@@ -19,7 +18,7 @@ const cliOptionProperties = [
   'config', 'eslintrc', 'ext',
   'parser', 'cache', 'cacheLocation',
   'ignore', 'ignorePath', 'ignorePattern',
-  'fix', 'parserOptions', 'global'
+  'fix', 'parserOptions', 'global', 'format'
 ];
 const cliOptionMap = {
   config: 'configFile',
@@ -54,6 +53,30 @@ export default function watcher(options) {
   logger.debug(cliOptions);
   logger.debug(options);
   let cli = new eslint.CLIEngine(cliOptions);
+
+
+  // replace \ with / for Windows compatibility
+  var formatterPath = cliOptions.format.replace(/\\/g, '/');
+
+   // copied from eslint - if the path has a slash, it's a file.
+  if (formatterPath.indexOf('/') > -1) {
+    const cwd = process.cwd();
+
+    formatterPath = path.resolve(cwd, formatterPath);
+  } else {
+    formatterPath = `./formatters/${formatterPath}`;
+  }
+
+  logger.debug('Trying to load formatter for re-lint from ' + formatterPath);
+
+  let formatter;
+  try {
+    formatter = require(formatterPath);
+  } catch (ex) {
+    ex.message = `There was a problem loading formatter: ${formatterPath}\nError: ${ex.message}`;
+    // Cannot proceed with re-linting if we don't have a formatter.
+    throw ex;
+  }
 
   function lintFile(path) {
     logger.debug('lintFile: %s', path);

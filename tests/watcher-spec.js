@@ -60,18 +60,18 @@ describe('Watcher', function () {
   });
 
   it('calls the on event', function(){
-    watcher({ _: [] });
+    watcher({ _: [], format: 'simple-detail' });
     expect(onSpy.called).to.be.true;
   });
 
   it('watches the directories under _ attribute', function() {
     var arr = ['hello'];
-    watcher({ _: arr });
+    watcher({ _: arr, format: 'simple-detail' });
     expect(watcherOptions).to.equal(arr);
   });
 
   it('calls the on changed event', function() {
-    watcher({ _: [] });
+    watcher({ _: [], format: 'simple-detail' });
     expect(onSpy).to.have.been.calledWith('change');
   });
 });

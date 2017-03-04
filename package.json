@@ -5,6 +5,7 @@
   "main": "./src/cli.js",
   "scripts": {
     "eslint": "node ./bin/esw --no-ignore --color",
+    "clean": "rm -rf build node_modules",
     "lint": "node ./bin/esw",
     "lw": "node ./bin/esw -w",
     "test": "mocha tests --timeout 10000 --recursive --retries 3 -r tests/globals --compilers js:babel-core/register",

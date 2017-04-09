@@ -8,6 +8,7 @@ import watcher from './watcher';
 import argParser from './arg-parser';
 import Logger from './logger';
 import pkg from '../package';
+import clearTerminal from './formatters/helpers/clear-terminal.js';
 
 const logger = Logger('esw-cli');
 
@@ -58,6 +59,9 @@ if(parsedOptions.eswVersion){
   const eslArgs = argParser.parse(args, parsedOptions);
   if (!parsedOptions.help) {
     logger.debug('Running initial lint');
+    if (parsedOptions.clear) {
+      clearTerminal();
+    }
     runLint(eslArgs, parsedOptions);
     if (parsedOptions.watch) {
       logger.debug('-w seen');

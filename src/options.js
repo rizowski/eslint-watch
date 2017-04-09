@@ -31,11 +31,15 @@ const myOptions = [{
   alias: 'w',
   type: 'Boolean',
   description: 'Enable file watch'
-},{
+}, {
   option: 'changed',
   type: 'Boolean',
   description: 'Enables single file linting while watch is enabled'
-},{
+}, {
+  option: 'clear',
+  type: 'Boolean',
+  description: 'Clear terminal when running lint'
+}, {
   option: 'esw-version',
   type: 'Boolean',
   description: "Prints Eslint-Watch's Version"

@@ -15,6 +15,7 @@ const keys = {
   '-w': true,
   '--watch': true,
   '--changed': true,
+  '--clear': true,
   '--esw-version': true
 };
 const formats = {

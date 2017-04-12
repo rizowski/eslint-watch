@@ -6,7 +6,7 @@ node_js:
   - "7"
 os:
   - linux
-#  - osx
+  - osx
 #  - windows
 addons:
   code_climate:

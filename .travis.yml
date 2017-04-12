@@ -6,8 +6,8 @@ node_js:
   - "7"
 os:
   - linux
-#  - osx
-#  - windows
+  # - osx
+  # - windows
 addons:
   code_climate:
     repo_token: 5eb0170c7d7906e985d916c3d0ac617b7ba26a6ed3049e60bf39045703a993c4

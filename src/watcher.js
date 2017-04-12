@@ -5,6 +5,7 @@ import path from 'path';
 
 import settings from './settings';
 import Logger from './logger';
+import clearTerminal from './formatters/helpers/clear-terminal.js';
 
 const logger = Logger('watcher');
 
@@ -80,6 +81,9 @@ export default function watcher(options) {
 
   function lintFile(path) {
     logger.debug('lintFile: %s', path);
+    if (options.clear) {
+      clearTerminal();
+    }
     let report = cli.executeOnFiles(path);
     if (options.fix) {
       eslint.CLIEngine.outputFixes(report);

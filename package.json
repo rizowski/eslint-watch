@@ -14,7 +14,8 @@
     "ci-win": "npm run lint && npm test",
     "coverage": "istanbul cover _mocha -- --recursive tests --timeout 10000 --retries 3 -r tests/globals --compilers js:babel-core/register",
     "build": "babel src -d build -s inline",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "deploy": "./scripts/deploy.sh"
   },
   "engines": {
     "node": ">=4"

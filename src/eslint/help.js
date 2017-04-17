@@ -34,7 +34,7 @@ function parseDouble(arr){
 function parseRegular(arr){
   logger.debug('Parsing %s', arr[0]);
   if(!arr[0]){
-    return;
+    return false;
   }
   let optionText = arr[0];
   let type = arr[1] || 'Boolean';

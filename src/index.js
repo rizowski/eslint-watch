@@ -35,12 +35,12 @@ function keyListener(args, options){
   keypress(stdin);
   stdin.on('keypress', function keyPressListener(ch, key){
     logger.debug('%s was pressed', key.name);
-    if(key.name === 'return'){
+    if(key && key.name === 'return'){
       logger.debug('relinting...');
       logger.debug(options);
       runLint(args, options);
     }
-    if(key.ctrl && key.name === 'c') {
+    if(key && key.ctrl && key.name === 'c') {
       process.exit();
     }
   });

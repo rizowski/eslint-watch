@@ -59,7 +59,7 @@ export default function watcher(options) {
   // replace \ with / for Windows compatibility
   let formatterPath = cliOptions.format.replace(/\\/g, '/');
 
-   // copied from eslint - if the path has a slash, it's a file.
+  // copied from eslint - if the path has a slash, it's a file.
   if (formatterPath.indexOf('/') > -1) {
     const cwd = process.cwd();
 

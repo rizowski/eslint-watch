@@ -66,7 +66,7 @@ function parseAlias(arr){
 function createOption(arr){
   let option;
 
-  if(namedOption.test(arr[0]) && namedOption.test(arr[1])){  // no alias defaulted boolean
+  if(namedOption.test(arr[0]) && namedOption.test(arr[1])){ // no alias defaulted boolean
     option = parseDouble(arr);
   } else if(namedOption.test(arr[0]) && !namedOption.test(arr[1])){ // just a no alias
     option = parseRegular(arr);

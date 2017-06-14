@@ -24,7 +24,7 @@ function simpleDetail(results) {
   let totalWarnings = 0;
   let output = '';
   let cleanMsg = '';
-  let messageTime = chalk.gray(`(${new Date().toLocaleTimeString()})`);
+  let messageTime = chalk.dim(`(${new Date().toLocaleTimeString()})`);
   logger.debug(results);
   results.forEach(function (result) {
     let messages = result.messages;
@@ -53,12 +53,12 @@ function simpleDetail(results) {
           message.line || 0,
           message.column || 0,
           chalk.dim(message.message.replace(/\.$/, '')),
-          chalk.gray(message.ruleId || '')];
+          chalk.dim(message.ruleId || '')];
       }), tableSettings);
 
     output += chalk.white.underline(result.filePath) + ` (${chalk.red(errors)}/${chalk.yellow(warnings)})${c.endLine}`;
     output += tableText.split(c.endLine).map(function (el) {
-      return el.replace(/(\d+)\s+(\d+)/, (m, p1, p2) => chalk.gray(`${p1}:${p2}`));
+      return el.replace(/(\d+)\s+(\d+)/, (m, p1, p2) => chalk.dim(`${p1}:${p2}`));
     }).join(c.endLine) + c.endLine + c.endLine;
   });
 

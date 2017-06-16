@@ -88,7 +88,7 @@ Options:
 Eslint-Watch uses [`chokidar`](https://github.com/paulmillr/chokidar) under the hood to watch for changes. Chokidar can be configured to poll for changes (this might be necessary if you are running Eslint-Watch inside a VM or Container) by setting the `CHOKIDAR_USEPOLLING` environment variable to `true`.
 
 ## Functionality
-[![Simple lint and watch](http://i.imgur.com/Sa6P36F.gif)](https://asciinema.org/a/byo40shx39nbiw54zwf4nv94j)
+[![Simple lint and watch](https://thumbs.gfycat.com/AgreeableForsakenIvorygull-size_restricted.gif)](https://fat.gfycat.com/AgreeableForsakenIvorygull.gif)
 
 ## New Formatters
 [![simple simple-success simple-detail](http://i.imgur.com/m757NwM.png)](http://i.imgur.com/m757NwM.png)

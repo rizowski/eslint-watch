@@ -34,7 +34,7 @@ function keyListener(args, options){
   }
   keypress(stdin);
   stdin.on('keypress', function keyPressListener(ch, key){
-    logger.debug('%s was pressed', key.name);
+    logger.debug('%s was pressed', key ? key.name : ch);
     if(key && key.name === 'return'){
       logger.debug('relinting...');
       logger.debug(options);

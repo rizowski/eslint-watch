@@ -6,7 +6,7 @@ import settings from '../settings';
 const logger = Logger('eslint-cli');
 logger.debug('Loaded');
 
-export default function eslintCli(args, options){
+export default function eslintCli(args, options) {
   logger.debug('eslint: %o', args.join(' '));
   const result = spawnSync(settings.eslintPath, args, _.merge({ stdio: 'inherit' }, options));
   logger.debug(result);

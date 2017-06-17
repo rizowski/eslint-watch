@@ -7,7 +7,7 @@ import fs from 'fs';
 const logger = Logger('internal-settings');
 const platform = os.platform();
 
-const eslintPath = (function loadEslintPath(){
+const eslintPath = (function loadEslintPath() {
   const cmd = platform === 'win32' ? '.cmd' : '';
   let eslintPath;
   try {
@@ -30,7 +30,7 @@ const eslintPath = (function loadEslintPath(){
 const settings = {
   eslintPath,
   platform,
-  isWindows: platform === 'win32',
+  isWindows: platform === 'win32'
 };
 
 logger.debug(settings);

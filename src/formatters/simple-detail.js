@@ -62,14 +62,14 @@ function simpleDetail(results) {
     }).join(c.endLine) + c.endLine + c.endLine;
   });
 
-  if(totalErrors) {
+  if (totalErrors) {
     output += chalk.red(`${c.x} ${totalErrors} ${pluralize('error', totalErrors)} `);
   }
   if (totalWarnings) {
     output += chalk.yellow(`${c.ex} ${totalWarnings} ${pluralize('warning', totalWarnings)} `);
   }
 
-  if(results.length > 0 || !results.length) {
+  if (results.length > 0 || !results.length) {
     cleanMsg = chalk.green(`${c.check} Clean`) + ` ${messageTime}`;
   }
 

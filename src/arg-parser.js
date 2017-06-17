@@ -24,7 +24,7 @@ const formats = {
   'simple-detail': true
 };
 
-const getPath = function getPath(options){
+const getPath = function getPath(options) {
   logger.debug('GetPath: %s', options.format);
   const formatPath = path.join(__dirname, formatterPath, options.format);
   logger.debug(formatPath);
@@ -39,7 +39,7 @@ export default {
     let args = _.slice(cliArgs, 2, cliArgs.length);
     logger.debug('Directories to check: %o', dirs);
     logger.debug('Args %o', args);
-    _.each(args, function(item){
+    _.each(args, function (item) {
       if (!keys[item] && !formats[item]) {
         logger.debug('Pushing item: %s', item);
         arr.push(item);

@@ -99,12 +99,13 @@ function parseHelp(helpText){
   return newArr;
 }
 
-export default function eslintHelp(){
+export default function eslintHelp(cb) {
   logger.debug('Executing help');
-  const result = eslint(['--help'], { stdio: [ process.stdin, null, process.stderr] });
-  if(!result.message){
-    throw new Error('Help text not received from Eslint.');
-  }
-  const eslintOptions = parseHelp(result.message);
-  return eslintOptions;
+  eslint(['--help'], { stdio: [ process.stdin, null, process.stderr] }, (result) => {
+    if(!result.message){
+      throw new Error('Help text not received from Eslint.');
+    }
+    const eslintOptions = parseHelp(result.message);
+    cb(eslintOptions);
+  });
 };

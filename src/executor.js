@@ -1,20 +1,28 @@
-import { spawnSync } from 'child_process';
+import { spawn } from 'child_process';
 
 import Logger from './logger';
 const logger = Logger('executor');
 
 export default {
-  // https://nodejs.org/api/child_process.html#child_process_child_process_spawnsync_command_args_options
-  spawnSync: (cmd, args, childOptions) => {
+  spawn: (cmd, args, childOptions, cb) => {
     logger.debug(cmd, args);
-    const child = spawnSync(cmd, args, childOptions);
-    if(child.error){
+    const child = spawn(cmd, args, childOptions);
+    let output = '';
+
+    child.on('error', () => {
       logger.debug('Critical error occurred.');
       throw new Error(child.stderr.toString());
-    }
-    return {
-      exitCode: child.status,
-      message: child.stdout ? child.stdout.toString() : ''
-    };
+    });
+
+    child.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+
+    child.on('close', (code) => {
+      cb({
+        exitCode: code,
+        message: output || ''
+      });
+    });
   }
 };

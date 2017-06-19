@@ -45,8 +45,10 @@ const myOptions = [{
   description: "Prints Eslint-Watch's Version"
 }];
 
-const eslintOptions = getOptions();
-const newOptions = _.union(myOptions, eslintOptions);
-settings.options = newOptions;
-
-export default optionator(settings);
+export default function parseOptions(options, cb) {
+  getOptions(function (eslintOptions) {
+    const newOptions = _.union(myOptions, eslintOptions);
+    settings.options = newOptions;
+    cb(optionator(settings).parse(options))
+  });
+}

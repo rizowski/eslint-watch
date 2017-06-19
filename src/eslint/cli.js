@@ -1,14 +1,12 @@
 import _ from 'lodash';
-import { spawnSync } from '../executor';
+import { spawn } from '../executor';
 import Logger from '../logger';
 import settings from '../settings';
 
 const logger = Logger('eslint-cli');
 logger.debug('Loaded');
 
-export default function eslintCli(args, options){
+export default function eslintCli(args, options, cb) {
   logger.debug('eslint: %o', args.join(' '));
-  const result = spawnSync(settings.eslintPath, args, _.merge({ stdio: 'inherit' }, options));
-  logger.debug(result);
-  return result;
+  spawn(settings.eslintPath, args, options, cb);
 };

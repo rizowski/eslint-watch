@@ -3,7 +3,7 @@ import keypress from 'keypress';
 
 import settings from './settings';
 import eslintCli from './eslint/cli';
-import helpOptions from './options';
+import parseOptions from './options';
 import watcher from './watcher';
 import argParser from './arg-parser';
 import Logger from './logger';
@@ -15,14 +15,16 @@ const logger = Logger('esw-cli');
 logger.debug('Loaded');
 logger.debug(`Eslint-Watch: ${pkg.version}`);
 
-let exitCode;
+const state = {
+  exitCode: 0,
+  running: false
+};
 const args = process.argv;
 
-function runLint(args, options){
-  logger.debug(args);
-  const result = eslintCli(args, options);
+function logLint(result) {
   logger.debug('lint completed. Exit Code: %o', result.exitCode);
-  exitCode = result.exitCode;
+  state.exitCode = result.exitCode;
+  state.running = false;
   logger.log(result.message);
 }
 
@@ -35,10 +37,11 @@ function keyListener(args, options){
   keypress(stdin);
   stdin.on('keypress', function keyPressListener(ch, key){
     logger.debug('%s was pressed', key ? key.name : ch);
-    if(key && key.name === 'return'){
+    if(key && key.name === 'return' && !state.running){
       logger.debug('relinting...');
       logger.debug(options);
-      runLint(args, options);
+      state.running = true;
+      eslintCli(args, options, logLint);
     }
     if(key && key.ctrl && key.name === 'c') {
       process.exit();
@@ -49,32 +52,35 @@ function keyListener(args, options){
 }
 
 logger.debug('Arguments passed: %o', args);
-const parsedOptions = helpOptions.parse(args);
-settings.cliOptions = parsedOptions;
+parseOptions(args, setupParsedOptions);
 
-if(parsedOptions.eswVersion){
-  logger.log(pkg.version);
-} else {
-  logger.debug('Parsing args');
-  const eslArgs = argParser.parse(args, parsedOptions);
-  if (!parsedOptions.help) {
-    logger.debug('Running initial lint');
-    if (parsedOptions.clear) {
-      clearTerminal();
-    }
-    runLint(eslArgs, parsedOptions);
-    if (parsedOptions.watch) {
-      logger.debug('-w seen');
-      keyListener(eslArgs, parsedOptions);
-      watcher(parsedOptions);
-    }
+function setupParsedOptions(parsedOptions) {
+  settings.cliOptions = parsedOptions;
+  if(parsedOptions.eswVersion){
+    logger.log(pkg.version);
   } else {
-    logger.log(helpOptions.generateHelp());
+    logger.debug('Parsing args');
+    const eslArgs = argParser.parse(args, parsedOptions);
+    if (!parsedOptions.help) {
+      logger.debug('Running initial lint');
+      if (parsedOptions.clear) {
+        clearTerminal();
+      }
+      eslintCli(eslArgs, parsedOptions, logLint);
+      state.running = true;
+      if (parsedOptions.watch) {
+        logger.debug('-w seen');
+        keyListener(eslArgs, parsedOptions);
+        watcher(parsedOptions);
+      }
+    } else {
+      logger.log(helpOptions.generateHelp());
+    }
   }
 }
 
 
 process.on('exit', () => {
-  logger.debug(`Exiting: ${exitCode}`);
+  logger.debug(`Exiting: ${state.exitCode}`);
   process.exit(exitCode);
 });

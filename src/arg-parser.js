@@ -24,7 +24,7 @@ const formats = {
   'simple-detail': true
 };
 
-const getPath = function getPath(options) {
+function getPath(options) {
   logger.debug('GetPath: %s', options.format);
   const formatPath = path.join(__dirname, formatterPath, options.format);
   logger.debug(formatPath);

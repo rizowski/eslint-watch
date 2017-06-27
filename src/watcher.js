@@ -28,9 +28,9 @@ const cliOptionMap = {
   cacheFile: 'cacheLocation'
 };
 
-function filterWarnings(results){
+function filterWarnings(results) {
   return _.reduce(results, (curr, result) =>{
-    if(result.warningCount){
+    if (result.warningCount) {
       let newResult = _.omit(result, 'messages');
       newResult.messages = _.find(result.messages, (m) => m.severity > 1);
       curr.push(newResult);
@@ -46,7 +46,7 @@ function filterWarnings(results){
 export default function watcher(options) {
   let cliOptions = _(options)
     .pick(cliOptionProperties)
-    .reduce(function(result, value, key){
+    .reduce(function (result, value, key) {
       key = cliOptionMap[key] || key;
       result[key] = value;
       return result;

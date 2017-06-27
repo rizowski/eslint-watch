@@ -8,34 +8,34 @@ describe('arg-parser', function () {
     options = { '_': [] };
   });
 
-  it('appends the path at the end of parsing', function(){
+  it('appends the path at the end of parsing', function () {
     let args = ['/bin/esw', 'cmd', 'cool'];
     let arr = parser.parse(args, options);
     expect(arr).to.eql(['cool', './']);
   });
 
-  describe('defaults',function(){
-    it('should remove the first argument',function(){
+  describe('defaults',function () {
+    it('should remove the first argument',function () {
       let args = ['node', 'cmd', 'some/long/path'];
       let arr = parser.parse(args, options);
       expect(arr).to.not.include('node');
     });
 
-    it('should remove the second command',function(){
+    it('should remove the second command',function () {
       let args = ['/path/to/node','/bin/esw', '/something/else'];
       let arr = parser.parse(args, options);
       expect(arr).to.not.include('/bin/esw');
     });
 
-    it('removes the first two arguments', function(){
+    it('removes the first two arguments', function () {
       let args = ['/path/to/node', 'node', 'nodish'];
       let arr = parser.parse(args, options);
       expect(arr).to.eql(['nodish', './']);
     });
   });
 
-  describe('watch', function(){
-    it('parses for -w', function(){
+  describe('watch', function () {
+    it('parses for -w', function () {
       let args = ['node', 'some/long/path/to/prog', '-w'];
       let arr = parser.parse(args, options);
       expect(arr).to.not.contain('-w');
@@ -48,7 +48,7 @@ describe('arg-parser', function () {
       expect(arr).to.not.contain(watch);
     });
 
-    it('parses for --full-lint', function(){
+    it('parses for --full-lint', function () {
       const lint = '--changed';
       const args = ['node', 'some/long/path', lint];
       const arr = parser.parse(args, options);

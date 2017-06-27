@@ -1,9 +1,9 @@
 let formatter = require('../../../src/formatters/helpers/success');
 let chalk = require('chalk');
 
-describe('success-helper', function(){
+describe('success-helper', function () {
   let sandbox;
-  beforeEach(function (){
+  beforeEach(function () {
     sandbox = sinon.sandbox.create();
     let format = {
       open: '',
@@ -14,11 +14,11 @@ describe('success-helper', function(){
     sandbox.stub(chalk.styles, 'white', format);
   });
 
-  afterEach(function(){
+  afterEach(function () {
     sandbox.restore();
   });
 
-  it('places a checkmark and the path', function(){
+  it('places a checkmark and the path', function () {
     let object = { filePath: '/some/file/path' };
     let result = formatter(object);
     expect(result).to.equal('✓ /some/file/path');

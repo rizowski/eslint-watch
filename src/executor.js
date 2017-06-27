@@ -8,7 +8,7 @@ export default {
   spawnSync: (cmd, args, childOptions) => {
     logger.debug(cmd, args);
     const child = spawnSync(cmd, args, childOptions);
-    if(child.error){
+    if (child.error) {
       logger.debug('Critical error occurred.');
       throw new Error(child.stderr.toString());
     }

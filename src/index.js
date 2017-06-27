@@ -18,7 +18,7 @@ logger.debug(`Eslint-Watch: ${pkg.version}`);
 let exitCode;
 const args = process.argv;
 
-function runLint(args, options){
+function runLint(args, options) {
   logger.debug(args);
   const result = eslintCli(args, options);
   logger.debug('lint completed. Exit Code: %o', result.exitCode);
@@ -26,21 +26,21 @@ function runLint(args, options){
   logger.log(result.message);
 }
 
-function keyListener(args, options){
+function keyListener(args, options) {
   let stdin = process.stdin;
-  if(!stdin.setRawMode){
+  if (!stdin.setRawMode) {
     logger.debug('Process might be wrapped exiting keybinding');
     return;
   }
   keypress(stdin);
-  stdin.on('keypress', function keyPressListener(ch, key){
+  stdin.on('keypress', function keyPressListener(ch, key) {
     logger.debug('%s was pressed', key ? key.name : ch);
-    if(key && key.name === 'return'){
+    if (key && key.name === 'return') {
       logger.debug('relinting...');
       logger.debug(options);
       runLint(args, options);
     }
-    if(key && key.ctrl && key.name === 'c') {
+    if (key && key.ctrl && key.name === 'c') {
       process.exit();
     }
   });
@@ -52,7 +52,7 @@ logger.debug('Arguments passed: %o', args);
 const parsedOptions = helpOptions.parse(args);
 settings.cliOptions = parsedOptions;
 
-if(parsedOptions.eswVersion){
+if (parsedOptions.eswVersion) {
   logger.log(pkg.version);
 } else {
   logger.debug('Parsing args');

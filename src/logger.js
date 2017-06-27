@@ -1,6 +1,6 @@
 import debug from 'debug';
 
-export default function createLogger(thing){
+export default function createLogger(thing) {
   return {
     log: console.log,
     error: console.error,

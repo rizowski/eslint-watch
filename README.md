@@ -1,4 +1,6 @@
 # Eslint Watch
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/rizowski/eslint-watch.svg)](https://greenkeeper.io/)
 [![](https://nodei.co/npm/eslint-watch.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/eslint-watch) [![](https://nodei.co/npm-dl/eslint-watch.png?months=6&height=3)](https://www.npmjs.com/package/eslint-watch)
 
 [![](https://img.shields.io/badge/release-notes-blue.svg)](https://github.com/rizowski/eslint-watch/releases/latest)

@@ -1,28 +1,14 @@
-let formatter = require('../../src/formatters/simple-detail');
-let chalk = require('chalk');
-let icons = require('../../src/formatters/helpers/characters');
+import formatter from '../../src/formatters/simple-detail';
+import icons from '../../src/formatters/helpers/characters';
+import strip from 'strip-ansi';
 
 describe('simple-detail', function () {
-  let sandbox;
   let errorResult;
   let warningResult;
   let filePath;
 
   beforeEach(function () {
-    sandbox = sinon.sandbox.create();
-    let format = {
-      open: '',
-      close: '',
-      closeRe: ''
-    };
     filePath = '/some/file/path';
-    sandbox.stub(chalk.styles, 'green', format);
-    sandbox.stub(chalk.styles, 'white', format);
-    sandbox.stub(chalk.styles, 'dim', format);
-    sandbox.stub(chalk.styles, 'gray', format);
-    sandbox.stub(chalk.styles, 'yellow', format);
-    sandbox.stub(chalk.styles, 'red', format);
-    sandbox.stub(chalk.styles, 'underline', format);
     errorResult = {
       errorCount: 1,
       warningCount: 0,
@@ -47,17 +33,13 @@ describe('simple-detail', function () {
     };
   });
 
-  afterEach(function () {
-    sandbox.restore();
-  });
-
   describe('clean', function () {
     // Possible this test might fail. haha oh well...
     // Works for now.
     it('prints out a checkmark with the date', function () {
       let time = new Date().toLocaleTimeString();
       let result = formatter([]);
-      expect(result).to.equal(icons.check + ' Clean ' + '(' + time + ')');
+      expect(strip(result)).to.equal(`${icons.check} Clean (${time})`);
     });
   });
 
@@ -66,7 +48,7 @@ describe('simple-detail', function () {
     it('prints out errors if there are any', function () {
       let time = new Date().toLocaleTimeString();
       let result = formatter([errorResult]);
-      expect(result).to.equal(filePath + ' (1/0)\n  ' + icons.x + '  0:0  broken something or other  broken-things\n\n' + icons.x + ' 1 error (' + time + ')\n');
+      expect(strip(result)).to.equal(`${filePath} (1/0)\n  ${icons.x}  0:0  broken something or other  broken-things\n\n${icons.x} 1 error (${time})\n`);
     });
 
     it('prints out errors if there are multiple', function () {
@@ -80,7 +62,7 @@ describe('simple-detail', function () {
     it('prints out any warnings if there are any', function () {
       let time = new Date().toLocaleTimeString();
       let result = formatter([warningResult]);
-      expect(result).to.equal(filePath + ' (0/1)\n  ' + icons.ex + '  1:2  you should do this  advised\n\n' + icons.ex + ' 1 warning (' + time + ')\n');
+      expect(strip(result)).to.equal(`${filePath} (0/1)\n  ${icons.ex}  1:2  you should do this  advised\n\n${icons.ex} 1 warning (${time})\n`);
     });
 
     it('prints out warnings if there are multiple', function () {
@@ -122,7 +104,7 @@ describe('simple-detail', function () {
         }],
         filePath: filePath
       }];
-      let result = formatter(results);
+      let result = strip(formatter(results));
       expect(result).to.include('(1/1)');
       expect(result).to.include('1 warning');
       expect(result).to.include('1 error');

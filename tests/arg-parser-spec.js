@@ -83,8 +83,8 @@ describe('arg-parser', function () {
     let pathStub;
     beforeEach(function () {
       let path = require('path');
-      pathStub = sinon.stub(path, 'join', function () {
-        return 'src\\' + arguments[1] + '\\' + arguments[2];
+      pathStub = sinon.stub(path, 'join').callsFake(function () {
+        return `src\\${ arguments[1] }\\${ arguments[2] }`;
       });
     });
 

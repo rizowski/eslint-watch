@@ -1,10 +1,8 @@
 # Eslint Watch
-[![](https://nodei.co/npm/eslint-watch.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/eslint-watch) [![](https://nodei.co/npm-dl/eslint-watch.png?months=6&height=3)](https://www.npmjs.com/package/eslint-watch)
-
 [![](https://img.shields.io/badge/release-notes-blue.svg)](https://github.com/rizowski/eslint-watch/releases/latest)
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
+[![Coverage Status](https://coveralls.io/repos/github/rizowski/eslint-watch/badge.svg?branch=master)](https://coveralls.io/github/rizowski/eslint-watch?branch=master)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
-[![Test Coverage](https://codeclimate.com/github/rizowski/eslint-watch/badges/coverage.svg)](https://codeclimate.com/github/rizowski/eslint-watch/coverage)
 [![Reference Status](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat-square)](https://www.versioneye.com/nodejs/eslint-watch/references)
 
 Donate:

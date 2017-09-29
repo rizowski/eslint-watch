@@ -2,4 +2,4 @@
 
 let somethng = '';
 
-function _reallyNotPrivate(){}
+function _reallyNotPrivate() {}

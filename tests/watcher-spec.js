@@ -1,4 +1,4 @@
-let proxy = require('proxyquire');
+import proxy from 'proxyquire';
 
 describe('Watcher', function () {
   let watcher;
@@ -14,7 +14,7 @@ describe('Watcher', function () {
     errorSpy = sinon.spy();
     path = '';
     isIgnored = false;
-    let cliEngine = function () {
+    const cliEngine = function () {
       return {
         options: {
           extensions: ['.js']

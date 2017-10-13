@@ -2,6 +2,7 @@
 // https://github.com/sindresorhus/eslint-stylish
 import chalk from 'chalk';
 import table from 'text-table';
+import strip from 'strip-ansi';
 
 import c from './helpers/characters';
 import Logger from '../logger';
@@ -12,7 +13,7 @@ logger.debug('loaded');
 
 let tableSettings = {
   align: ['', '', 'r'],
-  stringLength: (str) => chalk.stripColor(str).length
+  stringLength: (str) => strip(str).length
 };
 
 function pluralize(word, count) {

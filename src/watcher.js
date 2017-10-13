@@ -32,7 +32,7 @@ function filterWarnings(results) {
   return _.reduce(results, (curr, result) =>{
     if (result.warningCount) {
       let newResult = _.omit(result, 'messages');
-      newResult.messages = _.find(result.messages, (m) => m.severity > 1);
+      newResult.messages = (result.messages || []).filter((m) => m.severity > 1);
       curr.push(newResult);
       return curr;
     }

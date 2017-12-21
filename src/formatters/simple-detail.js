@@ -34,28 +34,28 @@ function simpleDetail(results) {
     if (!messages.length) {
       return;
     }
-
-    let tableText = table(
-      messages.map(function (message) {
-        function getMessageType(msg) {
-          if (msg.fatal || msg.severity === 2) {
-            totalErrors++;
-            errors++;
-            return chalk.red(c.x);
-          }
-
-          totalWarnings++;
-          warnings++;
-          return chalk.yellow(c.ex);
+    const tableContents = messages.map(function (message) {
+      function getMessageType(msg) {
+        if (msg.fatal || msg.severity === 2) {
+          totalErrors++;
+          errors++;
+          return chalk.red(c.x);
         }
 
-        return ['',
-          getMessageType(message),
-          message.line || 0,
-          message.column || 0,
-          chalk.dim(message.message.replace(/\.$/, '')),
-          chalk.dim(message.ruleId || '')];
-      }), tableSettings);
+        totalWarnings++;
+        warnings++;
+        return chalk.yellow(c.ex);
+      }
+
+      return ['',
+        getMessageType(message),
+        message.line || 0,
+        message.column || 0,
+        chalk.dim(message.message.replace(/\.$/, '')),
+        chalk.dim(message.ruleId || '')];
+    });
+
+    const tableText = table(tableContents, tableSettings);
 
     output += chalk.white.underline(result.filePath) + ` (${chalk.red(errors)}/${chalk.yellow(warnings)})${c.endLine}`;
     output += tableText.split(c.endLine).map(function (el) {
@@ -74,7 +74,9 @@ function simpleDetail(results) {
     cleanMsg = chalk.green(`${c.check} Clean`) + ` ${messageTime}`;
   }
 
-  output = (totalErrors || totalWarnings) ? `${output}${messageTime}${c.endLine}` : cleanMsg;
+  output = (totalErrors || totalWarnings)
+    ? `${output}${messageTime}${c.endLine}`
+    : cleanMsg;
 
   return output;
 }

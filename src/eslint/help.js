@@ -12,17 +12,21 @@ function parseNo(option, str) {
   if (!str) return;
 
   let cmd = str.replace('--', '');
+
   if (/no-/.test(cmd)) {
     logger.debug('Parsing no option', str);
     cmd = cmd.replace('no-', '');
     option.default = 'true';
   }
+
   option.option = cmd;
+
   return option;
 }
 
 function parseDouble(arr) {
-  let description = _.without(arr.slice(2),'').join(' ');
+  const description = _.without(arr.slice(2),'').join(' ');
+
   return {
     option: arr[0].replace('--', ''),
     type: 'Boolean',
@@ -33,33 +37,35 @@ function parseDouble(arr) {
 
 function parseRegular(arr) {
   logger.debug('Parsing %s', arr[0]);
+
   if (!arr[0]) {
     return;
   }
-  let optionText = arr[0];
-  let type = arr[1] || 'Boolean';
-  let option = {};
-  option = parseNo(option, optionText);
+
+  const optionText = arr[0];
+  const type = arr[1] || 'Boolean';
+  const option = parseNo({}, optionText);
+  const helpText = _.without(arr, optionText, type, '');
+  const description = helpText.join(' ');
 
   option.type = type;
 
-  let helpText = _.without(arr, optionText, type, '');
-
-  let description = helpText.join(' ');
   if (description) {
     option.description = description;
   }
+
   return option;
 }
 
 function parseAlias(arr) {
-  let alias = arr[0];
+  const alias = arr[0];
   logger.debug('Alias found: %s', alias);
-  let option = parseRegular(_.without(arr, alias));
+  const option = parseRegular(_.without(arr, alias));
 
   if (alias) {
     option.alias = alias.replace('-','');
   }
+
   return option;
 }
 
@@ -73,15 +79,15 @@ function createOption(arr) {
   } else {// aliased or other
     option = parseAlias(arr);
   }
-  let isEmpty = _.isEmpty(option);
-  return isEmpty ? undefined : option;
+
+  return _.isEmpty(option) ? undefined : option;
 }
 
 function parseHelp(helpText) {
   let helpArr = helpText.split('\n');
-  let newArr = [];
   let previousLine = [];
-  _.each(helpArr, function (row, index) {
+
+  return _.without(_.map(helpArr, (row, index) => {
     if (index <= 2) {
       return;
     }
@@ -90,13 +96,11 @@ function parseHelp(helpText) {
     if (str.indexOf('-') >= 0 && previousLine[0] !== '') {
       let option = createOption(arr);
       if (option && option.option !== 'format' && option.option !== 'help') {
-        newArr.push(option);
+        return option;
       }
     }
     previousLine = arr;
-
-  });
-  return newArr;
+  }), undefined);
 }
 
 export default function eslintHelp() {

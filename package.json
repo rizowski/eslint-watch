@@ -4,19 +4,22 @@
   "description": "Run eslint with watch mode",
   "main": "./src/cli.js",
   "scripts": {
-    "eslint": "node ./bin/esw --no-ignore --color",
-    "clean": "rm -rf build node_modules",
-    "lint": "node ./bin/esw",
-    "lw": "node ./bin/esw -w",
-    "mocha": "mocha tests --timeout 10000 --recursive --retries 3 -r babel-core/register -r tests/globals ",
-    "test": "npm run mocha -- --timeout 5000 --retries 1",
-    "tdd": "mocha -w tests --recursive -R spec",
-    "ci": "npm run lint && npm run coverage",
-    "ci-win": "npm run lint && npm test",
-    "coverage": "nyc npm run mocha && nyc report --reporter=text-lcov | coveralls",
     "build": "babel src -d build -s inline",
+    "ci-win": "npm run lint && npm test",
+    "ci": "npm run lint && npm run coverage",
+    "clean": "rm -rf build node_modules",
+    "coverage": "nyc npm test",
+    "deploy": "./scripts/deploy.sh",
+    "eslint": "node ./bin/esw --no-ignore --color",
+    "lint:watch": "node ./bin/esw -w",
+    "lint": "node ./bin/esw",
+    "mocha": "mocha",
+    "postcoverage": "nyc report --reporter=text-lcov | coveralls",
     "prepublish": "npm run build",
-    "deploy": "./scripts/deploy.sh"
+    "test:integration": "npm run mocha -- --opts ./tests/mocha-integration.opts",
+    "test:unit": "npm run mocha -- --opts ./tests/mocha-unit.opts",
+    "test:watch": "npm run test -- -R min -b -w",
+    "test": "npm run mocha -- --opts ./tests/mocha.opts"
   },
   "engines": {
     "node": ">=4"
@@ -28,6 +31,12 @@
   "bin": {
     "esw": "./bin/esw"
   },
+  "files": [
+    "bin",
+    "build",
+    "package.json",
+    "README.md"
+  ],
   "keywords": [
     "eslint",
     "plugin",
@@ -52,12 +61,12 @@
     "babel-polyfill": "^6.20.0",
     "bluebird": "^3.5.1",
     "chalk": "^2.1.0",
-    "chokidar": "^1.4.3",
+    "chokidar": "^2.0.0",
     "debug": "^3.0.1",
     "keypress": "^0.2.1",
     "lodash": "^4.17.4",
     "optionator": "^0.8.2",
-    "source-map-support": "^0.5.0",
+    "source-map-support": "^0.5.3",
     "strip-ansi": "^4.0.0",
     "text-table": "^0.2.0",
     "unicons": "0.0.3"
@@ -65,19 +74,20 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
-    "babel-eslint": "^8.0.0",
+    "babel-eslint": "^8.2.1",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.3.3",
     "chai": "^4.0.2",
     "coveralls": "^3.0.0",
     "eslint": "latest",
-    "eslint-config-rizowski": "^1.0.2",
-    "mocha": "^4.0.1",
+    "eslint-config-rizowski": "^1.1.4",
+    "eslint-plugin-fp": "^2.3.0",
+    "mocha": "^5.0.0",
     "mocha-lcov-reporter": "^1.3.0",
     "mocha-sinon": "^2.0.0",
-    "nyc": "^11.2.1",
+    "nyc": "^11.4.1",
     "proxyquire": "^1.7.10",
-    "sinon": "^4.0.1",
+    "sinon": "^4.2.2",
     "sinon-chai": "^2.14.0"
   }
 }

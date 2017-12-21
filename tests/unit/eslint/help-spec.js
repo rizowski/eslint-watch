@@ -1,5 +1,5 @@
-let proxy = require('proxyquire');
-let _ = require('lodash');
+import proxy from 'proxyquire';
+import _ from 'lodash';
 
 describe('eslint/help', function () {
   let title = 'title with options';
@@ -14,7 +14,7 @@ describe('eslint/help', function () {
   let help;
 
   before(function () {
-    help = proxy('../../src/eslint/help', {
+    help = proxy('../../../src/eslint/help', {
       './cli': function () {
         return { code: 0, message: msg };
       }

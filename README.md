@@ -16,7 +16,6 @@ Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs
 To use this tool we require eslint to be installed on your project. The versions supported are:
   - `"eslint": ">=0.19.0 <5.0.0"`
   - `node >= 4.0.0`
-    - Note: Node v8 could be temperamental and is not currently tested for this project.
 
 ## Getting started
 To run eslint-watch without the global install, make an npm script.

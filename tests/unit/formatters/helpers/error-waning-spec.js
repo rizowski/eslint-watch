@@ -1,4 +1,4 @@
-import formatter from '../../../src/formatters/helpers/error-warning';
+import formatter from '../../../../src/formatters/helpers/error-warning';
 import strip from 'strip-ansi';
 
 describe('error-warning-helper', function () {

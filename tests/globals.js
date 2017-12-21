@@ -1,6 +1,6 @@
-let chai = require('chai');
-let sinon = require('sinon');
-let sinonChai = require('sinon-chai');
+import chai from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 
 chai.use(sinonChai);
 

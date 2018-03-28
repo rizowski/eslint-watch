@@ -1,7 +1,7 @@
 import { red, yellow, white } from 'chalk';
 
-export default function errorWarning(result) {
-  return result.errorCount || result.warningCount ?
-    `${red(result.errorCount)}/${yellow(result.warningCount)} ${white(result.filePath)}` :
-    `${red(result.messages.length)} ${white(result.filePath)}`;
+export default function errorWarning({ errorCount, warningCount, filePath, messages }) {
+  return errorCount || warningCount
+    ? `${red(errorCount)}/${yellow(warningCount)} ${white(filePath)}`
+    : `${red(messages.length)} ${white(filePath)}`;
 };

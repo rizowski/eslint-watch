@@ -1,7 +1,7 @@
 describe('arg-parser', function () {
   let parser, options;
   before(function () {
-    parser = require('../src/arg-parser');
+    parser = require('../../src/arg-parser');
   });
 
   beforeEach(function () {

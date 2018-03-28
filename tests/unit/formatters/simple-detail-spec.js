@@ -1,5 +1,5 @@
-import formatter from '../../src/formatters/simple-detail';
-import icons from '../../src/formatters/helpers/characters';
+import formatter from '../../../src/formatters/simple-detail';
+import icons from '../../../src/formatters/helpers/characters';
 import strip from 'strip-ansi';
 
 describe('simple-detail', function () {

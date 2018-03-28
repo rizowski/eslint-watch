@@ -1,4 +1,4 @@
-import formatter from '../../../src/formatters/helpers/success';
+import formatter from '../../../../src/formatters/helpers/success';
 import strip from 'strip-ansi';
 
 describe('success-helper', function () {

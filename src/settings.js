@@ -3,6 +3,7 @@ import os from 'os';
 import Logger from './logger';
 import path from 'path';
 import fs from 'fs';
+import pkg from '../package';
 
 const logger = Logger('internal-settings');
 const platform = os.platform();
@@ -28,6 +29,7 @@ const eslintPath = (function loadEslintPath() {
 })();
 
 const settings = {
+  eswVersion: pkg.version,
   eslintPath,
   platform,
   isWindows: platform === 'win32'

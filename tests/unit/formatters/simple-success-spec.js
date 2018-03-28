@@ -1,4 +1,4 @@
-import formatter from '../../src/formatters/simple-success';
+import formatter from '../../../src/formatters/simple-success';
 import strip from 'strip-ansi';
 
 describe('simple-success', function () {

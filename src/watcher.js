@@ -19,7 +19,7 @@ const cliOptionProperties = [
   'config', 'eslintrc', 'ext',
   'parser', 'cache', 'cacheLocation',
   'ignore', 'ignorePath', 'ignorePattern',
-  'fix', 'parserOptions', 'global', 'format'
+  'fix', 'parserOptions', 'global'
 ];
 const cliOptionMap = {
   config: 'configFile',
@@ -41,54 +41,71 @@ function filterWarnings(results) {
   }, []);
 }
 
+function requireFormatter(formatterPath) {
+  try {
+    return require(formatterPath);
+  } catch (ex) {
+    ex.message = `There was a problem loading formatter: ${formatterPath}\nError: ${ex.message}`;
+    throw ex;
+  }
+}
+
+function getFormatter(cli, formatter) {
+  const pathToFormatterSpecified = formatter.includes('\\');
+  const isSimpleFormatter = formatter.includes('simple');
+  const formatterPath = formatter.replace(/\\/g, '/');
+
+  if (isSimpleFormatter) {
+    logger.debug(`Formatter local: ${ formatter }`);
+
+    return requireFormatter(`./formatters/${ formatterPath }`);
+  } else if (pathToFormatterSpecified) {
+    const cwd = process.cwd();
+
+    logger.debug('Formatter user:', formatterPath);
+    const location = path.resolve(cwd, formatterPath);
+
+    return requireFormatter(location);
+  }
+
+  logger.debug(`Formatter eslint: ${ formatter }`);
+
+  return cli.getFormatter(formatter);
+
+}
+
 ///https://github.com/eslint/eslint/blob/233440e524aa41545b66b2c3c7ca26fe790e32e0/tests/lib/cli-engine.js#L105-L107
 
 export default function watcher(options) {
-  let cliOptions = _(options)
+  const cliOptions = _(options)
     .pick(cliOptionProperties)
     .reduce(function (result, value, key) {
       key = cliOptionMap[key] || key;
       result[key] = value;
       return result;
     }, {});
-  logger.debug(cliOptions);
-  logger.debug(options);
-  let cli = new eslint.CLIEngine(cliOptions);
+  logger.debug('cli', cliOptions);
+  logger.debug('options', options);
+  const cli = new eslint.CLIEngine(cliOptions);
+  const watchDir = options._.length
+    ? options._
+    : [path.resolve('./')];
 
-
-  // replace \ with / for Windows compatibility
-  let formatterPath = cliOptions.format.replace(/\\/g, '/');
-
-  // copied from eslint - if the path has a slash, it's a file.
-  if (formatterPath.indexOf('/') > -1) {
-    const cwd = process.cwd();
-
-    formatterPath = path.resolve(cwd, formatterPath);
-  } else {
-    formatterPath = `./formatters/${formatterPath}`;
-  }
-
-  logger.debug('Trying to load formatter for re-lint from ' + formatterPath);
-
-  let formatter;
-  try {
-    formatter = require(formatterPath);
-  } catch (ex) {
-    ex.message = `There was a problem loading formatter: ${formatterPath}\nError: ${ex.message}`;
-    // Cannot proceed with re-linting if we don't have a formatter.
-    throw ex;
-  }
+  const formatter = getFormatter(cli, options.format);
 
   function lintFile(path) {
     logger.debug('lintFile: %s', path);
     if (options.clear) {
       clearTerminal();
     }
-    let report = cli.executeOnFiles(path);
+    const report = cli.executeOnFiles(path);
     if (options.fix) {
       eslint.CLIEngine.outputFixes(report);
     }
-    const results = settings.cliOptions.quiet ? filterWarnings(report.results) : report.results;
+    const results = settings.cliOptions.quiet
+      ? filterWarnings(report.results)
+      : report.results;
+
     logger.log(formatter(results));
   }
 
@@ -101,13 +118,15 @@ export default function watcher(options) {
     // Use the ESLint default extension, if none is provided
     return _.includes(cli.options.extensions, path.extname(filePath));
   }
-  let watchDir = options._.length ? options._ : [path.resolve('./')];
 
   chokidar.watch(watchDir, chokidarOptions)
     .on(events.change, function changeEvent(path) {
       logger.debug('Changed:', path);
       if (!cli.isPathIgnored(path) && isWatchableExtension(path, options.ext)) {
-        const watchPath = options.changed ? [path] : watchDir;
+        const watchPath = options.changed
+          ? [path]
+          : watchDir;
+
         lintFile(watchPath);
       }
     }).on('error', logger.error);

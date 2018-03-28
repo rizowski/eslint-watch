@@ -1,9 +1,0 @@
-coverage
-src
-tests
-.babelrc
-.editorconfig
-.eslint*
-.git*
-.travis.yml
-appveyor.yml

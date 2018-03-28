@@ -1,0 +1,8 @@
+--timeout 10000
+--recursive
+--retries 3
+-r babel-core/register
+-r tests/globals
+
+./tests/unit/**/*-spec.js
+./tests/integration/**/*-spec.js

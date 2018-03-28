@@ -8,6 +8,7 @@ describe('Watcher', function () {
   let on;
   let path;
   let isIgnored;
+  let formatterName;
 
   beforeEach(function () {
     onSpy = sinon.spy();
@@ -26,6 +27,10 @@ describe('Watcher', function () {
           return {
             results: [{ errorCount: 0, warningCount: 0 }]
           };
+        },
+        getFormatter(name) {
+          formatterName = name;
+          return () => {};
         }
       };
     };
@@ -36,27 +41,29 @@ describe('Watcher', function () {
         on: errorSpy
       };
     };
-    watcher = proxy('../src/watcher',{
+    watcher = proxy('../../src/watcher',{
       './logger': function () {
         return {
           log: function () {},
           debug: function () {}
         };
       },
-      'chokidar': {
+      chokidar: {
         watch: function (options) {
           watcherOptions = options;
-          return {
-            on: on
-          };
+          return { on };
         }
       },
-      'eslint': {
+      eslint: {
         CLIEngine: cliEngine
       },
       './formatters/simple-detail': function () {},
       './formatters/helpers/success': function () {}
     });
+  });
+
+  afterEach(() => {
+    formatterName = null;
   });
 
   it('calls the on event', function () {
@@ -73,5 +80,15 @@ describe('Watcher', function () {
   it('calls the on changed event', function () {
     watcher({ _: [], format: 'simple-detail' });
     expect(onSpy).to.have.been.calledWith('change');
+  });
+
+  it('can use the built in table format without erroring', () => {
+    watcher({ _: [], format: 'table' });
+
+    expect(formatterName).to.equal('table');
+  });
+  it('can load simple formatters without erroring', () => {
+    // TODO: not sure how we can check this...
+    watcher({ _: [], format: 'simple-detail' });
   });
 });

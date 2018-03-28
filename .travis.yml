@@ -4,6 +4,8 @@ node_js:
   - "5"
   - "6"
   - "7"
+  - "8"
+  - "9"
 os:
   - linux
   # - osx
@@ -11,8 +13,6 @@ os:
 addons:
   code_climate:
     repo_token: 5eb0170c7d7906e985d916c3d0ac617b7ba26a6ed3049e60bf39045703a993c4
-before_install:
-  - npm i eslint@latest
 script:
   - npm run ci
 after_success:

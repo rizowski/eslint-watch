@@ -1,3 +1,3 @@
 export default function clearTerminal() {
-  process.stdout.write('\x1Bc');
+  process.stdout.write('\u001B[2J\u001B[0;0f');
 }

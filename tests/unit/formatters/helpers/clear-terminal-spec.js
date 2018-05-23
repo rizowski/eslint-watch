@@ -16,6 +16,6 @@ describe('clear terminal', () => {
   it('calls process.stdout.write with the clear command', () => {
     clear();
 
-    expect(spy.firstCall.args[0]).to.equal('\u001bc');
+    expect(spy.firstCall.args[0]).to.equal('\u001B[2J\u001B[0;0f');
   });
 });

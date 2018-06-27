@@ -1,6 +1,7 @@
 --recursive
 --retries 1
--r babel-core/register
+-r @babel/core
+-r @babel/register
 -r tests/globals
 
 ./tests/unit/**/*-spec.js

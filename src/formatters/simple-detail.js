@@ -13,11 +13,11 @@ logger.debug('loaded');
 
 let tableSettings = {
   align: ['', '', 'r'],
-  stringLength: (str) => strip(str).length
+  stringLength: (str) => strip(str).length,
 };
 
 function pluralize(word, count) {
-  return (count === 1 ? word : word + 's');
+  return count === 1 ? word : word + 's';
 }
 
 function simpleDetail(results) {
@@ -27,14 +27,14 @@ function simpleDetail(results) {
   let cleanMsg = '';
   let messageTime = chalk.dim(`(${new Date().toLocaleTimeString()})`);
   logger.debug(results);
-  results.forEach(function (result) {
+  results.forEach(function(result) {
     let messages = result.messages;
     let warnings = 0;
     let errors = 0;
     if (!messages.length) {
       return;
     }
-    const tableContents = messages.map(function (message) {
+    const tableContents = messages.map(function(message) {
       function getMessageType(msg) {
         if (msg.fatal || msg.severity === 2) {
           totalErrors++;
@@ -47,20 +47,28 @@ function simpleDetail(results) {
         return chalk.yellow(c.ex);
       }
 
-      return ['',
+      return [
+        '',
         getMessageType(message),
         message.line || 0,
         message.column || 0,
         chalk.dim(message.message.replace(/\.$/, '')),
-        chalk.dim(message.ruleId || '')];
+        chalk.dim(message.ruleId || ''),
+      ];
     });
 
     const tableText = table(tableContents, tableSettings);
 
     output += chalk.white.underline(result.filePath) + ` (${chalk.red(errors)}/${chalk.yellow(warnings)})${c.endLine}`;
-    output += tableText.split(c.endLine).map(function (el) {
-      return el.replace(/(\d+)\s+(\d+)/, (m, p1, p2) => chalk.dim(`${p1}:${p2}`));
-    }).join(c.endLine) + c.endLine + c.endLine;
+    output +=
+      tableText
+        .split(c.endLine)
+        .map(function(el) {
+          return el.replace(/(\d+)\s+(\d+)/, (m, p1, p2) => chalk.dim(`${p1}:${p2}`));
+        })
+        .join(c.endLine) +
+      c.endLine +
+      c.endLine;
   });
 
   if (totalErrors) {
@@ -74,9 +82,7 @@ function simpleDetail(results) {
     cleanMsg = chalk.green(`${c.check} Clean`) + ` ${messageTime}`;
   }
 
-  output = (totalErrors || totalWarnings)
-    ? `${output}${messageTime}${c.endLine}`
-    : cleanMsg;
+  output = totalErrors || totalWarnings ? `${output}${messageTime}${c.endLine}` : cleanMsg;
 
   return output;
 }

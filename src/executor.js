@@ -14,7 +14,7 @@ export default {
     }
     return {
       exitCode: child.status,
-      message: child.stdout ? child.stdout.toString() : ''
+      message: child.stdout ? child.stdout.toString() : '',
     };
-  }
+  },
 };

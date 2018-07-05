@@ -32,7 +32,7 @@ const settings = {
   eswVersion: pkg.version,
   eslintPath,
   platform,
-  isWindows: platform === 'win32'
+  isWindows: platform === 'win32',
 };
 
 logger.debug(settings);

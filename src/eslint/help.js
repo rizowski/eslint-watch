@@ -25,13 +25,13 @@ function parseNo(option, str) {
 }
 
 function parseDouble(arr) {
-  const description = _.without(arr.slice(2),'').join(' ');
+  const description = _.without(arr.slice(2), '').join(' ');
 
   return {
     option: arr[0].replace('--', ''),
     type: 'Boolean',
     alias: arr[1].replace('--', ''),
-    description: description
+    description: description,
   };
 }
 
@@ -63,7 +63,7 @@ function parseAlias(arr) {
   const option = parseRegular(_.without(arr, alias));
 
   if (alias) {
-    option.alias = alias.replace('-','');
+    option.alias = alias.replace('-', '');
   }
 
   return option;
@@ -72,11 +72,14 @@ function parseAlias(arr) {
 function createOption(arr) {
   let option;
 
-  if (namedOption.test(arr[0]) && namedOption.test(arr[1])) { // no alias defaulted boolean
+  if (namedOption.test(arr[0]) && namedOption.test(arr[1])) {
+    // no alias defaulted boolean
     option = parseDouble(arr);
-  } else if (namedOption.test(arr[0]) && !namedOption.test(arr[1])) { // just a no alias
+  } else if (namedOption.test(arr[0]) && !namedOption.test(arr[1])) {
+    // just a no alias
     option = parseRegular(arr);
-  } else {// aliased or other
+  } else {
+    // aliased or other
     option = parseAlias(arr);
   }
 
@@ -87,28 +90,31 @@ function parseHelp(helpText) {
   let helpArr = helpText.split('\n');
   let previousLine = [];
 
-  return _.without(_.map(helpArr, (row, index) => {
-    if (index <= 2) {
-      return;
-    }
-    let str = row.replace(',', '');
-    let arr = str.trim().split(' ');
-    if (str.indexOf('-') >= 0 && previousLine[0] !== '') {
-      let option = createOption(arr);
-      if (option && option.option !== 'format' && option.option !== 'help') {
-        return option;
+  return _.without(
+    _.map(helpArr, (row, index) => {
+      if (index <= 2) {
+        return;
       }
-    }
-    previousLine = arr;
-  }), undefined);
+      let str = row.replace(',', '');
+      let arr = str.trim().split(' ');
+      if (str.indexOf('-') >= 0 && previousLine[0] !== '') {
+        let option = createOption(arr);
+        if (option && option.option !== 'format' && option.option !== 'help') {
+          return option;
+        }
+      }
+      previousLine = arr;
+    }),
+    undefined
+  );
 }
 
 export default function eslintHelp() {
   logger.debug('Executing help');
-  const result = eslint(['--help'], { stdio: [ process.stdin, null, process.stderr] });
+  const result = eslint(['--help'], { stdio: [process.stdin, null, process.stderr] });
   if (!result.message) {
     throw new Error('Help text not received from Eslint.');
   }
   const eslintOptions = parseHelp(result.message);
   return eslintOptions;
-};
+}

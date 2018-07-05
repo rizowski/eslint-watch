@@ -11,25 +11,15 @@ const formatterPath = 'formatters';
 
 const defaultPath = './';
 const formatKey = '-f';
-const keys = [
-  '-w',
-  '--watch',
-  '--changed',
-  '--clear',
-  '--esw-version'
-];
-const formats = [
-  'simple',
-  'simple-success',
-  simpleDetail
-];
+const keys = ['-w', '--watch', '--changed', '--clear', '--esw-version'];
+const formats = ['simple', 'simple-success', simpleDetail];
 
 function getPath(options) {
   logger.debug('GetPath: %s', options.format);
   const formatPath = path.join(__dirname, formatterPath, options.format);
   logger.debug(formatPath);
   return formatPath;
-};
+}
 
 export default {
   parse(cliArgs, options) {
@@ -38,17 +28,20 @@ export default {
     const args = _.slice(cliArgs, 2, cliArgs.length);
     logger.debug('Directories to check: %o', dirs);
     logger.debug('Args %o', args);
-    const arr = _.without(_.map(args, (item) => {
-      if (!_.includes(keys, item) && !_.includes(formats, item)) {
-        logger.debug('Pushing item: %s', item);
-        return item;
-      }
-      if (_.includes(formats, item)) {
-        formatSpecified = true;
-        logger.debug('Format specified');
-        return getPath(options);
-      }
-    }), undefined);
+    const arr = _.without(
+      _.map(args, (item) => {
+        if (!_.includes(keys, item) && !_.includes(formats, item)) {
+          logger.debug('Pushing item: %s', item);
+          return item;
+        }
+        if (_.includes(formats, item)) {
+          formatSpecified = true;
+          logger.debug('Format specified');
+          return getPath(options);
+        }
+      }),
+      undefined
+    );
 
     if (options.format === simpleDetail && !formatSpecified) {
       logger.debug('setting custom formatter');
@@ -60,5 +53,5 @@ export default {
       logger.debug('Setting default path: %s', defaultPath);
     }
     return arr;
-  }
+  },
 };

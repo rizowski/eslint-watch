@@ -13,32 +13,44 @@ logger.debug('Loaded');
 
 const events = { change: 'change' };
 const chokidarOptions = {
-  ignored: /\.git|node_modules|bower_components/
+  ignored: /\.git|node_modules|bower_components/,
 };
 const cliOptionProperties = [
-  'config', 'eslintrc', 'ext',
-  'parser', 'cache', 'cacheLocation',
-  'ignore', 'ignorePath', 'ignorePattern',
-  'fix', 'parserOptions', 'global'
+  'config',
+  'eslintrc',
+  'ext',
+  'parser',
+  'cache',
+  'cacheLocation',
+  'ignore',
+  'ignorePath',
+  'ignorePattern',
+  'fix',
+  'parserOptions',
+  'global',
 ];
 const cliOptionMap = {
   config: 'configFile',
   eslintrc: 'useEslintrc',
   ext: 'extensions',
-  cacheFile: 'cacheLocation'
+  cacheFile: 'cacheLocation',
 };
 
 function filterWarnings(results) {
-  return _.reduce(results, (curr, result) =>{
-    if (result.warningCount) {
-      let newResult = _.omit(result, 'messages');
-      newResult.messages = _.filter(result.messages, (m) => m.severity > 1);
-      curr.push(newResult);
+  return _.reduce(
+    results,
+    (curr, result) => {
+      if (result.warningCount) {
+        let newResult = _.omit(result, 'messages');
+        newResult.messages = _.filter(result.messages, (m) => m.severity > 1);
+        curr.push(newResult);
+        return curr;
+      }
+      curr.push(result);
       return curr;
-    }
-    curr.push(result);
-    return curr;
-  }, []);
+    },
+    []
+  );
 }
 
 function requireFormatter(formatterPath) {
@@ -56,9 +68,9 @@ function getFormatter(cli, formatter) {
   const formatterPath = formatter.replace(/\\/g, '/');
 
   if (isSimpleFormatter) {
-    logger.debug(`Formatter local: ${ formatter }`);
+    logger.debug(`Formatter local: ${formatter}`);
 
-    return requireFormatter(`./formatters/${ formatterPath }`);
+    return requireFormatter(`./formatters/${formatterPath}`);
   } else if (pathToFormatterSpecified) {
     const cwd = process.cwd();
 
@@ -68,10 +80,9 @@ function getFormatter(cli, formatter) {
     return requireFormatter(location);
   }
 
-  logger.debug(`Formatter eslint: ${ formatter }`);
+  logger.debug(`Formatter eslint: ${formatter}`);
 
   return cli.getFormatter(formatter);
-
 }
 
 ///https://github.com/eslint/eslint/blob/233440e524aa41545b66b2c3c7ca26fe790e32e0/tests/lib/cli-engine.js#L105-L107
@@ -79,7 +90,7 @@ function getFormatter(cli, formatter) {
 export default function watcher(options) {
   const cliOptions = _(options)
     .pick(cliOptionProperties)
-    .reduce(function (result, value, key) {
+    .reduce(function(result, value, key) {
       key = cliOptionMap[key] || key;
       result[key] = value;
       return result;
@@ -87,9 +98,7 @@ export default function watcher(options) {
   logger.debug('cli', cliOptions);
   logger.debug('options', options);
   const cli = new eslint.CLIEngine(cliOptions);
-  const watchDir = options._.length
-    ? options._
-    : [path.resolve('./')];
+  const watchDir = options._.length ? options._ : [path.resolve('./')];
 
   const formatter = getFormatter(cli, options.format);
 
@@ -102,34 +111,40 @@ export default function watcher(options) {
     if (options.fix) {
       eslint.CLIEngine.outputFixes(report);
     }
-    const results = settings.cliOptions.quiet
-      ? filterWarnings(report.results)
-      : report.results;
+    const results = settings.cliOptions.quiet ? filterWarnings(report.results) : report.results;
 
     logger.log(formatter(results));
   }
 
-  function isWatchableExtension(filePath, extensions) {
-    logger.debug(filePath, extensions);
-    if (extensions) {
-      return _.includes(extensions, path.extname(filePath));
+  function isWatchableExtension(filePath, extensions = cli.options.extensions) {
+    const extension = path.extname(filePath);
+    const dotExtensions = extensions.map((e) => {
+      if (!e.match(/^\./)) {
+        return `.${e}`;
+      }
+      return e;
+    });
+
+    logger.debug(extension, dotExtensions);
+    if (dotExtensions.length > 0) {
+      return _.includes(dotExtensions, extension);
     }
 
     // Use the ESLint default extension, if none is provided
-    return _.includes(cli.options.extensions, path.extname(filePath));
+    return _.includes(cli.options.extensions, extension);
   }
 
-  chokidar.watch(watchDir, chokidarOptions)
+  chokidar
+    .watch(watchDir, chokidarOptions)
     .on(events.change, function changeEvent(path) {
       logger.debug('Changed:', path);
       if (!cli.isPathIgnored(path) && isWatchableExtension(path, options.ext)) {
-        const watchPath = options.changed
-          ? [path]
-          : watchDir;
+        const watchPath = options.changed ? [path] : watchDir;
 
         lintFile(watchPath);
       }
-    }).on('error', logger.error);
+    })
+    .on('error', logger.error);
 
   logger.debug('Watching: %o', watchDir);
-};
+}

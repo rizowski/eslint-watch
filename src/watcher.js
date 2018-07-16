@@ -28,12 +28,14 @@ const cliOptionProperties = [
   'fix',
   'parserOptions',
   'global',
+  'rule',
 ];
 const cliOptionMap = {
   config: 'configFile',
   eslintrc: 'useEslintrc',
   ext: 'extensions',
   cacheFile: 'cacheLocation',
+  rule: 'rules',
 };
 
 function filterWarnings(results) {

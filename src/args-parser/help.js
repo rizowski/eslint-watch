@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import Logger from '../logger';
-import eslint from './cli';
 
 const logger = Logger('eslint-help');
 logger.debug('Loaded');
@@ -109,12 +108,6 @@ function parseHelp(helpText) {
   );
 }
 
-export default function eslintHelp() {
-  logger.debug('Executing help');
-  const result = eslint(['--help'], { stdio: [process.stdin, null, process.stderr] });
-  if (!result.message) {
-    throw new Error('Help text not received from Eslint.');
-  }
-  const eslintOptions = parseHelp(result.message);
-  return eslintOptions;
-}
+export default {
+  parse: parseHelp,
+};

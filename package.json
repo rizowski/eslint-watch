@@ -66,6 +66,7 @@
     "semi": true,
     "useTabs": false,
     "tabWidth": 2,
+    "printWidth": 160,
     "trailingComma": "es5",
     "singleQuote": true,
     "bracketSpacing": true

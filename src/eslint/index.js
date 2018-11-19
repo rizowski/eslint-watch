@@ -1,16 +1,25 @@
 import executer from './executer';
-import parser from '../args-parser';
+import parser from './parser';
+import Logger from '../logger';
+
+const logger = Logger('eslint');
 
 const eslint = {
-  async getHelp() {
+  async getHelpOptions() {
     const helpText = await eslint.execute(['--help']);
 
-    const options = parser.parseHelp(helpText);
-
-    return options;
+    return parser.parseHelp(helpText);
   },
   execute(args = []) {
     return executer.execute('eslint', args);
+  },
+  async lint(args = []) {
+    try {
+      const result = await eslint.execute(args);
+      logger.log(result);
+    } catch (error) {
+      logger.error(error);
+    }
   },
 };
 

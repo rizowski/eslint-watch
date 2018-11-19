@@ -89,25 +89,22 @@ function parseHelp(helpText) {
   let helpArr = helpText.split('\n');
   let previousLine = [];
 
-  return _.without(
-    _.map(helpArr, (row, index) => {
-      if (index <= 2) {
-        return;
+  return _.map(helpArr, (row, index) => {
+    if (index <= 2) {
+      return;
+    }
+    let str = row.replace(',', '');
+    let arr = str.trim().split(' ');
+    if (str.indexOf('-') >= 0 && previousLine[0] !== '') {
+      let option = createOption(arr);
+      if (option && option.option !== 'format' && option.option !== 'help') {
+        return option;
       }
-      let str = row.replace(',', '');
-      let arr = str.trim().split(' ');
-      if (str.indexOf('-') >= 0 && previousLine[0] !== '') {
-        let option = createOption(arr);
-        if (option && option.option !== 'format' && option.option !== 'help') {
-          return option;
-        }
-      }
-      previousLine = arr;
-    }),
-    undefined
-  );
+    }
+    previousLine = arr;
+  }).filter(Boolean);
 }
 
 export default {
-  parse: parseHelp,
+  parseHelp: parseHelp,
 };

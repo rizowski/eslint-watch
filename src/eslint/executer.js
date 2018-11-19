@@ -21,11 +21,15 @@ export default {
       });
 
       result.on('close', (code) => {
+        const happyResult = happyData.join('').trim();
+
         if (code === 0) {
-          return resolve(happyData.join(''));
+          return resolve(happyResult);
         }
 
-        return reject(angryData.join(''));
+        const response = angryData.length === 0 ? happyResult : angryData.join('').trim();
+
+        return reject(response);
       });
     });
   },

@@ -2,4 +2,11 @@
 'use strict';
 require('@babel/polyfill');
 require('source-map-support/register');
-require(require('path').join(__dirname, '..', 'build'));
+const path = require('path');
+
+const esw = require(path.join(__dirname, '..', 'build'));
+
+esw.run(process.argv).then((result) => {
+  console.log(result.result);
+  process.exit(result.exitCode);
+});

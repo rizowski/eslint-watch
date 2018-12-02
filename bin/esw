@@ -7,6 +7,8 @@ const path = require('path');
 const esw = require(path.join(__dirname, '..', 'build'));
 
 esw.run(process.argv).then((result) => {
-  console.log(result.result);
-  process.exit(result.exitCode);
+  if (result) {
+    console.log(result.result.trim());
+    process.exit(result.exitCode);
+  }
 });

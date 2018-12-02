@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import isEmpty from 'lodash.isempty';
 
 import Logger from '../logger';
 
@@ -6,6 +6,7 @@ const logger = Logger('eslint-help');
 logger.debug('Loaded');
 
 const namedOption = /^--/;
+const header = /^(\w+(\s+)?)+\:$/i;
 
 function parseNo(option, str) {
   if (!str) return;
@@ -24,27 +25,33 @@ function parseNo(option, str) {
 }
 
 function parseDouble(arr) {
-  const description = _.without(arr.slice(2), '').join(' ');
+  const description = arr
+    .slice(2)
+    .filter(Boolean)
+    .join(' ');
+
+  const [option, alias] = arr;
 
   return {
-    option: arr[0].replace('--', ''),
+    option: option.replace('--', ''),
     type: 'Boolean',
-    alias: arr[1].replace('--', ''),
+    alias: alias.replace('--', ''),
     description: description,
   };
 }
 
 function parseRegular(arr) {
-  logger.debug('Parsing %s', arr[0]);
+  const [item] = arr;
+  logger.debug('Parsing %s', item);
 
-  if (!arr[0]) {
+  if (!item) {
     return;
   }
 
-  const optionText = arr[0];
+  const [optionText] = arr;
   const type = arr[1] || 'Boolean';
   const option = parseNo({}, optionText);
-  const helpText = _.without(arr, optionText, type, '');
+  const helpText = arr.filter((a) => a !== optionText && a !== type && a !== '');
   const description = helpText.join(' ');
 
   option.type = type;
@@ -56,10 +63,11 @@ function parseRegular(arr) {
   return option;
 }
 
-function parseAlias(arr) {
-  const alias = arr[0];
+function parseAlias(arr = []) {
+  const [alias] = arr;
+
   logger.debug('Alias found: %s', alias);
-  const option = parseRegular(_.without(arr, alias));
+  const option = parseRegular(arr.filter((a) => a !== alias));
 
   if (alias) {
     option.alias = alias.replace('-', '');
@@ -72,37 +80,49 @@ function createOption(arr) {
   let option;
 
   if (namedOption.test(arr[0]) && namedOption.test(arr[1])) {
-    // no alias defaulted boolean
+    // negated boolean
     option = parseDouble(arr);
   } else if (namedOption.test(arr[0]) && !namedOption.test(arr[1])) {
-    // just a no alias
+    // no alias
     option = parseRegular(arr);
   } else {
     // aliased or other
     option = parseAlias(arr);
   }
 
-  return _.isEmpty(option) ? undefined : option;
+  return isEmpty(option) ? undefined : option;
 }
 
 function parseHelp(helpText) {
-  let helpArr = helpText.split('\n');
-  let previousLine = [];
+  return helpText.split('\n').reduce((acc, line, index) => {
+    if (!line || index === 0) {
+      return acc;
+    }
+    if (index === 0) {
+      return acc;
+    }
 
-  return _.map(helpArr, (row, index) => {
-    if (index <= 2) {
-      return;
+    if (header.test(line)) {
+      acc.push({ heading: line });
+
+      return acc;
     }
-    let str = row.replace(',', '');
-    let arr = str.trim().split(' ');
-    if (str.indexOf('-') >= 0 && previousLine[0] !== '') {
-      let option = createOption(arr);
-      if (option && option.option !== 'format' && option.option !== 'help') {
-        return option;
-      }
+
+    const lineArr = line
+      .replace(',', '')
+      .trim()
+      .split(' ');
+
+    const option = createOption(lineArr);
+
+    if (option.option === 'help') {
+      return acc;
     }
-    previousLine = arr;
-  }).filter(Boolean);
+
+    acc.push(option);
+
+    return acc;
+  }, []);
 }
 
 export default {

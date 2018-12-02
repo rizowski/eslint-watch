@@ -1,4 +1,5 @@
 export default {
+  name: 'clear',
   trigger(options) {
     return options.clear;
   },

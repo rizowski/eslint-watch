@@ -6,17 +6,33 @@ const logger = Logger('eslint');
 
 const eslint = {
   async getHelpOptions() {
-    const helpText = await eslint.execute(['--help']);
+    const { result: helpText } = await eslint.execute(['--help']);
 
     return parser.parseHelp(helpText);
   },
-  execute(args = []) {
-    return executer.execute('eslint', args);
+  async execute(args = []) {
+    logger.debug('Executing %o', args);
+    try {
+      return { result: await executer.execute('eslint', args), exitCode: 0 };
+    } catch (error) {
+      return { result: error, exitCode: 1 };
+    }
   },
   async lint(args = []) {
     try {
-      const result = await eslint.execute(args);
-      logger.log(result);
+      let endLine = '';
+      const { result } = await eslint.execute(args);
+
+      if (!result.trim()) {
+        logger.log(`✓ Clean (${new Date().toLocaleTimeString()})`);
+        return;
+      }
+
+      if (!/\\n{2}$/.test(result)) {
+        endLine = '\n';
+      }
+
+      logger.log(`${result}${endLine}`);
     } catch (error) {
       logger.error(error);
     }

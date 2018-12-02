@@ -1,6 +1,7 @@
 import path from 'path';
 import unionwith from 'lodash.unionwith';
 import optionator from 'optionator';
+import kebab from 'lodash.kebabcase';
 
 const settings = {
   prepend: 'esw [options] [file.js ...] [dir ...]',
@@ -17,6 +18,9 @@ const defaultOptions = [
     alias: 'h',
     type: 'Boolean',
     description: 'Show help',
+  },
+  {
+    heading: 'ESW Options',
   },
   {
     option: 'watch',
@@ -38,11 +42,19 @@ const defaultOptions = [
     option: 'version',
     type: 'Boolean',
     alias: 'v',
-    description: 'Prints versions',
+    description: 'Prints Eslint-Watch Version',
+  },
+  {
+    option: 'versions',
+    type: 'Boolean',
+    description: 'Prints Eslint-Watch and Eslint Versions',
   },
 ];
 
 function areEqual(opt1, opt2) {
+  if (opt1.heading && opt2.heading) {
+    return opt1.heading === opt2.heading;
+  }
   return opt1.alias === opt2.alias && opt1.option === opt2.option && opt1.type === opt2.type;
 }
 
@@ -66,5 +78,31 @@ export default {
         return options;
       },
     };
+  },
+  getCli(options) {
+    return Object.entries(options).reduce(
+      (acc, [key, value]) => {
+        if (key === 'watch' || key === 'version' || key === 'clear') {
+          return acc;
+        }
+
+        if (key === '_') {
+          return acc;
+        }
+
+        if (typeof value === 'boolean') {
+          acc.flags.push(`--${value ? '' : 'no-'}${kebab(key)}`);
+        } else {
+          acc.flags.push(`--${kebab(key)}`);
+          acc.flags.push(value);
+        }
+
+        return acc;
+      },
+      {
+        flags: [],
+        dirs: options._,
+      }
+    );
   },
 };

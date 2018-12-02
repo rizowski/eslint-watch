@@ -1,7 +1,11 @@
 import { spawn } from 'child_process';
+import createLogger from '../logger';
+
+const logger = createLogger('exec');
 
 export default {
   execute(cmd, args = [], options) {
+    logger.debug('Executing %s %o %o', cmd, args, options);
     const happyData = [];
     const angryData = [];
 
@@ -27,7 +31,7 @@ export default {
           return resolve(happyResult);
         }
 
-        const response = angryData.length === 0 ? happyResult : angryData.join('').trim();
+        const response = angryData.length === 0 ? happyResult : angryData.join('');
 
         return reject(response);
       });

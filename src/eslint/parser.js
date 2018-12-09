@@ -103,7 +103,7 @@ function parseHelp(helpText) {
     }
 
     if (header.test(line)) {
-      acc.push({ heading: line });
+      acc.push({ heading: line.replace(':', '') });
 
       return acc;
     }

@@ -110,5 +110,11 @@ describe('unit: help-parser', () => {
         description: 'Enables or disables color piped output',
       });
     });
+
+    it('removes colons from headers', () => {
+      msg = `${title}\n\nHEADING:\n${noColor}\n`;
+      const options = parser.parseHelp(msg);
+      expect(options[0].heading).to.not.include(':');
+    });
   });
 });

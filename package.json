@@ -10,12 +10,10 @@
     "clean": "rm -rf build node_modules",
     "coverage": "nyc npm test",
     "deploy": "./scripts/deploy.sh",
-    "eslint": "node ./bin/esw --no-ignore --color",
     "lint:watch": "node ./bin/esw -w",
     "lint": "node ./bin/esw",
     "mocha": "mocha",
     "postcoverage": "nyc report --reporter=text-lcov | coveralls",
-    "precommit": "lint-staged",
     "prepublish": "npm run build",
     "test:integration": "npm run mocha -- --opts ./tests/mocha-integration.opts",
     "test:unit": "npm run mocha -- --opts ./tests/mocha-unit.opts",
@@ -51,6 +49,11 @@
     "email": "c.rouska@gmail.com"
   },
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{js,css,json}": [
       "prettier --write --print-width=160",

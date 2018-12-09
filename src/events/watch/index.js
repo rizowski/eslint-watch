@@ -1,4 +1,4 @@
-import watch from './watch';
+import watch from './chokidar';
 import Logger from '../../logger';
 import eslint from '../../eslint';
 import key from './key-listener';
@@ -24,7 +24,7 @@ export default {
       await lint(opts, [...flags, ...dirs]);
     });
 
-    watcher
+    return watcher
       .on('ready', async () => {
         logger.debug('Ready');
         await lint(opts, [...flags, ...dirs]);
@@ -32,9 +32,9 @@ export default {
       .on('add', (dir) => logger.debug(`${dir} added.`))
       .on('change', async (path) => {
         logger.debug('Detected change:', path);
-        const dirs = opts.changed ? [path] : opts._;
+        const changed = opts.changed ? [path] : opts._;
 
-        await lint(opts, [...flags, ...dirs]);
+        await lint(opts, [...flags, ...changed]);
       })
       .on('error', (err) => logger.error(err));
   },

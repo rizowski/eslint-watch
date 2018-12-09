@@ -1,40 +1,74 @@
-import chokidar from 'chokidar';
-import watch from '../../../src/events/watch/watch';
+import { EventEmitter } from 'events';
+import watch from '../../../src/events/watch';
+import choki from '../../../src/events/watch/chokidar';
+import key from '../../../src/events/watch/key-listener';
+import linter from '../../../src/eslint';
 
 describe('events/watch', () => {
   let sandbox;
-  let chokidarStub;
+  let chokiStub;
+  let lintStub;
+  let emitter;
 
   beforeEach(() => {
+    emitter = new EventEmitter();
     sandbox = sinon.createSandbox();
+    const watchMock = {
+      on(name, callback) {
+        emitter.addListener(name, callback);
+        return watchMock;
+      },
+    };
 
-    chokidarStub = sandbox.stub(chokidar, 'watch').returns({
-      on() {},
-      add() {},
-      unwatch() {},
-      close() {},
-    });
+    chokiStub = sandbox.stub(choki, 'createWatcher').returns(watchMock);
+    lintStub = sandbox.stub(linter, 'lint').resolves();
+    sandbox.stub(key, 'listen');
   });
 
   afterEach(() => {
+    emitter.removeAllListeners();
     sandbox.restore();
   });
 
   it('creates a watcher', () => {
-    const result = watch.createWatcher(['.']);
+    watch.listen({ _: ['./'] });
 
-    expect(result)
-      .to.be.an('object')
-      .and.to.have.keys(['add', 'on', 'unwatch', 'close']);
+    expect(emitter.listeners('add')).to.have.length(1);
+    expect(emitter.listeners('ready')).to.have.length(1);
+    expect(emitter.listeners('change')).to.have.length(1);
+    expect(emitter.listeners('error')).to.have.length(1);
 
-    expect(chokidarStub.calledOnce).to.equal(true, 'chokidar was not called once');
-    expect(chokidarStub.firstCall.args[0]).to.eql(['.']);
-    expect(chokidarStub.firstCall.args[1]).to.eql({ ignored: /\.git|node_modules|bower_components/ });
+    expect(chokiStub.calledOnce).to.equal(true, 'chokidar called more than once');
+    expect(chokiStub.firstCall.args).to.eql([['./'], { ignored: undefined }]);
   });
 
-  it('merges default ignore paths', () => {
-    watch.createWatcher(['.'], { ignored: /build|dist/ });
+  it('lints the directory when a change is detected', () => {
+    const opts = { _: ['./'] };
+    watch.listen(opts);
 
-    expect(chokidarStub.firstCall.args[1]).to.eql({ ignored: /\.git|node_modules|bower_components|build|dist/ });
+    emitter.emit('change', './some/path');
+
+    expect(lintStub.calledOnce).to.equal(true);
+    expect(lintStub.firstCall.args).to.eql([['./']]);
+  });
+
+  it('lints the changed path when --changed is provided and a change is detected', () => {
+    const opts = { _: ['./'], changed: true };
+    watch.listen(opts);
+
+    emitter.emit('change', './some/path');
+
+    expect(lintStub.calledOnce).to.equal(true);
+    expect(lintStub.firstCall.args).to.eql([['./some/path']]);
+  });
+
+  it('runs an initial lint when the ready event is fired', () => {
+    const opts = { _: ['./'], changed: true };
+    watch.listen(opts);
+
+    emitter.emit('ready');
+
+    expect(lintStub.calledOnce).to.equal(true);
+    expect(lintStub.firstCall.args).to.eql([['./']]);
   });
 });

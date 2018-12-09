@@ -4,9 +4,7 @@ describe('eslint/options', () => {
   it('returns options for optionator', async () => {
     const options = await eslint.getHelpOptions();
 
-    expect(options)
-      .to.be.an('array')
-      .and.have.length(42);
+    expect(options).to.be.an('array');
 
     options.forEach((o) => {
       if (o.heading) {

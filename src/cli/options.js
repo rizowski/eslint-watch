@@ -2,6 +2,9 @@ import path from 'path';
 import unionwith from 'lodash.unionwith';
 import optionator from 'optionator';
 import kebab from 'lodash.kebabcase';
+import createLogger from '../logger';
+
+const logger = createLogger('options');
 
 const settings = {
   prepend: 'esw [options] [file.js ...] [dir ...]',
@@ -11,16 +14,13 @@ const settings = {
 
 const defaultOptions = [
   {
-    heading: 'Options',
+    heading: 'ESW Options',
   },
   {
     option: 'help',
     alias: 'h',
     type: 'Boolean',
     description: 'Show help',
-  },
-  {
-    heading: 'ESW Options',
   },
   {
     option: 'watch',
@@ -64,12 +64,13 @@ export default {
   },
   createOptions(eswOptions, eslintOptions) {
     const mergedOptions = unionwith(eswOptions, eslintOptions, areEqual);
+    logger.debug(mergedOptions);
     const opsor = optionator({ ...settings, options: mergedOptions });
 
     return {
       helpText: opsor.generateHelp(),
       parse(rawArgs) {
-        const options = opsor.parse(rawArgs);
+        const options = opsor.parse(rawArgs, { slice: 0 });
 
         if (options._.length === 0) {
           options._ = [path.resolve('./')];

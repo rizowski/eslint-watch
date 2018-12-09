@@ -1,21 +1,23 @@
-import executer from './executer';
 import parser from './parser';
 import Logger from '../logger';
+import execa from 'execa';
 
 const logger = Logger('eslint');
 
 const eslint = {
   async getHelpOptions() {
-    const { result: helpText } = await eslint.execute(['--help']);
+    const helpText = await eslint.execute(['--help']);
 
     return parser.parseHelp(helpText);
   },
   async execute(args = []) {
     logger.debug('Executing %o', args);
     try {
-      return { result: await executer.execute('eslint', args), exitCode: 0 };
+      const { stdout } = await execa('eslint', args);
+
+      return stdout;
     } catch (error) {
-      return { result: error, exitCode: 1 };
+      throw new Error(error.stdout);
     }
   },
   async lint(args = []) {

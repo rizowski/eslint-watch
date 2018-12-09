@@ -73,7 +73,7 @@ describe('integration', () => {
   describe('version', () => {
     it('prints out eslint-watch version with --esw-version', async () => {
       const output = await esw.run(['--version']);
-      expect(output.trim()).to.equal(`Eslint-Watch: ${pkg.version}`);
+      expect(output.trim()).to.equal(`Eslint-Watch: v${pkg.version}`);
     });
   });
 });

@@ -17,7 +17,7 @@ async function lint(options = {}, eslintArgs = []) {
 
 export default {
   listen(opts) {
-    const watcher = watch.createWatcher(opts._);
+    const watcher = watch.createWatcher(opts._, { ignored: opts.watchIgnore });
     const { flags, dirs } = cli.getCli(opts);
 
     key.listen(['enter'], async () => {
@@ -32,7 +32,9 @@ export default {
       .on('add', (dir) => logger.debug(`${dir} added.`))
       .on('change', async (path) => {
         logger.debug('Detected change:', path);
-        await lint(opts, [...flags, path]);
+        const dirs = opts.changed ? [path] : opts._;
+
+        await lint(opts, [...flags, ...dirs]);
       })
       .on('error', (err) => logger.error(err));
   },

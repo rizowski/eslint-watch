@@ -3,7 +3,6 @@ const logger = createLogger('commands');
 
 const commands = [require('./clear'), require('./version'), require('./versions')];
 
-process.on('unhandledRejection', console.error);
 export default {
   async run(options) {
     const runnable = commands.filter((c) => c.trigger(options));

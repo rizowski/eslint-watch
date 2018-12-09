@@ -1,6 +1,6 @@
 const eslint = require('../../../src/eslint');
 
-describe('unit: eslint', () => {
+describe('eslint/options', () => {
   it('returns options for optionator', async () => {
     const options = await eslint.getHelpOptions();
 

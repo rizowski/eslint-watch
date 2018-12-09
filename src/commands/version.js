@@ -3,11 +3,11 @@ import pkg from '../../package';
 export default {
   name: 'version',
   trigger(opts) {
-    return opts.version;
+    return opts.version && !opts.versions;
   },
-  async run() {
+  run() {
     const version = pkg.version;
 
-    return `Eslint-Watch: ${version}`;
+    return `Eslint-Watch: v${version}`;
   },
 };

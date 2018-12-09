@@ -1,15 +1,14 @@
-import pkg from '../../package';
 import eslint from '../eslint';
+import version from './version';
 
 export default {
   name: 'versions',
   trigger(opts) {
-    return opts.versions;
+    return !opts.version && opts.versions;
   },
   async run() {
     const result = await eslint.execute(['--version']);
-    const version = pkg.version;
 
-    return `Eslint-Watch: ${version}\nEslint: ${result.trim('\n')}`;
+    return `${version.run()}\nEslint: ${result.trim('\n')}`;
   },
 };

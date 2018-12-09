@@ -21,6 +21,10 @@ export default {
       });
 
       result.on('error', (err) => {
+        if (err.code === 'ENOENT') {
+          return reject(new Error('ESLint not found. Make sure it is installed'));
+        }
+
         reject(err);
       });
 
@@ -30,7 +34,6 @@ export default {
         if (code === 0) {
           return resolve(happyResult);
         }
-
         const response = angryData.length === 0 ? happyResult : angryData.join('');
 
         return reject(response);

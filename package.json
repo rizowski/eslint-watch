@@ -61,16 +61,6 @@
       "git add"
     ]
   },
-  "prettier": {
-    "arrowParens": "always",
-    "semi": true,
-    "useTabs": false,
-    "tabWidth": 2,
-    "printWidth": 160,
-    "trailingComma": "es5",
-    "singleQuote": true,
-    "bracketSpacing": true
-  },
   "bugs": {
     "url": "https://github.com/rizowski/eslint-watch/issues"
   },
@@ -79,47 +69,39 @@
     "eslint": ">=4 <6.0.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.0.0-beta.51",
-    "bluebird": "^3.5.1",
-    "chalk": "^2.1.0",
-    "chokidar": "^2.0.0",
-    "debug": "^3.0.1",
+    "@babel/polyfill": "^7.0.0",
+    "chokidar": "^2.0.4",
+    "debug": "^4.1.0",
+    "execa": "^1.0.0",
     "keypress": "^0.2.1",
-    "lodash": "^4.17.4",
-    "lodash.includes": "^4.3.0",
     "lodash.isempty": "^4.4.0",
     "lodash.isequal": "^4.5.0",
     "lodash.kebabcase": "^4.1.1",
-    "lodash.union": "^4.6.0",
     "lodash.unionwith": "^4.6.0",
     "optionator": "^0.8.2",
-    "source-map-support": "^0.5.3",
-    "strip-ansi": "^4.0.0",
-    "text-table": "^0.2.0",
-    "unicons": "0.0.3",
-    "yargs-parser": "^11.1.0"
+    "source-map-support": "^0.5.9"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.51",
-    "@babel/core": "^7.0.0-beta.51",
-    "@babel/preset-env": "^7.0.0-beta.51",
-    "@babel/register": "^7.0.0-beta.51",
-    "babel-eslint": "^8.2.1",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "chai": "^4.0.2",
-    "coveralls": "^3.0.0",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
     "eslint": "latest",
     "eslint-config-rizowski": "^1.1.4",
     "eslint-plugin-fp": "^2.3.0",
-    "husky": "^0.14.3",
-    "lint-staged": "^7.1.2",
+    "husky": "^1.2.0",
+    "lint-staged": "^8.1.0",
     "mocha": "^5.0.0",
     "mocha-lcov-reporter": "^1.3.0",
     "mocha-sinon": "^2.0.0",
-    "nyc": "^12.0.2",
-    "prettier": "^1.12.1",
-    "proxyquire": "^2.0.1",
-    "sinon": "^6.0.1",
-    "sinon-chai": "^3.2.0"
+    "nyc": "^13.1.0",
+    "prettier": "^1.15.3",
+    "sinon": "^7.1.1",
+    "sinon-chai": "^3.3.0"
   }
 }

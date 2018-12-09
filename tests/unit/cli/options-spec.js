@@ -113,7 +113,7 @@ describe('cli/options', () => {
     });
 
     it('does not include watch, version(s), or clear', () => {
-      const result = options.getCli({ watch: true, version: true, versions: true, clear: true });
+      const result = options.getCli({ watch: true, version: true, versions: true, clear: true, changed: true, watchIgnore: true });
 
       expect(result.flags)
         .to.be.an('array')

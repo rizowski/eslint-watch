@@ -89,7 +89,7 @@ export default {
     };
   },
   getCli(options) {
-    const ignoredKeys = ['watch', 'versions', 'version', 'clear'];
+    const ignoredKeys = ['watch', 'versions', 'version', 'clear', 'changed', 'watchIgnore'];
 
     return Object.entries(options).reduce(
       (acc, [key, value]) => {

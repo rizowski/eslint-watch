@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-'use strict';
+
 const path = require('path');
 
 const esw = require(path.join(__dirname, '..', 'build'));
@@ -8,6 +8,6 @@ esw
   .run(process.argv)
   .then(console.log)
   .catch((err) => {
-    console.error(err);
+    console.error(err.message);
     process.exit(1);
   });

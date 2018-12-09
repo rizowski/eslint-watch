@@ -41,7 +41,7 @@ const eslint = {
 
       logger.log(`${result}${endLine}`);
     } catch (error) {
-      logger.error(error);
+      logger.error(error.message.trim());
     }
   },
 };

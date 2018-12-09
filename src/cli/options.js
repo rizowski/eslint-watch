@@ -49,6 +49,11 @@ const defaultOptions = [
     type: 'Boolean',
     description: 'Prints Eslint-Watch and Eslint Versions',
   },
+  {
+    option: 'watch-ignore',
+    type: 'RegExp',
+    description: 'Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/',
+  },
 ];
 
 function areEqual(opt1, opt2) {
@@ -59,10 +64,10 @@ function areEqual(opt1, opt2) {
 }
 
 export default {
-  getOptions() {
+  get eswOptions() {
     return [...defaultOptions];
   },
-  createOptions(eswOptions, eslintOptions) {
+  createOptions(eswOptions, eslintOptions = []) {
     const mergedOptions = unionwith(eswOptions, eslintOptions, areEqual);
     logger.debug(mergedOptions);
     const opsor = optionator({ ...settings, options: mergedOptions });
@@ -71,19 +76,24 @@ export default {
       helpText: opsor.generateHelp(),
       parse(rawArgs) {
         const options = opsor.parse(rawArgs, { slice: 0 });
+        const dirs = options._;
 
-        if (options._.length === 0) {
-          options._ = [path.resolve('./')];
+        if (dirs.length === 0) {
+          dirs.push(path.resolve('.'));
         }
+
+        options._ = dirs;
 
         return options;
       },
     };
   },
   getCli(options) {
+    const ignoredKeys = ['watch', 'versions', 'version', 'clear'];
+
     return Object.entries(options).reduce(
       (acc, [key, value]) => {
-        if (key === 'watch' || key === 'version' || key === 'clear') {
+        if (ignoredKeys.includes(key)) {
           return acc;
         }
 
@@ -102,7 +112,7 @@ export default {
       },
       {
         flags: [],
-        dirs: options._,
+        dirs: options._ || [],
       }
     );
   },

@@ -12,12 +12,17 @@ const eslint = {
   },
   async execute(args = []) {
     logger.debug('Executing %o', args);
-    try {
-      const { stdout } = await execa('eslint', args);
 
-      return stdout;
+    try {
+      const result = await execa('eslint', args);
+
+      logger.debug(result);
+
+      return result.stdout;
     } catch (error) {
-      throw new Error(error.stdout);
+      logger.debug(error);
+
+      throw new Error(error.stdout || error.stderr);
     }
   },
   async lint(args = []) {

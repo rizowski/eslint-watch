@@ -12,10 +12,11 @@ const logger = Logger('main');
 export default {
   async run([...rawArgs]) {
     logger.debug(rawArgs);
-    const eswOptions = options.getOptions();
+
     const eslOptions = await eslint.getHelpOptions();
-    const opts = options.createOptions(eswOptions, eslOptions);
+    const opts = options.createOptions(options.eswOptions, eslOptions);
     const cliOptions = opts.parse(rawArgs);
+
     logger.debug(cliOptions);
 
     if (cliOptions.help) {

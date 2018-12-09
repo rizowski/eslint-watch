@@ -3,14 +3,13 @@ import createLogger from '../../logger';
 
 const logger = createLogger('watch:chokidar');
 
-const defaultOptions = {
-  ignored: /\.git|node_modules|bower_components/,
-};
+const ignoredPath = /\.git|node_modules|bower_components/;
 
 export default {
   createWatcher(dirs, options = {}) {
     logger.debug('Watching %o %o', dirs, options);
-    const watcher = chokidar.watch(dirs, { ...defaultOptions, ...options });
+    const ignored = options.ignored ? new RegExp(`${ignoredPath.source}|${options.ignored.source}`) : ignoredPath;
+    const watcher = chokidar.watch(dirs, { ignored });
 
     return {
       on: watcher.on.bind(watcher),

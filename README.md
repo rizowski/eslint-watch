@@ -34,55 +34,75 @@ To run eslint-watch without the global install, make an npm script.
   - Multi-directory watching
   - Runs a full directory lint before the watch
   - Press `enter` to rerun directory lint while watching
+  - Include directories to ignore on watch
 - Eslint Overrides
   - Default directory linting. A directory is no longer required.
-- [Simple formatters](#new-formatters)
-  - simple-detail (default)
-  - simple
-  - simple-success
 
 ## Options/Usage
 
 Eslint-Watch replaces only a few commands that it needs to take control over. All other commands are forwarded to Eslint unmodified. Please refer to their help text for full command support as the one provided below might not be up to date with the latest Eslint changes.
 
-```
-esw [options] [file.js ...] [dir ...]
+```md
+esw [options][file.js ...] [dir ...]
 
-Options:
-  -h, --help                   Show help
-  -f, --format String          Use a specific output format - default: simple-detail
-  -w, --watch                  Enable file watch
-  --changed                    Enables single file linting while watch is enabled
-  --clear                      Clear terminal when running lint
-  --esw-version                Prints Eslint-Watch's Version
-  -c, --config path::String    Use configuration from this file or shareable config
-  --no-eslintrc                Disable use of configuration from .eslintrc
-  --env [String]               Specify environments
-  --ext [String]               Specify JavaScript file extensions - default: .js
-  --global [String]            Define global variables
-  --parser String              Specify the parser to be used
-  --parser-options Object      Specify parser options
-  --cache                      Only check changed files - default: false
-  --cache-file path::String    Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
-  --cache-location path::String  Path to the cache file or directory
-  --rulesdir [path::String]    Use additional rules from this directory
-  --plugin [String]            Specify plugins
-  --rule Object                Specify rules
-  --ignore-path path::String   Specify path of ignore file
-  --no-ignore                  Disable use of ignore files and patterns
-  --ignore-pattern [String]    Pattern of files to ignore (in addition to those in .eslintignore)
-  --stdin                      Lint code provided on <STDIN> - default: false
-  --stdin-filename String      Specify filename to process STDIN as
-  --quiet                      Report errors only - default: false
-  --max-warnings Int           Number of warnings to trigger nonzero exit code - default: -1
-  -o, --output-file path::String  Specify file to write report to
-  --color, --no-color          Force enabling/disabling of color
-  --init                       Run config initialization wizard - default: false
-  --fix                        Automatically fix problems
-  --debug                      Output debugging information
-  -v, --version                Output the version number
-  --no-inline-config           Prevent comments from changing config or rules
-  --print-config path::String  Print the configuration for the given file
+ESW Options:
+-h, --help Show help
+-w, --watch Enable file watch
+--changed Enables single file linting while watch is enabled
+--clear Clear terminal when running lint
+-v, --version Prints Eslint-Watch Version
+--versions Prints Eslint-Watch and Eslint Versions
+--watch-ignore RegExp Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/
+
+Basic configuration:
+--no-eslintrc Disable use of configuration from .eslintrc._
+-c, --config path::String Use this configuration, overriding .eslintrc._ config options if present
+--env [String] Specify environments
+--ext [String] Specify JavaScript file extensions - default: .js
+--global [String] Define global variables
+--parser String Specify the parser to be used
+--parser-options Object Specify parser options
+
+Specifying rules and plugins:
+--rulesdir [path::String] Use additional rules from this directory
+--plugin [String] Specify plugins
+--rule Object Specify rules
+
+Fixing problems:
+--fix Automatically fix problems
+--fix-dry-run Automatically fix problems without saving the changes to the file system
+
+Ignoring files:
+--ignore-path path::String Specify path of ignore file
+--no-ignore Disable use of ignore files and patterns
+--ignore-pattern [String] Pattern of files to ignore (in addition to those in .eslintignore)
+
+Using stdin:
+--stdin Lint code provided on <STDIN> - default: false
+--stdin-filename String Specify filename to process STDIN as
+
+Handling warnings:
+--quiet Report errors only - default: false
+--max-warnings Int Number of warnings to trigger nonzero exit code - default: -1
+
+Output:
+-o, --output-file path::String Specify file to write report to
+-f, --format String Use a specific output format - default: stylish
+--color, --no-color Force enabling/disabling of color
+
+Inline configuration comments:
+--no-inline-config Prevent comments from changing config or rules
+--report-unused-disable-directives Adds reported errors for unused eslint-disable directives
+
+Caching:
+--cache Only check changed files - default: false
+--cache-file path::String Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+--cache-location path::String Path to the cache file or directory
+
+Miscellaneous:
+--init Run config initialization wizard - default: false
+--debug Output debugging information
+--print-config path::String Print the configuration for the given file
 ```
 
 ### Other Options
@@ -92,11 +112,6 @@ Eslint-Watch uses [`chokidar`](https://github.com/paulmillr/chokidar) under the 
 ## Functionality
 
 [![Simple lint and watch](https://thumbs.gfycat.com/AgreeableForsakenIvorygull-size_restricted.gif)](https://fat.gfycat.com/AgreeableForsakenIvorygull.gif)
-
-## New Formatters
-
-[![simple simple-success simple-detail](http://i.imgur.com/m757NwM.png)](http://i.imgur.com/m757NwM.png)
-
 Donate:
 
 - (Ƀitcoin): `13V7iDxBhnFASw7avGGRk64ExDGTirhx37`

@@ -2,7 +2,7 @@ import path from 'path';
 import unionwith from 'lodash.unionwith';
 import optionator from 'optionator';
 import kebab from 'lodash.kebabcase';
-import createLogger from '../logger';
+import { createLogger } from '../logger';
 
 const logger = createLogger('options');
 

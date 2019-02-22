@@ -1,4 +1,4 @@
-import createLogger from '../logger';
+import { createLogger } from '../logger';
 const logger = createLogger('commands');
 
 const commands = [require('./clear'), require('./version'), require('./versions')];

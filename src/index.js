@@ -4,11 +4,11 @@ import pkg from '../package';
 
 import eslint from './eslint';
 import options from './cli/options';
-import Logger from './logger';
+import { createLogger } from './logger';
 import commands from './commands';
 import watch from './events/watch';
 
-const logger = Logger('main');
+const logger = createLogger('main');
 
 export default {
   async run([, , ...rawArgs]) {

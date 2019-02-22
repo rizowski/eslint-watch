@@ -1,14 +1,15 @@
 import watch from './chokidar';
-import Logger from '../../logger';
+import { createLogger } from '../../logger';
 import eslint from '../../eslint';
 import key from './key-listener';
 import clear from '../../commands/clear';
 import cli from '../../cli/options';
 
-const logger = Logger('events:watch');
+const logger = createLogger('events:watch');
 
 async function lint(options = {}, eslintArgs = []) {
   if (options.clear) {
+    /* istanbul ignore next */
     logger.log(clear.run());
   }
 
@@ -24,18 +25,22 @@ export default {
       await lint(opts, [...flags, ...dirs]);
     });
 
-    return watcher
-      .on('ready', async () => {
-        logger.debug('Ready');
-        await lint(opts, [...flags, ...dirs]);
-      })
-      .on('add', (dir) => logger.debug(`${dir} added.`))
-      .on('change', async (path) => {
-        logger.debug('Detected change:', path);
-        const changed = opts.changed ? [path] : opts._;
+    return (
+      watcher
+        .on('ready', async () => {
+          logger.debug('Ready');
+          await lint(opts, [...flags, ...dirs]);
+        })
+        /* istanbul ignore next */
+        .on('add', (dir) => logger.debug(`${dir} added.`))
+        .on('change', async (path) => {
+          logger.debug('Detected change:', path);
+          const changed = opts.changed ? [path] : opts._;
 
-        await lint(opts, [...flags, ...changed]);
-      })
-      .on('error', (err) => logger.error(err));
+          await lint(opts, [...flags, ...changed]);
+        })
+        /* istanbul ignore next */
+        .on('error', (err) => logger.error(err))
+    );
   },
 };

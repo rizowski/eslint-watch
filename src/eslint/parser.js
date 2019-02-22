@@ -1,8 +1,8 @@
 import isEmpty from 'lodash.isempty';
 
-import Logger from '../logger';
+import { createLogger } from '../logger';
 
-const logger = Logger('eslint-help');
+const logger = createLogger('eslint-help');
 logger.debug('Loaded');
 
 const namedOption = /^--/;

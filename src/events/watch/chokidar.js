@@ -1,5 +1,5 @@
 import chokidar from 'chokidar';
-import createLogger from '../../logger';
+import { createLogger } from '../../logger';
 
 const logger = createLogger('watch:chokidar');
 

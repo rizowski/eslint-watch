@@ -2,8 +2,6 @@ import parser from './parser';
 import Logger from '../logger';
 import execa from 'execa';
 
-const logger = Logger('eslint');
-
 const eslint = {
   async getHelpOptions() {
     const helpText = await eslint.execute(['--help']);
@@ -11,6 +9,8 @@ const eslint = {
     return parser.parseHelp(helpText);
   },
   async execute(args = []) {
+    const logger = Logger.createLogger('eslint');
+
     logger.debug('Executing %o', args);
 
     try {
@@ -26,20 +26,21 @@ const eslint = {
     }
   },
   async lint(args = []) {
+    const logger = Logger.createLogger('eslint');
+
     try {
       let endLine = '';
-      const { result } = await eslint.execute(args);
+      const results = await eslint.execute(args);
 
-      if (!result.trim()) {
-        logger.log(`✓ Clean (${new Date().toLocaleTimeString()})`);
+      if (!results.trim()) {
         return;
       }
 
-      if (!/\\n{2}$/.test(result)) {
+      if (!/\\n{2}$/.test(results)) {
         endLine = '\n';
       }
 
-      logger.log(`${result}${endLine}`);
+      logger.log(`${results}${endLine}`);
     } catch (error) {
       logger.error(error.message.trim());
     }

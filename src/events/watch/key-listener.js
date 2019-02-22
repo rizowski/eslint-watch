@@ -1,5 +1,6 @@
+/* istanbul ignore file */
 import keypress from 'keypress';
-import createLogger from '../../logger';
+import { createLogger } from '../../logger';
 
 const logger = createLogger('events:key-listener');
 

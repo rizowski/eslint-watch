@@ -7,7 +7,11 @@ const esw = require(path.join(__dirname, '..', 'build'));
 
 esw
   .run(process.argv)
-  .then(console.log)
+  .then((result) => {
+    if (result) {
+      console.log(result);
+    }
+  })
   .catch((err) => {
     console.error(err.message);
     process.exit(1);

@@ -31,7 +31,8 @@ export default {
     let cmdResult = await commands.run(cliOptions);
 
     if (cliOptions.watch) {
-      return watch.listen(cliOptions);
+      watch.listen(cliOptions);
+      return;
     }
 
     const { flags, dirs } = options.getCli(cliOptions);

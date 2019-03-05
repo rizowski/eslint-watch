@@ -1,5 +1,3 @@
-import '@babel/polyfill';
-import 'source-map-support/register';
 import pkg from '../package';
 
 import eslint from './eslint';

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-
+require('@babel/polyfill');
+require('source-map-support/register');
 const path = require('path');
 
 const esw = require(path.join(__dirname, '..', 'build'));

@@ -31,7 +31,8 @@ describe('events/watch', () => {
   });
 
   it('creates a watcher', () => {
-    watch.listen({ _: ['./'] });
+    const options = { _: ['./'] };
+    watch.listen(options);
 
     expect(emitter.listeners('add')).to.have.length(1);
     expect(emitter.listeners('ready')).to.have.length(1);
@@ -49,7 +50,7 @@ describe('events/watch', () => {
     emitter.emit('change', './some/path');
 
     expect(lintStub.calledOnce).to.equal(true);
-    expect(lintStub.firstCall.args).to.eql([['./']]);
+    expect(lintStub.firstCall.args).to.eql([['./'], opts]);
   });
 
   it('lints the changed path when --changed is provided and a change is detected', () => {
@@ -59,7 +60,7 @@ describe('events/watch', () => {
     emitter.emit('change', './some/path');
 
     expect(lintStub.calledOnce).to.equal(true);
-    expect(lintStub.firstCall.args).to.eql([['./some/path']]);
+    expect(lintStub.firstCall.args).to.eql([['./some/path'], opts]);
   });
 
   it('runs an initial lint when the ready event is fired', () => {
@@ -69,6 +70,6 @@ describe('events/watch', () => {
     emitter.emit('ready');
 
     expect(lintStub.calledOnce).to.equal(true);
-    expect(lintStub.firstCall.args).to.eql([['./']]);
+    expect(lintStub.firstCall.args).to.eql([['./'], opts]);
   });
 });

@@ -13,7 +13,7 @@ async function lint(options = {}, eslintArgs = []) {
     logger.log(clear.run());
   }
 
-  await eslint.lint(eslintArgs);
+  await eslint.lint(eslintArgs, options);
 }
 
 export default {

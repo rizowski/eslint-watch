@@ -25,7 +25,7 @@ const eslint = {
       throw new Error(error.stdout || error.stderr);
     }
   },
-  async lint(args = []) {
+  async lint(args = [], cliOpts = {}) {
     const logger = Logger.createLogger('eslint');
 
     try {
@@ -33,6 +33,9 @@ const eslint = {
       const results = await eslint.execute(args);
 
       if (!results.trim()) {
+        if (!cliOpts.quiet) {
+          logger.log(`✓ Clean (${new Date().toLocaleTimeString()})`);
+        }
         return;
       }
 

@@ -1,5 +1,6 @@
 --recursive
 --retries 1
+-r @babel/polyfill
 -r @babel/core
 -r @babel/register
 -r tests/globals

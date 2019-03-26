@@ -34,6 +34,9 @@ export default {
         /* istanbul ignore next */
         .on('add', (dir) => logger.debug(`${dir} added.`))
         .on('change', async (path) => {
+          if (new RegExp(opts.cacheLocation || '.eslintcache').test(path))
+            return;
+
           logger.debug('Detected change:', path);
           const changed = opts.changed ? [path] : opts._;
 

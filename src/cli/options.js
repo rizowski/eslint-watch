@@ -78,6 +78,11 @@ export default {
         const options = opsor.parse(rawArgs, { slice: 0 });
         const dirs = options._;
 
+        Object.keys(options).forEach(key => {
+          if (options[key] instanceof Object)
+            options[key] = Object.keys(options[key]).map((optionKey) => `${optionKey}: ${options[key][optionKey]}`).join('');
+        });
+
         if (dirs.length === 0) {
           dirs.push(path.resolve('.'));
         }

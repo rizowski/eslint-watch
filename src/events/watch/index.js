@@ -1,3 +1,5 @@
+import path from 'path';
+
 import watch from './chokidar';
 import { createLogger } from '../../logger';
 import eslint from '../../eslint';
@@ -20,6 +22,7 @@ export default {
   listen(opts) {
     const watcher = watch.createWatcher(opts._, { ignored: opts.watchIgnore });
     const { flags, dirs } = cli.getCli(opts);
+    const cacheLocation = path.relative(process.cwd(), path.resolve(opts.cacheLocation || '.eslintcache'));
 
     key.listen(['enter'], async () => {
       await lint(opts, [...flags, ...dirs]);
@@ -33,12 +36,12 @@ export default {
         })
         /* istanbul ignore next */
         .on('add', (dir) => logger.debug(`${dir} added.`))
-        .on('change', async (path) => {
-          if (new RegExp(opts.cacheLocation || '.eslintcache').test(path))
+        .on('change', async (filePath) => {
+          if (cacheLocation === filePath)
             return;
 
-          logger.debug('Detected change:', path);
-          const changed = opts.changed ? [path] : opts._;
+          logger.debug('Detected change:', filePath);
+          const changed = opts.changed ? [filePath] : opts._;
 
           await lint(opts, [...flags, ...changed]);
         })

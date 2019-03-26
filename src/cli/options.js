@@ -78,11 +78,6 @@ export default {
         const options = opsor.parse(rawArgs, { slice: 0 });
         const dirs = options._;
 
-        Object.keys(options).forEach(key => {
-          if (options[key] instanceof Object)
-            options[key] = Object.keys(options[key]).map((optionKey) => `${optionKey}: ${options[key][optionKey]}`).join('');
-        });
-
         if (dirs.length === 0) {
           dirs.push(path.resolve('.'));
         }
@@ -103,6 +98,14 @@ export default {
         }
 
         if (key === '_') {
+          return acc;
+        }
+
+        if (key === 'rule') {
+          Object.keys(value).forEach((ruleKey) => {
+            acc.flags.push('--rule', `${ruleKey}: ${value[ruleKey]}`);
+          });
+
           return acc;
         }
 

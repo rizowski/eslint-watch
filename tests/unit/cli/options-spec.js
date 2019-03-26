@@ -119,5 +119,11 @@ describe('cli/options', () => {
         .to.be.an('array')
         .and.to.have.length(0);
     });
+
+    it('set rules to --rule', () => {
+      const result = options.getCli({ rule: { 'guard-for-in': 2, 'brace-style': [2, '1tbs'] } });
+
+      expect(result.flags).to.eql(['--rule', 'guard-for-in: 2', '--rule', 'brace-style: [2,1tbs]']);
+    });
   });
 });

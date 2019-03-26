@@ -103,7 +103,7 @@ export default {
 
         if (key === 'rule') {
           Object.keys(value).forEach((ruleKey) => {
-            acc.flags.push('--rule', `${ruleKey}: ${value[ruleKey]}`);
+            acc.flags.push('--rule', `${ruleKey}: ${JSON.stringify(value[ruleKey]).replace(/"/g, '')}`);
           });
 
           return acc;

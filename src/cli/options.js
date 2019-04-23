@@ -54,6 +54,12 @@ const defaultOptions = [
     type: 'RegExp',
     description: 'Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/',
   },
+  {
+    option: 'watch-delay',
+    type: 'Int',
+    description: 'Delay(ms) for watcher to wait to trigger re-lint',
+    default: '300',
+  },
 ];
 
 function areEqual(opt1, opt2) {

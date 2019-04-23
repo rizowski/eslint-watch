@@ -53,6 +53,7 @@ ESW Options:
 -v, --version Prints Eslint-Watch Version
 --versions Prints Eslint-Watch and Eslint Versions
 --watch-ignore RegExp Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/
+--watch-delay Int Delay(ms) for watcher to wait to trigger re-lint - default: 300
 
 Basic configuration:
 --no-eslintrc Disable use of configuration from .eslintrc._
@@ -71,6 +72,7 @@ Specifying rules and plugins:
 Fixing problems:
 --fix Automatically fix problems
 --fix-dry-run Automatically fix problems without saving the changes to the file system
+--fix-type Array Specify the types of fixes to apply (problem suggestion, layout)
 
 Ignoring files:
 --ignore-path path::String Specify path of ignore file

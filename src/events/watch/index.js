@@ -1,4 +1,5 @@
 import path from 'path';
+import debounce from 'lodash.debounce';
 
 import watch from './chokidar';
 import { createLogger } from '../../logger';
@@ -36,15 +37,18 @@ export default {
         })
         /* istanbul ignore next */
         .on('add', (dir) => logger.debug(`${dir} added.`))
-        .on('change', async (filePath) => {
-          if (cacheLocation === filePath)
-            return;
+        .on(
+          'change',
+          debounce(async (filePath) => {
+            if (cacheLocation === filePath) return;
 
-          logger.debug('Detected change:', filePath);
-          const changed = opts.changed ? [filePath] : opts._;
+            logger.debug('Detected change:', filePath);
+            const changed = opts.changed ? [filePath] : opts._;
 
-          await lint(opts, [...flags, ...changed]);
-        })
+            await lint(opts, [...flags, ...changed]);
+          }),
+          opts.watchDelay || 300
+        )
         /* istanbul ignore next */
         .on('error', (err) => logger.error(err))
     );

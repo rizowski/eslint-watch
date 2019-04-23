@@ -9,7 +9,8 @@
         "targets": {
           "node": 6
         },
-        "useBuiltIns": "entry"
+        "useBuiltIns": "entry",
+        "corejs": 2
       }
     ]
   ]

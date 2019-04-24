@@ -21,8 +21,7 @@
     "test": "npm run mocha -- --opts ./tests/mocha.opts"
   },
   "engines": {
-    "node": ">=6",
-    "npm": ">=5"
+    "node": ">=6"
   },
   "repository": {
     "type": "git",
@@ -75,12 +74,12 @@
   },
   "homepage": "https://github.com/rizowski/eslint-watch",
   "peerDependencies": {
-    "eslint": ">=4 <6.0.0"
+    "eslint": ">=4 <7.0.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "chokidar": "^2.0.4",
-    "core-js": "2",
+    "core-js": "^2.6.5",
     "debug": "^4.1.0",
     "execa": "^1.0.0",
     "keypress": "^0.2.1",

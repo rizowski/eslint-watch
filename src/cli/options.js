@@ -95,11 +95,11 @@ export default {
     };
   },
   getCli(options) {
-    const ignoredKeys = ['watch', 'versions', 'version', 'clear', 'changed', 'watchIgnore'];
+    const eswKeys = ['watch', 'versions', 'version', 'clear', 'changed', 'watchIgnore', 'watchDelay'];
 
     return Object.entries(options).reduce(
       (acc, [key, value]) => {
-        if (ignoredKeys.includes(key)) {
+        if (eswKeys.includes(key)) {
           return acc;
         }
 

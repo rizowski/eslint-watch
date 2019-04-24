@@ -43,33 +43,54 @@ describe('events/watch', () => {
     expect(chokiStub.firstCall.args).to.eql([['./'], { ignored: undefined }]);
   });
 
-  it('lints the directory when a change is detected', () => {
+  it('lints the directory when a change is detected', (done) => {
     const opts = { _: ['./'] };
     watch.listen(opts);
 
     emitter.emit('change', './some/path');
 
-    expect(lintStub.calledOnce).to.equal(true);
-    expect(lintStub.firstCall.args).to.eql([['./'], opts]);
+    setTimeout(() => {
+      try {
+        expect(lintStub.calledOnce).to.equal(true);
+        expect(lintStub.firstCall.args).to.eql([['./'], opts]);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    }, 100);
   });
 
-  it('lints the changed path when --changed is provided and a change is detected', () => {
+  it('lints the changed path when --changed is provided and a change is detected', (done) => {
     const opts = { _: ['./'], changed: true };
     watch.listen(opts);
 
     emitter.emit('change', './some/path');
 
-    expect(lintStub.calledOnce).to.equal(true);
-    expect(lintStub.firstCall.args).to.eql([['./some/path'], opts]);
+    setTimeout(() => {
+      try {
+        expect(lintStub.calledOnce).to.equal(true);
+        expect(lintStub.firstCall.args).to.eql([['./some/path'], opts]);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    }, 100);
   });
 
-  it('runs an initial lint when the ready event is fired', () => {
+  it('runs an initial lint when the ready event is fired', (done) => {
     const opts = { _: ['./'], changed: true };
     watch.listen(opts);
 
     emitter.emit('ready');
 
-    expect(lintStub.calledOnce).to.equal(true);
-    expect(lintStub.firstCall.args).to.eql([['./'], opts]);
+    setTimeout(() => {
+      try {
+        expect(lintStub.calledOnce).to.equal(true);
+        expect(lintStub.firstCall.args).to.eql([['./'], opts]);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    }, 100);
   });
 });

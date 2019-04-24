@@ -29,7 +29,8 @@ describe('cli/options', () => {
           --clear        Clear terminal when running lint
           -v, --version  Prints Eslint-Watch Version
           --versions     Prints Eslint-Watch and Eslint Versions
-          --watch-ignore RegExp  Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/`.replace(/\s+/g, ' ')
+          --watch-ignore RegExp  Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/
+          --watch-delay Int Delay(ms) for watcher to wait to trigger re-lint - default: 300`.replace(/\s+/g, ' ')
       );
     });
 
@@ -63,6 +64,7 @@ describe('cli/options', () => {
 
         expect(result).to.eql({
           help: true,
+          watchDelay: 300,
           watch: true,
           changed: true,
           clear: true,

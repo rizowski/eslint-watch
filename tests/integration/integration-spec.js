@@ -64,6 +64,14 @@ describe('integration', () => {
     });
   });
 
+  describe('rule', () => {
+    it('parses inline rules correctly', async () => {
+      const result = await esw.run([...preStuff, '--rule', 'no-unused-vars: off', '--quiet', '--no-ignore', testFiles]);
+
+      expect(result).to.eql('');
+    });
+  });
+
   describe('version', () => {
     it('prints out eslint-watch version with --esw-version', async () => {
       const output = await esw.run([...preStuff, '--version']);

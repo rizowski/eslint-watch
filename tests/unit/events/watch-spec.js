@@ -31,7 +31,7 @@ describe('events/watch', () => {
   });
 
   it('creates a watcher', () => {
-    const options = { _: ['./'] };
+    const options = { _: ['./'], ext: ['.js'] };
     watch.listen(options);
 
     expect(emitter.listeners('add')).to.have.length(1);
@@ -44,41 +44,58 @@ describe('events/watch', () => {
   });
 
   it('lints the directory when a change is detected', (done) => {
-    const opts = { _: ['./'] };
+    const opts = { _: ['./'], ext: ['.js'] };
     watch.listen(opts);
 
-    emitter.emit('change', './some/path');
+    emitter.emit('change', './some/path.js');
 
     setTimeout(() => {
       try {
         expect(lintStub.calledOnce).to.equal(true);
-        expect(lintStub.firstCall.args).to.eql([['./'], opts]);
+        expect(lintStub.firstCall.args).to.eql([['--ext', ['.js'], './'], opts]);
         done();
       } catch (error) {
         done(error);
       }
-    }, 100);
+    }, 0);
   });
 
   it('lints the changed path when --changed is provided and a change is detected', (done) => {
-    const opts = { _: ['./'], changed: true };
+    const opts = { _: ['./'], changed: true, ext: ['.js'] };
     watch.listen(opts);
 
-    emitter.emit('change', './some/path');
+    emitter.emit('change', './some/path.js');
 
     setTimeout(() => {
       try {
         expect(lintStub.calledOnce).to.equal(true);
-        expect(lintStub.firstCall.args).to.eql([['./some/path'], opts]);
+        expect(lintStub.firstCall.args).to.eql([['--ext', ['.js'], './some/path.js'], opts]);
         done();
       } catch (error) {
         done(error);
       }
-    }, 100);
+    }, 0);
+  });
+
+  it('does not lint non js files', (done) => {
+    const opts = { _: ['./'], changed: true, ext: ['.js'] };
+
+    watch.listen(opts);
+
+    emitter.emit('change', './some/path.py');
+
+    setTimeout(() => {
+      try {
+        expect(lintStub.called).to.equal(false);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    }, 0);
   });
 
   it('runs an initial lint when the ready event is fired', (done) => {
-    const opts = { _: ['./'], changed: true };
+    const opts = { _: ['./'], changed: true, ext: ['.js'] };
     watch.listen(opts);
 
     emitter.emit('ready');
@@ -86,11 +103,11 @@ describe('events/watch', () => {
     setTimeout(() => {
       try {
         expect(lintStub.calledOnce).to.equal(true);
-        expect(lintStub.firstCall.args).to.eql([['./'], opts]);
+        expect(lintStub.firstCall.args).to.eql([['--ext', ['.js'], './'], opts]);
         done();
       } catch (error) {
         done(error);
       }
-    }, 100);
+    }, 0);
   });
 });

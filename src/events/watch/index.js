@@ -41,6 +41,10 @@ export default {
           'change',
           debounce(async (filePath) => {
             if (cacheLocation === filePath) return;
+            if (!opts.ext.includes(path.extname(filePath))) {
+              logger.debug(`Watch: Skipping ${filePath}`);
+              return;
+            }
 
             logger.debug('Detected change:', filePath);
             const changed = opts.changed ? [filePath] : opts._;

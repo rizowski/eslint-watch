@@ -60,6 +60,15 @@ const defaultOptions = [
     description: 'Delay(ms) for watcher to wait to trigger re-lint',
     default: '300',
   },
+  {
+    heading: 'Basic configuration',
+  },
+  {
+    option: 'ext',
+    type: '[String]',
+    description: 'Specify JavaScript file extensions',
+    default: '.js',
+  },
 ];
 
 function areEqual(opt1, opt2) {

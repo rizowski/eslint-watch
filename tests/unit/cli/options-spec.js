@@ -23,14 +23,17 @@ describe('cli/options', () => {
         `esw [options] [file.js ...] [dir ...]
 
         ESW Options:
-          -h, --help     Show help
-          -w, --watch    Enable file watch
-          --changed      Enables single file linting while watch is enabled
-          --clear        Clear terminal when running lint
-          -v, --version  Prints Eslint-Watch Version
-          --versions     Prints Eslint-Watch and Eslint Versions
+          -h, --help             Show help
+          -w, --watch            Enable file watch
+          --changed              Enables single file linting while watch is enabled
+          --clear                Clear terminal when running lint
+          -v, --version          Prints Eslint-Watch Version
+          --versions             Prints Eslint-Watch and Eslint Versions
           --watch-ignore RegExp  Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/
-          --watch-delay Int Delay(ms) for watcher to wait to trigger re-lint - default: 300`.replace(/\s+/g, ' ')
+          --watch-delay Int      Delay(ms) for watcher to wait to trigger re-lint - default: 300
+
+        Basic configuration:
+          --ext [String]         Specify JavaScript file extensions - default: .js`.replace(/\s+/g, ' ')
       );
     });
 
@@ -68,6 +71,7 @@ describe('cli/options', () => {
           watch: true,
           changed: true,
           clear: true,
+          ext: ['.js'],
           version: true,
           versions: true,
           watchIgnore: /node_modules|dist|build/,

@@ -56,13 +56,14 @@ ESW Options:
 --watch-delay Int Delay(ms) for watcher to wait to trigger re-lint - default: 300
 
 Basic configuration:
+--ext [String] Specify JavaScript file extensions - default: .js
 --no-eslintrc Disable use of configuration from .eslintrc._
 -c, --config path::String Use this configuration, overriding .eslintrc._ config options if present
 --env [String] Specify environments
---ext [String] Specify JavaScript file extensions - default: .js
 --global [String] Define global variables
 --parser String Specify the parser to be used
 --parser-options Object Specify parser options
+--resolve-plugins-relative-to path::String A folder where plugins should be resolved from CWD by default
 
 Specifying rules and plugins:
 --rulesdir [path::String] Use additional rules from this directory

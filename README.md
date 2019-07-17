@@ -13,7 +13,7 @@ Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs
 
 To use this tool we require eslint to be installed on your project. The versions supported are:
 
-- `"eslint": ">=4 <6.0.0"`
+- `"eslint": ">=4 <7.0.0"`
 - `node >= 8.0.0 <= LTS` Non LTS versions will have limited support.
 
 ## Getting started

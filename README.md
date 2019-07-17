@@ -2,9 +2,9 @@
 
 [![](https://img.shields.io/badge/release-notes-blue.svg)](https://github.com/rizowski/eslint-watch/releases/latest)
 [![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
-[![Coverage Status](https://coveralls.io/repos/github/rizowski/eslint-watch/badge.svg?branch=master)](https://coveralls.io/github/rizowski/eslint-watch?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/rizowski/eslint-watch/badge.svg?branch=dep-coverage)](https://coveralls.io/github/rizowski/eslint-watch?branch=dep-coverage)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
-[![Reference Status](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat-square)](https://www.versioneye.com/nodejs/eslint-watch/references)
+[![Dependencies](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat-square)](https://github.com/rizowski/eslint-watch/network/dependencies)
 
 Don't want to import Webpack, Grunt, or some other task package into your project? Then this is the tool for you.
 Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs.com/package/eslint). Eslint Watch provides file watching and command line improvements to the currently existing Eslint command line interface. All commands that Eslint offers can be used with the addition of a watch command and a couple new templating views. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!
@@ -13,14 +13,14 @@ Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs
 
 To use this tool we require eslint to be installed on your project. The versions supported are:
 
-- `"eslint": ">=4 <7.0.0"`
-- `node >= 6.0.0 <= LTS` Non LTS versions will have limited support.
+- `"eslint": ">=4 <6.0.0"`
+- `node >= 8.0.0 <= LTS` Non LTS versions will have limited support.
 
 ## Getting started
 
 To run eslint-watch without the global install, make an npm script.
 
-### NPM 3+
+### NPM
 
 - `npm i -g eslint eslint-watch` or `npm i -D eslint eslint-watch`
 
@@ -114,7 +114,9 @@ Eslint-Watch uses [`chokidar`](https://github.com/paulmillr/chokidar) under the 
 ## Functionality
 
 [![Simple lint and watch](https://thumbs.gfycat.com/AgreeableForsakenIvorygull-size_restricted.gif)](https://fat.gfycat.com/AgreeableForsakenIvorygull.gif)
+
 Donate:
 
 - (Ƀitcoin): `13V7iDxBhnFASw7avGGRk64ExDGTirhx37`
+
 - (PayPal): [https://www.paypal.me/rizowski](https://www.paypal.me/rizowski)

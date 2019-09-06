@@ -2,7 +2,7 @@
   "name": "eslint-watch",
   "version": "6.0.0",
   "description": "Run eslint with watch mode",
-  "main": "./src/cli.js",
+  "main": "./build",
   "scripts": {
     "build": "babel src -d build -s inline",
     "ci:win": "npm run lint && npm test",

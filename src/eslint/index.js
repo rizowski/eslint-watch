@@ -4,17 +4,19 @@ import execa from 'execa';
 
 const eslint = {
   async getHelpOptions() {
-    const helpText = await eslint.execute(['--help']);
+    const helpText = await eslint.execute(['--help'], { color: false });
 
     return parser.parseHelp(helpText);
   },
-  async execute(args = []) {
+  async execute(args = [], cliOptions = {}) {
     const logger = Logger.createLogger('eslint');
 
     logger.debug('Executing %o', args);
 
+    const env = cliOptions.color ? { FORCE_COLOR: cliOptions.color } : {};
+
     try {
-      const result = await execa('eslint', args);
+      const result = await execa('eslint', args, { env: { ...process.env, ...env } });
 
       logger.debug(result);
 
@@ -34,7 +36,7 @@ const eslint = {
 
     try {
       let endLine = '';
-      const results = await eslint.execute(args);
+      const results = await eslint.execute(args, cliOpts);
 
       if (!results.trim()) {
         if (!cliOpts.quiet) {

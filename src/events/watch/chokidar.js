@@ -3,7 +3,7 @@ import { createLogger } from '../../logger';
 
 const logger = createLogger('watch:chokidar');
 
-const ignoredPath = /\.git|node_modules|bower_components/;
+const ignoredPath = /\.git|node_modules|bower_components|\.eslintcache/;
 
 export default {
   createWatcher(dirs, options = {}) {

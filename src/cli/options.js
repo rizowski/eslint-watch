@@ -52,7 +52,7 @@ const defaultOptions = [
   {
     option: 'watch-ignore',
     type: 'RegExp',
-    description: 'Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/',
+    description: 'Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components|.eslintcache/',
   },
   {
     option: 'watch-delay',

@@ -44,7 +44,7 @@ describe('events/watch', () => {
   });
 
   it('lints the directory when a change is detected', (done) => {
-    const opts = { _: ['./'], ext: ['.js'] };
+    const opts = { _: ['./'], ext: ['.js'], watchDelay: 0 };
     watch.listen(opts);
 
     emitter.emit('change', './some/path.js');
@@ -57,11 +57,11 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 0);
+    }, 100);
   });
 
   it('lints the changed path when --changed is provided and a change is detected', (done) => {
-    const opts = { _: ['./'], changed: true, ext: ['.js'] };
+    const opts = { _: ['./'], changed: true, ext: ['.js'], watchDelay: 0 };
     watch.listen(opts);
 
     emitter.emit('change', './some/path.js');
@@ -74,7 +74,7 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 0);
+    }, 100);
   });
 
   it('does not lint non js files', (done) => {
@@ -91,7 +91,7 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 0);
+    }, 100);
   });
 
   it('runs an initial lint when the ready event is fired', (done) => {
@@ -108,6 +108,6 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 0);
+    }, 100);
   });
 });

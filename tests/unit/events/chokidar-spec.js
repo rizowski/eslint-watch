@@ -29,12 +29,12 @@ describe('events/chokidar', () => {
 
     expect(chokidarStub.calledOnce).to.equal(true, 'chokidar was not called once');
     expect(chokidarStub.firstCall.args[0]).to.eql(['.']);
-    expect(chokidarStub.firstCall.args[1]).to.eql({ ignored: /\.git|node_modules|bower_components/ });
+    expect(chokidarStub.firstCall.args[1]).to.eql({ ignored: /\.git|node_modules|bower_components|\.eslintcache/ });
   });
 
   it('merges default ignore paths', () => {
     watch.createWatcher(['.'], { ignored: /build|dist/ });
 
-    expect(chokidarStub.firstCall.args[1]).to.eql({ ignored: /\.git|node_modules|bower_components|build|dist/ });
+    expect(chokidarStub.firstCall.args[1]).to.eql({ ignored: /\.git|node_modules|bower_components|\.eslintcache|build|dist/ });
   });
 });

@@ -50,8 +50,7 @@ export default {
             const changed = opts.changed ? [filePath] : opts._;
 
             await lint(opts, [...flags, ...changed]);
-          }),
-          opts.watchDelay || 300
+          }, opts.watchDelay || 300)
         )
         /* istanbul ignore next */
         .on('error', (err) => logger.error(err))

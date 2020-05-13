@@ -7,7 +7,7 @@
       "@babel/env",
       {
         "targets": {
-          "node": 8
+          "node": 10
         },
         "useBuiltIns": "entry",
         "corejs": 2

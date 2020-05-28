@@ -7,17 +7,8 @@ os:
   - linux
   # - osx
   # - windows
-addons:
-  code_climate:
-    repo_token: 5eb0170c7d7906e985d916c3d0ac617b7ba26a6ed3049e60bf39045703a993c4
 script:
   - npm run ci:test
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < ./coverage/lcov.info
-deploy:
-  provider: npm
-  api_key:
-    secure: "dB+sLBlGdN3druRZn+Ypv7N+cNXs7r/7Sc0iVxoyPygNyOLy7C31TOJMTxggFInoE1WOgStgJDh/vf0/CFPq1gmG0LDhCcz6/s4qI/48iAB1VRK9RbUnW/Hyx3/vHH4QvXMYc/T06mi8kyr9wCEE+HBuvysPjgAOqlHJii6IHxWktzdwGpvux6dqiarQNh17t9vfAxbadfH4oN/maSW9HLTxGjw55W/7fhUWEvholy4rxlftlWrqkV/yiBzHrkRIreBsbmAGKRx9uZaDY7+LB7dMBZtqKl8XjfmM94SJpGR4QCdzbsS2wkRoMIDV2TMTLdK8GhZTkR/cCTuuOlzm0AtEo3NEKbaKFLSw1f8TB0T373Yai+vP9s2MC3ZBYeCLxNLOTDacxKaQgnRHiV9LSsfOuxv/TTdStkyNGNFg82mkO+Z6NXfVWVRghjObJz5+sy60PNon/VG5Zf79ioRmVcyHJSH01JbWPi7CQ2rSrN4E6U5C6OU8xNeePmsvtXa8NCed2h6TpYJWUs5V1VX9QcVmK4cG6J+7TuIA3MfyxKarkXyV050uJoZfx6Xv4BHdMj8dPOiuKKd2/QE6wU8wClWAOV9ysv+YoLcvY9cakmDlYr6dd31GvDZ4Yded8tdk9ytI6QbxGoEAKEJZyUxcvtTiu65tIx5AJgpwMu93EBo="
-  on:
-    tags: true

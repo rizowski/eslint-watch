@@ -15,10 +15,10 @@
     "mocha": "mocha",
     "postcoverage": "nyc report --reporter=text-lcov | coveralls",
     "prepare": "npm run build",
-    "test:integration": "npm run mocha -- --opts ./tests/mocha-integration.opts",
-    "test:unit": "npm run mocha -- --opts ./tests/mocha-unit.opts",
+    "test:integration": "mocha --spec ./tests/integration/**/*spec.js",
+    "test:unit": "mocha --spec ./tests/unit/**/*spec.js",
     "test:watch": "npm run test -- -R min -b -w",
-    "test": "npm run mocha -- --opts ./tests/mocha.opts"
+    "test": "mocha --spec ./tests/**/**/**/*spec.js"
   },
   "engines": {
     "node": ">=10"

@@ -43,7 +43,7 @@ To run eslint-watch without the global install, make an npm script.
 Eslint-Watch replaces only a few commands that it needs to take control over. All other commands are forwarded to Eslint unmodified. Please refer to their help text for full command support as the one provided below might not be up to date with the latest Eslint changes.
 
 ```md
-esw [options][file.js ...] [dir ...]
+esw [options] [file.js ...] [dir ...]
 
 ESW Options:
 -h, --help Show help
@@ -52,7 +52,7 @@ ESW Options:
 --clear Clear terminal when running lint
 -v, --version Prints Eslint-Watch Version
 --versions Prints Eslint-Watch and Eslint Versions
---watch-ignore RegExp Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components/
+--watch-ignore RegExp Regex string of folders to ignore when watching - default: /.git|node_modules|bower_components|.eslintcache/
 --watch-delay Int Delay(ms) for watcher to wait to trigger re-lint - default: 300
 
 Basic configuration:
@@ -104,6 +104,8 @@ Caching:
 
 Miscellaneous:
 --init Run config initialization wizard - default: false
+--env-info Output execution environment information - default: false
+--no-error-on-unmatched-pattern Prevent errors when pattern is unmatched
 --debug Output debugging information
 --print-config path::String Print the configuration for the given file
 ```

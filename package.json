@@ -15,10 +15,10 @@
     "mocha": "mocha",
     "postcoverage": "nyc report --reporter=text-lcov | coveralls",
     "prepare": "npm run build",
-    "test:integration": "npm run mocha -- --opts ./tests/mocha-integration.opts",
-    "test:unit": "npm run mocha -- --opts ./tests/mocha-unit.opts",
+    "test:integration": "mocha --spec ./tests/integration/**/*spec.js",
+    "test:unit": "mocha --spec ./tests/unit/**/*spec.js",
     "test:watch": "npm run test -- -R min -b -w",
-    "test": "npm run mocha -- --opts ./tests/mocha.opts"
+    "test": "mocha --spec ./tests/**/**/**/*spec.js"
   },
   "engines": {
     "node": ">=10"
@@ -74,10 +74,10 @@
     "eslint": ">=7 <8.0.0"
   },
   "dependencies": {
-    "chokidar": "^3.1.1",
-    "core-js": "^3.2.1",
-    "debug": "^4.1.0",
-    "execa": "^4.0.1",
+    "chokidar": "^3.5.1",
+    "core-js": "^3.10.0",
+    "debug": "^4.3.1",
+    "execa": "^5.0.0",
     "keypress": "^0.2.1",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
@@ -88,25 +88,25 @@
     "source-map-support": "^0.5.13"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.0",
-    "@babel/core": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
-    "@babel/register": "^7.6.0",
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/register": "^7.13.14",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-add-module-exports": "^1.0.0",
-    "chai": "^4.2.0",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "chai": "^4.3.4",
     "coveralls": "^3.0.6",
-    "eslint": "^7.0.0",
+    "eslint": "^7.23.0",
     "eslint-config-rizowski": "^1.1.4",
     "eslint-plugin-fp": "^2.3.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.2",
-    "mocha": "^7.1.2",
+    "lint-staged": "^11.0.0",
+    "mocha": "^8.3.2",
     "mocha-lcov-reporter": "^1.3.0",
     "mocha-sinon": "^2.0.0",
-    "nyc": "^15.0.1",
-    "prettier": "^2.0.5",
-    "sinon": "^9.0.2",
-    "sinon-chai": "^3.3.0"
+    "nyc": "^15.1.0",
+    "prettier": "^2.2.1",
+    "sinon": "^10.0.0",
+    "sinon-chai": "^3.6.0"
   }
 }

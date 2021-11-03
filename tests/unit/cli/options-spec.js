@@ -1,5 +1,5 @@
-import path from 'path';
-import options from '../../../src/cli/options';
+const path = require('path');
+const options = require('../../../src/cli/options');
 
 describe('cli/options', () => {
   it('has a property that can get esw options', () => {
@@ -10,9 +10,7 @@ describe('cli/options', () => {
     it('returns an object with two properties', () => {
       const result = options.createOptions(options.eswOptions, []);
 
-      expect(result)
-        .to.be.an('object')
-        .with.keys(['helpText', 'parse']);
+      expect(result).to.be.an('object').with.keys(['helpText', 'parse']);
     });
 
     it('returns help text', () => {
@@ -121,9 +119,7 @@ describe('cli/options', () => {
     it('does not include watch, version(s), or clear', () => {
       const result = options.getCli({ watch: true, version: true, versions: true, clear: true, changed: true, watchIgnore: true });
 
-      expect(result.flags)
-        .to.be.an('array')
-        .and.to.have.length(0);
+      expect(result.flags).to.be.an('array').and.to.have.length(0);
     });
 
     it('set rules to --rule', () => {

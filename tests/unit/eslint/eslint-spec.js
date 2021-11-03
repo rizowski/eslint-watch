@@ -1,5 +1,5 @@
-import logger from '../../../src/logger';
-import eslint from '../../../src/eslint';
+const logger = require('../../../src/logger');
+const eslint = require('../../../src/eslint');
 
 describe('eslint/options', () => {
   describe('#getHelpOptions', () => {
@@ -13,6 +13,7 @@ describe('eslint/options', () => {
           expect(o.heading).to.be.a('string');
           return;
         }
+
         expect(o).to.have.property('description');
         expect(o).to.have.property('option');
         expect(o).to.have.property('type');

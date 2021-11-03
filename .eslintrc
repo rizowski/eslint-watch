@@ -1,18 +1,5 @@
 {
-  "parser": "babel-eslint",
-  "extends": "rizowski",
-  "env": {
-    "es6": true
-  },
-  "parserOptions": {
-    "sourceType": "module"
-  },
-  "rules": {
-    "brace-style": "error",
-    "comma-dangle": ["error", "always-multiline"],
-    "keyword-spacing": "error",
-    "quotes": ["error", "single", { "avoidEscape": true }],
-    "space-before-blocks": "error",
-    "space-infix-ops": "error"
-  }
+  "extends": ["xo-space", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {}
 }

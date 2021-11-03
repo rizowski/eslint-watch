@@ -1,6 +1,6 @@
-import parser from './parser';
-import Logger from '../logger';
-import execa from 'execa';
+const parser = require('./parser');
+const Logger = require('../logger');
+const execa = require('execa');
 
 const eslint = {
   async getHelpOptions() {
@@ -42,6 +42,7 @@ const eslint = {
         if (!cliOpts.quiet) {
           logger.log(`✓ Clean (${new Date().toLocaleTimeString()})`);
         }
+
         return;
       }
 
@@ -56,4 +57,4 @@ const eslint = {
   },
 };
 
-export default eslint;
+module.exports = eslint;

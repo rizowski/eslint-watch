@@ -1,5 +1,3 @@
-function a() {
-
-}
-let blah = '';
-let _notPrivates = true;
+function a() {}
+const blah = '';
+const _notPrivates = true;

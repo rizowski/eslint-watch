@@ -1,6 +1,6 @@
-import pkg from '../../../package';
-import cmds from '../../../src/commands';
-import version from '../../../src/commands/version';
+const pkg = require('../../../package');
+const cmds = require('../../../src/commands');
+const version = require('../../../src/commands/version');
 
 describe('commands', () => {
   let sandbox;

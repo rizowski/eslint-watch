@@ -1,15 +1,17 @@
-import isEmpty from 'lodash.isempty';
+const isEmpty = require('lodash.isempty');
 
-import { createLogger } from '../logger';
+const { createLogger } = require('../logger');
 
 const logger = createLogger('eslint-help');
 logger.debug('Loaded');
 
 const namedOption = /^--/;
-const header = /^(\w+(\s+)?)+\:$/i;
+const header = /^(\w+(\s+)?)+:$/i;
 
 function parseNo(option, str) {
-  if (!str) return;
+  if (!str) {
+    return;
+  }
 
   let cmd = str.replace('--', '');
 
@@ -25,10 +27,7 @@ function parseNo(option, str) {
 }
 
 function parseDouble(arr) {
-  const description = arr
-    .slice(2)
-    .filter(Boolean)
-    .join(' ');
+  const description = arr.slice(2).filter(Boolean).join(' ');
 
   const [option, alias] = arr;
 
@@ -36,7 +35,7 @@ function parseDouble(arr) {
     option: option.replace('--', ''),
     type: 'Boolean',
     alias: alias.replace('--', ''),
-    description: description,
+    description,
   };
 }
 
@@ -80,13 +79,13 @@ function createOption(arr) {
   let option;
 
   if (namedOption.test(arr[0]) && namedOption.test(arr[1])) {
-    // negated boolean
+    // Negated boolean
     option = parseDouble(arr);
   } else if (namedOption.test(arr[0]) && !namedOption.test(arr[1])) {
-    // no alias
+    // No alias
     option = parseRegular(arr);
   } else {
-    // aliased or other
+    // Aliased or other
     option = parseAlias(arr);
   }
 
@@ -98,6 +97,7 @@ function parseHelp(helpText) {
     if (!line || index === 0) {
       return acc;
     }
+
     if (index === 0) {
       return acc;
     }
@@ -108,10 +108,7 @@ function parseHelp(helpText) {
       return acc;
     }
 
-    const lineArr = line
-      .replace(',', '')
-      .trim()
-      .split(' ');
+    const lineArr = line.replace(',', '').trim().split(' ');
 
     const option = createOption(lineArr);
 
@@ -125,6 +122,6 @@ function parseHelp(helpText) {
   }, []);
 }
 
-export default {
-  parseHelp: parseHelp,
+module.exports = {
+  parseHelp,
 };

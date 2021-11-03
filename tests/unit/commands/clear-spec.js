@@ -1,4 +1,4 @@
-import cmd from '../../../src/commands/clear';
+const cmd = require('../../../src/commands/clear');
 
 describe('commands/clear', () => {
   it('triggers on options.clear', () => {

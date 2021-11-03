@@ -1,5 +1,5 @@
-import chokidar from 'chokidar';
-import watch from '../../../src/events/watch/chokidar';
+const chokidar = require('chokidar');
+const watch = require('../../../src/events/watch/chokidar');
 
 describe('events/chokidar', () => {
   let sandbox;
@@ -23,9 +23,7 @@ describe('events/chokidar', () => {
   it('creates a watcher', () => {
     const result = watch.createWatcher(['.']);
 
-    expect(result)
-      .to.be.an('object')
-      .and.to.have.keys(['add', 'on', 'unwatch', 'close']);
+    expect(result).to.be.an('object').and.to.have.keys(['add', 'on', 'unwatch', 'close']);
 
     expect(chokidarStub.calledOnce).to.equal(true, 'chokidar was not called once');
     expect(chokidarStub.firstCall.args[0]).to.eql(['.']);

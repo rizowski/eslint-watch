@@ -1,8 +1,8 @@
-import { EventEmitter } from 'events';
-import watch from '../../../src/events/watch';
-import choki from '../../../src/events/watch/chokidar';
-import key from '../../../src/events/watch/key-listener';
-import linter from '../../../src/eslint';
+const { EventEmitter } = require('events');
+const watch = require('../../../src/events/watch');
+const choki = require('../../../src/events/watch/chokidar');
+const key = require('../../../src/events/watch/key-listener');
+const linter = require('../../../src/eslint');
 
 describe('events/watch', () => {
   let sandbox;
@@ -57,7 +57,7 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 100);
+    }, 300);
   });
 
   it('lints the changed path when --changed is provided and a change is detected', (done) => {
@@ -74,7 +74,7 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 100);
+    }, 300);
   });
 
   it('does not lint non js files', (done) => {
@@ -91,7 +91,7 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 100);
+    }, 300);
   });
 
   it('runs an initial lint when the ready event is fired', (done) => {
@@ -108,6 +108,6 @@ describe('events/watch', () => {
       } catch (error) {
         done(error);
       }
-    }, 100);
+    }, 300);
   });
 });

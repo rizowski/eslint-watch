@@ -1,14 +1,14 @@
-import pkg from '../package';
+const pkg = require('../package');
 
-import eslint from './eslint';
-import options from './cli/options';
-import { createLogger } from './logger';
-import commands from './commands';
-import watch from './events/watch';
+const eslint = require('./eslint');
+const options = require('./cli/options');
+const { createLogger } = require('./logger');
+const commands = require('./commands');
+const watch = require('./events/watch');
 
 const logger = createLogger('main');
 
-export default {
+module.exports = {
   async run([, , ...rawArgs]) {
     logger.debug(rawArgs);
     logger.debug(`ESW: v${pkg.version}`);
@@ -25,10 +25,10 @@ export default {
     }
 
     if (cliOptions.version || cliOptions.versions) {
-      return await commands.run(cliOptions);
+      return commands.run(cliOptions);
     }
 
-    let cmdResult = await commands.run(cliOptions);
+    const cmdResult = await commands.run(cliOptions);
 
     if (cliOptions.watch) {
       watch.listen(cliOptions);

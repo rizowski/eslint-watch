@@ -1,5 +1,5 @@
-import pkg from '../../../package';
-import cmd from '../../../src/commands/version';
+const pkg = require('../../../package');
+const cmd = require('../../../src/commands/version');
 
 describe('commands/version', () => {
   it('triggers on options.version = true', () => {

@@ -1,8 +1,8 @@
-import path from 'path';
-import unionwith from 'lodash.unionwith';
-import optionator from 'optionator';
-import kebab from 'lodash.kebabcase';
-import { createLogger } from '../logger';
+const path = require('path');
+const unionwith = require('lodash.unionwith');
+const optionator = require('optionator');
+const kebab = require('lodash.kebabcase');
+const { createLogger } = require('../logger');
 
 const logger = createLogger('options');
 
@@ -75,10 +75,11 @@ function areEqual(opt1, opt2) {
   if (opt1.heading && opt2.heading) {
     return opt1.heading === opt2.heading;
   }
+
   return opt1.alias === opt2.alias && opt1.option === opt2.option && opt1.type === opt2.type;
 }
 
-export default {
+module.exports = {
   get eswOptions() {
     return [...defaultOptions];
   },

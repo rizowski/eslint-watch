@@ -1,12 +1,12 @@
-import pkg from '../../package';
+const pkg = require('../../package');
 
-export default {
+module.exports = {
   name: 'version',
   trigger(opts) {
     return opts.version && !opts.versions;
   },
   run() {
-    const version = pkg.version;
+    const { version } = pkg;
 
     return `Eslint-Watch: v${version}`;
   },

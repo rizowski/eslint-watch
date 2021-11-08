@@ -1,11 +1,12 @@
 /* istanbul ignore file */
-import keypress from 'keypress';
-import { createLogger } from '../../logger';
+const keypress = require('keypress');
+const { createLogger } = require('../../logger');
 
 const logger = createLogger('events:key-listener');
 
-export default {
-  listen(keys = [], cllbk) {
+module.exports = {
+  listen(keys, cllbk) {
+    keys = keys || [];
     if (!process.stdin.setRawMode) {
       logger.debug('Process might be wrapped exiting keybinding');
       return;

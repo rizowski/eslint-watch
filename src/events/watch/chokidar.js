@@ -1,11 +1,11 @@
-import chokidar from 'chokidar';
-import { createLogger } from '../../logger';
+const chokidar = require('chokidar');
+const { createLogger } = require('../../logger');
 
 const logger = createLogger('watch:chokidar');
 
 const ignoredPath = /\.git|node_modules|bower_components|\.eslintcache/;
 
-export default {
+module.exports = {
   createWatcher(dirs, options = {}) {
     logger.debug('Watching %o %o', dirs, options);
     const ignored = options.ignored ? new RegExp(`${ignoredPath.source}|${options.ignored.source}`) : ignoredPath;

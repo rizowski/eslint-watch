@@ -1,9 +1,9 @@
-import { createLogger } from '../logger';
+const { createLogger } = require('../logger');
 const logger = createLogger('commands');
 
 const commands = [require('./clear'), require('./version'), require('./versions')];
 
-export default {
+module.exports = {
   async run(options) {
     const runnable = commands.filter((c) => c.trigger(options));
 

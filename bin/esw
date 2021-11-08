@@ -1,9 +1,7 @@
 #!/usr/bin/env node
-require('core-js/stable');
-require('source-map-support/register');
 const path = require('path');
 
-const esw = require(path.join(__dirname, '..', 'build'));
+const esw = require(path.join(__dirname, '..', 'src'));
 
 esw
   .run(process.argv)

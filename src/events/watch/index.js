@@ -1,12 +1,12 @@
-import path from 'path';
-import debounce from 'lodash.debounce';
+const path = require('path');
+const debounce = require('lodash.debounce');
 
-import watch from './chokidar';
-import { createLogger } from '../../logger';
-import eslint from '../../eslint';
-import key from './key-listener';
-import clear from '../../commands/clear';
-import cli from '../../cli/options';
+const watch = require('./chokidar');
+const { createLogger } = require('../../logger');
+const eslint = require('../../eslint');
+const key = require('./key-listener');
+const clear = require('../../commands/clear');
+const cli = require('../../cli/options');
 
 const logger = createLogger('events:watch');
 
@@ -19,7 +19,7 @@ async function lint(options = {}, eslintArgs = []) {
   await eslint.lint(eslintArgs, options);
 }
 
-export default {
+module.exports = {
   listen(opts) {
     const watcher = watch.createWatcher(opts._, { ignored: opts.watchIgnore });
     const { flags, dirs } = cli.getCli(opts);
@@ -40,7 +40,10 @@ export default {
         .on(
           'change',
           debounce(async (filePath) => {
-            if (cacheLocation === filePath) return;
+            if (cacheLocation === filePath) {
+              return;
+            }
+
             if (!opts.ext.includes(path.extname(filePath))) {
               logger.debug(`Watch: Skipping ${filePath}`);
               return;

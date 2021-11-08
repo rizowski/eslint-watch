@@ -1,6 +1,6 @@
-import path from 'path';
-import esw from '../../src';
-import pkg from '../../package';
+const path = require('path');
+const esw = require('../../src');
+const pkg = require('../../package');
 
 describe('integration', () => {
   const preStuff = ['node', 'bin'];
@@ -8,13 +8,13 @@ describe('integration', () => {
 
   describe('general', () => {
     it('reports any kind of help information', async () => {
-      let output = await esw.run([...preStuff, '--help']);
+      const output = await esw.run([...preStuff, '--help']);
 
       expect(output).to.have.string('esw [options]');
     });
 
     it("cache command doesn't show help", async () => {
-      let output = await esw.run([...preStuff, '--cache', '--cache-location', 'node_modules/esw.cache']);
+      const output = await esw.run([...preStuff, '--cache', '--cache-location', 'node_modules/esw.cache']);
       expect(output).to.not.have.string('[options]');
     });
 
@@ -25,14 +25,14 @@ describe('integration', () => {
 
   describe('help', () => {
     it('has -w and --watch', async () => {
-      let output = await esw.run([...preStuff, '--help']);
+      const output = await esw.run([...preStuff, '--help']);
 
       expect(output).to.have.string('-w');
       expect(output).to.have.string('--watch');
     });
 
     it('has stylish as default format', async () => {
-      let output = await esw.run([...preStuff, '--help']);
+      const output = await esw.run([...preStuff, '--help']);
 
       expect(output).to.have.string('default: stylish');
     });

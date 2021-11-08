@@ -1,7 +1,7 @@
-import eslint from '../eslint';
-import version from './version';
+const eslint = require('../eslint');
+const version = require('./version');
 
-export default {
+module.exports = {
   name: 'versions',
   trigger(opts) {
     return !opts.version && opts.versions;

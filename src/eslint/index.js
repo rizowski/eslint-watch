@@ -24,7 +24,7 @@ const eslint = {
     } catch (error) {
       logger.debug(error);
 
-      if (error.errno === 'ENOENT' && error.path === 'eslint') {
+      if (error.code === 'ENOENT' && error.path === 'eslint') {
         throw new Error("Error: Eslint was not found either globally or locally.\nRun 'npm i -g eslint' or 'npm i -D eslint' to resolve the issue.");
       }
 

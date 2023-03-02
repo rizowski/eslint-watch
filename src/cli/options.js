@@ -111,7 +111,7 @@ module.exports = {
     };
   },
   getCli(options) {
-    const eswKeys = ['watch', 'versions', 'version', 'clear', 'changed', 'watchIgnore', 'watchDelay'];
+    const eswKeys = ['watch', 'versions', 'version', 'clear', 'changed', 'watchIgnore', 'watchDelay', 'watchUntilNoErrors'];
 
     return Object.entries(options).reduce(
       (acc, [key, value]) => {

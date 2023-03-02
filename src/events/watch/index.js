@@ -16,7 +16,12 @@ async function lint(options = {}, eslintArgs = []) {
     logger.log(clear.run());
   }
 
-  await eslint.lint(eslintArgs, options);
+  const eslintHasErrors = await eslint.lint(eslintArgs, options);
+
+  if (!eslintHasErrors && options.watch && options.watchUntilNoErrors) {
+    logger.debug("eslint has no errors and options.watchUntilNoErrors is true, therefore we quit gracefully.")
+    process.exit(0)
+  }
 }
 
 module.exports = {

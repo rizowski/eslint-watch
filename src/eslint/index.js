@@ -43,7 +43,7 @@ const eslint = {
           logger.log(`✓ Clean (${new Date().toLocaleTimeString()})`);
         }
 
-        return;
+        return true;
       }
 
       if (!/\\n{2}$/.test(results)) {

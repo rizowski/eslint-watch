@@ -61,6 +61,12 @@ const defaultOptions = [
     default: '300',
   },
   {
+    option: 'watch-until-no-errors',
+    type: 'Boolean',
+    description: 'Watch as long as there are eslint errors. Once there are no errors, exit gracefully.',
+    default: false,
+  },
+  {
     heading: 'Basic configuration',
   },
   {
@@ -105,7 +111,7 @@ module.exports = {
     };
   },
   getCli(options) {
-    const eswKeys = ['watch', 'versions', 'version', 'clear', 'changed', 'watchIgnore', 'watchDelay'];
+    const eswKeys = ['watch', 'versions', 'version', 'clear', 'changed', 'watchIgnore', 'watchDelay', 'watchUntilNoErrors'];
 
     return Object.entries(options).reduce(
       (acc, [key, value]) => {

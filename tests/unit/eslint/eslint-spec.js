@@ -6,62 +6,58 @@ describe('eslint/options', () => {
     it('returns options for optionator', async () => {
       const options = await eslint.getHelpOptions();
 
-      expect(options).to.be.an('array');
+      expect(Array.isArray(options)).toBe(true);
 
       options.forEach((o) => {
         if (o.heading) {
-          expect(o.heading).to.be.a('string');
+          expect(typeof o.heading).toBe('string');
           return;
         }
 
-        expect(o).to.have.property('description');
-        expect(o).to.have.property('option');
-        expect(o).to.have.property('type');
+        expect(o).toHaveProperty('description');
+        expect(o).toHaveProperty('option');
+        expect(o).toHaveProperty('type');
         if (o.alias) {
-          expect(o.alias).to.be.a('string');
+          expect(typeof o.alias).toBe('string');
         }
       });
     });
   });
 
-  describe('#execute', () => {});
-
   describe('#lint', () => {
-    let sandbox;
     let loggerStub;
 
-    before(() => {
-      sandbox = sinon.createSandbox();
+    beforeAll(() => {
       loggerStub = {
-        log: sandbox.stub(),
-        error: sandbox.stub(),
-        debug: sandbox.stub(),
+        log: vi.fn(),
+        error: vi.fn(),
+        debug: vi.fn(),
       };
-      sandbox.stub(logger, 'createLogger').callsFake(() => loggerStub);
-      sandbox.stub(eslint, 'execute').resolves('');
+      vi.spyOn(logger, 'createLogger').mockImplementation(() => loggerStub);
+      vi.spyOn(eslint, 'execute').mockResolvedValue('');
     });
 
     afterEach(() => {
-      sandbox.resetHistory();
+      vi.clearAllMocks();
     });
 
-    after(() => {
-      sandbox.restore();
+    afterAll(() => {
+      vi.restoreAllMocks();
     });
 
     it('logs the clean message if no results come back ', async () => {
       await eslint.lint(['./tests/integration/test-files']);
 
-      expect(loggerStub.error.called).to.equal(false);
-      expect(loggerStub.log.calledOnce).to.equal(true);
-      expect(loggerStub.log.firstCall.args[0]).to.include('✓ Clean');
+      expect(loggerStub.error).not.toHaveBeenCalled();
+      expect(loggerStub.log).toHaveBeenCalledOnce();
+      expect(loggerStub.log.mock.calls[0][0]).toContain('✓ Clean');
     });
 
     it('does not log clean if quiet is provided', async () => {
       await eslint.lint(['.'], { quiet: true });
 
-      expect(loggerStub.error.called).to.equal(false);
-      expect(loggerStub.log.called).to.equal(false);
+      expect(loggerStub.error).not.toHaveBeenCalled();
+      expect(loggerStub.log).not.toHaveBeenCalled();
     });
   });
 });

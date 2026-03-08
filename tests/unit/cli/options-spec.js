@@ -3,21 +3,22 @@ const options = require('../../../src/cli/options');
 
 describe('cli/options', () => {
   it('has a property that can get esw options', () => {
-    expect(options.eswOptions).to.be.an('array');
+    expect(Array.isArray(options.eswOptions)).toBe(true);
   });
 
   describe('#createOptions', () => {
     it('returns an object with two properties', () => {
       const result = options.createOptions(options.eswOptions, []);
 
-      expect(result).to.be.an('object').with.keys(['helpText', 'parse']);
+      expect(result).toHaveProperty('helpText');
+      expect(result).toHaveProperty('parse');
     });
 
     it('returns help text', () => {
       const result = options.createOptions(options.eswOptions, []);
 
-      expect(result.helpText).to.be.a('string');
-      expect(result.helpText.replace(/\s+/g, ' ')).to.equal(
+      expect(typeof result.helpText).toBe('string');
+      expect(result.helpText.replace(/\s+/g, ' ')).toBe(
         `esw [options] [file.js ...] [dir ...]
 
         ESW Options:
@@ -38,7 +39,7 @@ describe('cli/options', () => {
         [{ option: 'help', type: 'Boolean', description: 'does the help' }]
       );
 
-      expect(result.helpText.replace(/\s+/g, ' ')).to.equal('esw [options] [file.js ...] [dir ...] --watch watches --help does the help');
+      expect(result.helpText.replace(/\s+/g, ' ')).toBe('esw [options] [file.js ...] [dir ...] --watch watches --help does the help');
     });
 
     it('dedupes options', () => {
@@ -47,20 +48,20 @@ describe('cli/options', () => {
         [{ option: 'watch', type: 'Boolean', description: 'watches' }]
       );
 
-      expect(result.helpText.replace(/\s+/g, ' ')).to.equal('esw [options] [file.js ...] [dir ...] --watch watches');
+      expect(result.helpText.replace(/\s+/g, ' ')).toBe('esw [options] [file.js ...] [dir ...] --watch watches');
     });
 
     describe('#parse', () => {
       let testOps;
 
-      before(() => {
+      beforeAll(() => {
         testOps = options.createOptions(options.eswOptions);
       });
 
       it('parses raw args into options', () => {
         const result = testOps.parse(['-h', '-w', '--changed', '--clear', '-v', '--versions', '--watch-ignore', '/node_modules|dist|build/']);
 
-        expect(result).to.eql({
+        expect(result).toEqual({
           help: true,
           watchDelay: 300,
           watch: true,
@@ -76,7 +77,7 @@ describe('cli/options', () => {
       it('returns a default path if none are provided', () => {
         const result = testOps.parse([]);
 
-        expect(result._).to.eql([path.resolve('.')]);
+        expect(result._).toEqual([path.resolve('.')]);
       });
     });
   });
@@ -85,43 +86,43 @@ describe('cli/options', () => {
     it('returns an object with flags and dirs from a given optionator object', () => {
       const result = options.getCli({ test: true, _: ['./'] });
 
-      expect(result).to.eql({ flags: ['--test'], dirs: ['./'] });
+      expect(result).toEqual({ flags: ['--test'], dirs: ['./'] });
     });
 
     it('returns multiple dirs', () => {
       const result = options.getCli({ _: ['.', './'] });
 
-      expect(result).to.eql({ flags: [], dirs: ['.', './'] });
+      expect(result).toEqual({ flags: [], dirs: ['.', './'] });
     });
 
     it('returns multiple flags', () => {
       const result = options.getCli({ flag: false, string: 'sup' });
 
-      expect(result).to.eql({ flags: ['--no-flag', '--string', 'sup'], dirs: [] });
+      expect(result).toEqual({ flags: ['--no-flag', '--string', 'sup'], dirs: [] });
     });
 
     it('sets false boolean flags with --no- prefix', () => {
       const result = options.getCli({ flag: false });
 
-      expect(result.flags).to.eql(['--no-flag']);
+      expect(result.flags).toEqual(['--no-flag']);
     });
 
     it('sets true boolean flags to --flag-name', () => {
       const result = options.getCli({ flagName: true });
 
-      expect(result.flags).to.eql(['--flag-name']);
+      expect(result.flags).toEqual(['--flag-name']);
     });
 
     it('does not include watch, version(s), or clear', () => {
       const result = options.getCli({ watch: true, version: true, versions: true, clear: true, changed: true, watchIgnore: true });
 
-      expect(result.flags).to.be.an('array').and.to.have.length(0);
+      expect(result.flags).toHaveLength(0);
     });
 
     it('set rules to --rule', () => {
       const result = options.getCli({ rule: { 'guard-for-in': 2, 'brace-style': [2, '1tbs'] } });
 
-      expect(result.flags).to.eql(['--rule', 'guard-for-in: 2', '--rule', 'brace-style: [2,1tbs]']);
+      expect(result.flags).toEqual(['--rule', 'guard-for-in: 2', '--rule', 'brace-style: [2,1tbs]']);
     });
   });
 });

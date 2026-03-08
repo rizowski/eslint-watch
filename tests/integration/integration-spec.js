@@ -11,12 +11,12 @@ describe('integration', () => {
     it('reports any kind of help information', async () => {
       const output = await esw.run([...preStuff, '--help']);
 
-      expect(output).to.have.string('esw [options]');
+      expect(output).toContain('esw [options]');
     });
 
     it("cache command doesn't show help", async () => {
       const output = await esw.run([...preStuff, '--cache', '--cache-location', 'node_modules/esw.cache']);
-      expect(output).to.not.have.string('[options]');
+      expect(output).not.toContain('[options]');
     });
 
     it("doesn't throw when a no option is used", async () => {
@@ -28,29 +28,29 @@ describe('integration', () => {
     it('has -w and --watch', async () => {
       const output = await esw.run([...preStuff, '--help']);
 
-      expect(output).to.have.string('-w');
-      expect(output).to.have.string('--watch');
+      expect(output).toContain('-w');
+      expect(output).toContain('--watch');
     });
 
     it('has stylish as default format', async () => {
       const output = await esw.run([...preStuff, '--help']);
 
-      expect(output).to.have.string('default: stylish');
+      expect(output).toContain('default: stylish');
     });
 
     it('includes v9 options like --no-config-lookup', async () => {
       const output = await esw.run([...preStuff, '--help']);
 
-      expect(output).to.have.string('--no-config-lookup');
+      expect(output).toContain('--no-config-lookup');
     });
 
     it('does not include removed v8 options like --eslintrc', async () => {
       const output = await esw.run([...preStuff, '--help']);
 
-      expect(output).to.not.have.string('--no-eslintrc');
-      expect(output).to.not.have.string('--env [String]');
-      expect(output).to.not.have.string('--rulesdir');
-      expect(output).to.not.have.string('--ignore-path');
+      expect(output).not.toContain('--no-eslintrc');
+      expect(output).not.toContain('--env [String]');
+      expect(output).not.toContain('--rulesdir');
+      expect(output).not.toContain('--ignore-path');
     });
   });
 
@@ -59,7 +59,7 @@ describe('integration', () => {
       try {
         await esw.run([...preStuff, '--config', testConfig, testFiles]);
       } catch (error) {
-        expect(error.message).to.have.string('5 errors');
+        expect(error.message).toContain('5 errors');
       }
     });
 
@@ -67,7 +67,7 @@ describe('integration', () => {
       try {
         await esw.run([...preStuff, '--config', testConfig, testFiles]);
       } catch (error) {
-        expect(error.message).to.have.string('2 warnings');
+        expect(error.message).toContain('2 warnings');
       }
     });
 
@@ -75,7 +75,7 @@ describe('integration', () => {
       try {
         await esw.run([...preStuff, '--quiet', '--config', testConfig, testFiles]);
       } catch (error) {
-        expect(error.message).to.not.have.string('2 warnings');
+        expect(error.message).not.toContain('2 warnings');
       }
     });
   });
@@ -84,14 +84,14 @@ describe('integration', () => {
     it('parses inline rules correctly', async () => {
       const result = await esw.run([...preStuff, '--rule', 'no-unused-vars: off', '--quiet', '--config', testConfig, testFiles]);
 
-      expect(result).to.eql('');
+      expect(result).toEqual('');
     });
   });
 
   describe('version', () => {
     it('prints out eslint-watch version with --esw-version', async () => {
       const output = await esw.run([...preStuff, '--version']);
-      expect(output.trim()).to.equal(`Eslint-Watch: v${pkg.version}`);
+      expect(output.trim()).toBe(`Eslint-Watch: v${pkg.version}`);
     });
   });
 });

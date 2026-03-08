@@ -5,14 +5,12 @@ const key = require('../../../src/events/watch/key-listener');
 const linter = require('../../../src/eslint');
 
 describe('events/watch', () => {
-  let sandbox;
   let chokiStub;
   let lintStub;
   let emitter;
 
   beforeEach(() => {
     emitter = new EventEmitter();
-    sandbox = sinon.createSandbox();
     const watchMock = {
       on(name, callback) {
         emitter.addListener(name, callback);
@@ -20,94 +18,116 @@ describe('events/watch', () => {
       },
     };
 
-    chokiStub = sandbox.stub(choki, 'createWatcher').returns(watchMock);
-    lintStub = sandbox.stub(linter, 'lint').resolves();
-    sandbox.stub(key, 'listen');
+    chokiStub = vi.spyOn(choki, 'createWatcher').mockReturnValue(watchMock);
+    lintStub = vi.spyOn(linter, 'lint').mockResolvedValue();
+    vi.spyOn(key, 'listen').mockImplementation(() => {});
   });
 
   afterEach(() => {
     emitter.removeAllListeners();
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it('creates a watcher', () => {
-    const options = { _: ['./'], ext: ['.js'] };
+    const options = { _: ['./'] };
     watch.listen(options);
 
-    expect(emitter.listeners('add')).to.have.length(1);
-    expect(emitter.listeners('ready')).to.have.length(1);
-    expect(emitter.listeners('change')).to.have.length(1);
-    expect(emitter.listeners('error')).to.have.length(1);
+    expect(emitter.listeners('add')).toHaveLength(1);
+    expect(emitter.listeners('ready')).toHaveLength(1);
+    expect(emitter.listeners('change')).toHaveLength(1);
+    expect(emitter.listeners('error')).toHaveLength(1);
 
-    expect(chokiStub.calledOnce).to.equal(true, 'chokidar called more than once');
-    expect(chokiStub.firstCall.args).to.eql([['./'], { ignored: undefined }]);
+    expect(chokiStub).toHaveBeenCalledOnce();
+    expect(chokiStub.mock.calls[0]).toEqual([['./'], { ignored: undefined, ignorePatterns: [] }]);
   });
 
-  it('lints the directory when a change is detected', (done) => {
-    const opts = { _: ['./'], ext: ['.js'], watchDelay: 0 };
+  it('lints the directory when a change is detected', async () => {
+    const opts = { _: ['./'], watchDelay: 0 };
     watch.listen(opts);
 
     emitter.emit('change', './some/path.js');
 
-    setTimeout(() => {
-      try {
-        expect(lintStub.calledOnce).to.equal(true);
-        expect(lintStub.firstCall.args).to.eql([['--ext', ['.js'], './'], opts]);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    }, 300);
+    await new Promise((r) => setTimeout(r, 500));
+    expect(lintStub).toHaveBeenCalledOnce();
+    expect(lintStub.mock.calls[0]).toEqual([['./'], opts]);
   });
 
-  it('lints the changed path when --changed is provided and a change is detected', (done) => {
-    const opts = { _: ['./'], changed: true, ext: ['.js'], watchDelay: 0 };
+  it('lints the changed path when --changed is provided and a change is detected', async () => {
+    const opts = { _: ['./'], changed: true, watchDelay: 0 };
     watch.listen(opts);
 
     emitter.emit('change', './some/path.js');
 
-    setTimeout(() => {
-      try {
-        expect(lintStub.calledOnce).to.equal(true);
-        expect(lintStub.firstCall.args).to.eql([['--ext', ['.js'], './some/path.js'], opts]);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    }, 300);
+    await new Promise((r) => setTimeout(r, 500));
+    expect(lintStub).toHaveBeenCalledOnce();
+    expect(lintStub.mock.calls[0]).toEqual([['./some/path.js'], opts]);
   });
 
-  it('does not lint non js files', (done) => {
+  it('does not lint files with non-matching ext when --ext is explicitly set', async () => {
     const opts = { _: ['./'], changed: true, ext: ['.js'] };
 
     watch.listen(opts);
 
     emitter.emit('change', './some/path.py');
 
-    setTimeout(() => {
-      try {
-        expect(lintStub.called).to.equal(false);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    }, 300);
+    await new Promise((r) => setTimeout(r, 500));
+    expect(lintStub).not.toHaveBeenCalled();
   });
 
-  it('runs an initial lint when the ready event is fired', (done) => {
-    const opts = { _: ['./'], changed: true, ext: ['.js'] };
+  it('lints all file types when --ext is not provided (Bug #193)', async () => {
+    const opts = { _: ['./'], changed: true, watchDelay: 0 };
+
+    watch.listen(opts);
+
+    emitter.emit('change', './some/component.tsx');
+
+    await new Promise((r) => setTimeout(r, 500));
+    expect(lintStub).toHaveBeenCalledOnce();
+    expect(lintStub.mock.calls[0]).toEqual([['./some/component.tsx'], opts]);
+  });
+
+  it('lints .ts files when --ext includes .ts', async () => {
+    const opts = { _: ['./'], changed: true, ext: ['.js', '.ts'], watchDelay: 0 };
+
+    watch.listen(opts);
+
+    emitter.emit('change', './some/file.ts');
+
+    await new Promise((r) => setTimeout(r, 500));
+    expect(lintStub).toHaveBeenCalledOnce();
+  });
+
+  it('runs an initial lint when the ready event is fired', async () => {
+    const opts = { _: ['./'], changed: true };
     watch.listen(opts);
 
     emitter.emit('ready');
 
-    setTimeout(() => {
-      try {
-        expect(lintStub.calledOnce).to.equal(true);
-        expect(lintStub.firstCall.args).to.eql([['--ext', ['.js'], './'], opts]);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    }, 300);
+    await new Promise((r) => setTimeout(r, 500));
+    expect(lintStub).toHaveBeenCalledOnce();
+    expect(lintStub.mock.calls[0]).toEqual([['./'], opts]);
+  });
+
+  describe('--ignore-pattern support (Bug #194, #189)', () => {
+    it('passes ignorePattern to createWatcher', () => {
+      const opts = { _: ['./'], ignorePattern: ['**/dist/**'] };
+      watch.listen(opts);
+
+      expect(chokiStub.mock.calls[0][1]).toEqual({ ignored: undefined, ignorePatterns: ['**/dist/**'] });
+    });
+
+    it('passes multiple ignorePatterns to createWatcher', () => {
+      const opts = { _: ['./'], ignorePattern: ['**/dist/**', '**/build/**'] };
+      watch.listen(opts);
+
+      expect(chokiStub.mock.calls[0][1]).toEqual({ ignored: undefined, ignorePatterns: ['**/dist/**', '**/build/**'] });
+    });
+
+    it('passes empty ignorePatterns when --ignore-pattern is not set', () => {
+      const opts = { _: ['./'] };
+      watch.listen(opts);
+
+      expect(chokiStub.mock.calls[0][1]).toEqual({ ignored: undefined, ignorePatterns: [] });
+    });
   });
 });

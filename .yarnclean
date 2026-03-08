@@ -41,8 +41,8 @@ wercker.yml
 .yarn-metadata.json
 .travis.yml
 
-# ignore nyc assets
-!nyc/node_modules/istanbul-reports/lib/html/assets
+# ignore istanbul coverage report assets
+!istanbul-reports/lib/html/assets
 
 # misc
 *.md

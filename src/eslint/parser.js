@@ -15,9 +15,9 @@ function parseNo(option, str) {
 
   let cmd = str.replace('--', '');
 
-  if (/no-/.test(cmd)) {
+  if (/^no-/.test(cmd)) {
     logger.debug('Parsing no option', str);
-    cmd = cmd.replace('no-', '');
+    cmd = cmd.replace(/^no-/, '');
     option.default = 'true';
   }
 

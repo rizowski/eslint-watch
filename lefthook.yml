@@ -1,0 +1,7 @@
+pre-commit:
+  commands:
+    lint-staged:
+      skip:
+        - merge
+        - rebase
+      run: yarn lint-staged --allow-empty

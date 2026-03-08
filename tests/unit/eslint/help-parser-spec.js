@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const parser = require('../../../src/eslint/parser');
 
 describe('unit: help-parser', () => {
@@ -115,6 +117,65 @@ describe('unit: help-parser', () => {
       msg = `${title}\n\nHEADING:\n${noColor}\n`;
       const options = parser.parseHelp(msg);
       expect(options[0].heading).to.not.include(':');
+    });
+
+    describe('path::String type format', () => {
+      it('preserves path::String as the type (optionator handles it)', () => {
+        msg = `${title}\n\nOptions:\n  --config path::String  Use this configuration\n`;
+        const options = parser.parseHelp(msg);
+        const configOpt = options.find((o) => o.option === 'config');
+        expect(configOpt.type).to.equal('path::String');
+        expect(configOpt.description).to.equal('Use this configuration');
+      });
+
+      it('parses aliased options with path::String type', () => {
+        msg = `${title}\n\nOptions:\n  -c, --config path::String  Use this config\n`;
+        const options = parser.parseHelp(msg);
+        const configOpt = options.find((o) => o.option === 'config');
+        expect(configOpt.type).to.equal('path::String');
+        expect(configOpt.alias).to.equal('c');
+      });
+    });
+
+    describe('ESLint v9 help format', () => {
+      let v9Help;
+
+      before(() => {
+        v9Help = fs.readFileSync(path.join(__dirname, '../../mocks/eslint-help.text'), 'utf8');
+      });
+
+      it('parses v9 help without throwing', () => {
+        expect(() => parser.parseHelp(v9Help)).to.not.throw();
+      });
+
+      it('does not include removed v8 options', () => {
+        const options = parser.parseHelp(v9Help);
+        const optionNames = options.filter((o) => !o.heading).map((o) => o.option);
+        expect(optionNames).to.not.include('eslintrc');
+        expect(optionNames).to.not.include('env');
+        expect(optionNames).to.not.include('ext');
+        expect(optionNames).to.not.include('resolve-plugins-relative-to');
+        expect(optionNames).to.not.include('ignore-path');
+        expect(optionNames).to.not.include('rulesdir');
+      });
+
+      it('includes new v9 options', () => {
+        const options = parser.parseHelp(v9Help);
+        const optionNames = options.filter((o) => !o.heading).map((o) => o.option);
+        expect(optionNames).to.include('config-lookup');
+        expect(optionNames).to.include('inspect-config');
+        expect(optionNames).to.include('flag');
+        expect(optionNames).to.include('warn-ignored');
+        expect(optionNames).to.include('pass-on-no-patterns');
+        expect(optionNames).to.include('stats');
+      });
+
+      it('preserves path::String types for optionator', () => {
+        const options = parser.parseHelp(v9Help);
+        const configOpt = options.find((o) => o.option === 'config');
+        expect(configOpt.type).to.equal('path::String');
+        expect(configOpt.alias).to.equal('c');
+      });
     });
   });
 });

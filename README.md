@@ -1,9 +1,8 @@
 # Eslint Watch
 
 [![](https://img.shields.io/badge/release-notes-blue.svg)](https://github.com/rizowski/eslint-watch/releases/latest)
-[![Build Status](https://travis-ci.org/rizowski/eslint-watch.svg?branch=master)](https://travis-ci.org/rizowski/eslint-watch)
+[![Build Status](https://github.com/rizowski/eslint-watch/actions/workflows/ci.yml/badge.svg)](https://github.com/rizowski/eslint-watch/actions/workflows/ci.yml)
 [![Code Climate](https://codeclimate.com/github/rizowski/eslint-watch/badges/gpa.svg)](https://codeclimate.com/github/rizowski/eslint-watch)
-[![Dependencies](https://www.versioneye.com/nodejs/eslint-watch/reference_badge.svg?style=flat-square)](https://github.com/rizowski/eslint-watch/network/dependencies)
 
 Don't want to import Webpack, Grunt, or some other task package into your project? Then this is the tool for you.
 Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs.com/package/eslint). Eslint Watch provides file watching and command line improvements to the currently existing Eslint command line interface. All commands that Eslint offers can be used with the addition of a watch command and a couple new templating views. Don't believe me? Checkout the [code](https://github.com/rizowski/eslint-watch) or some of the features below!
@@ -12,8 +11,10 @@ Eslint Watch is a simple command line tool that wraps [Eslint](https://www.npmjs
 
 To use this tool we require eslint to be installed on your project. The versions supported are:
 
-- `"eslint": ">=8 <9.0.0"`
-- `node >= 12.0.0 <= LTS` Non LTS versions will have limited support.
+- `"eslint": ">=9 <11.0.0"`
+- `node ^18.18.0 || ^20.9.0 || >=21.1.0` Non LTS versions will have limited support.
+
+**Note:** ESLint v9+ uses [flat config](https://eslint.org/docs/latest/use/configure/configuration-files) (`eslint.config.js`) by default. Legacy `.eslintrc.*` config files are no longer supported.
 
 ## Getting started
 
@@ -31,6 +32,8 @@ To run eslint-watch without the global install, make an npm script.
   - Runs a full directory lint before the watch
   - Press `enter` to rerun directory lint while watching
   - Include directories to ignore on watch
+  - Respects `--ignore-pattern` in watch mode — ignored files won't trigger re-lints
+  - Watches all file types by default — no longer limited to `.js` unless `--ext` is explicitly set
 - Eslint Overrides
   - Default directory linting. A directory is no longer required.
 
@@ -53,35 +56,32 @@ ESW Options:
   --watch-delay Int              Delay(ms) for watcher to wait to trigger re-lint - default: 300
 
 Basic configuration:
-  --ext [String]                 Specify JavaScript file extensions - default: .js
-  --no-eslintrc                  Disable use of configuration from .eslintrc.*
-  -c, --config path::String      Use this configuration, overriding .eslintrc.* config options if present
-  --env [String]                 Specify environments
+  --no-config-lookup             Disable look up for eslint.config.js
+  -c, --config path::String      Use this configuration instead of eslint.config.js, eslint.config.mjs, or
+                                 eslint.config.cjs
+  --inspect-config               Open the config inspector with the current configuration
   --global [String]              Define global variables
   --parser String                Specify the parser to be used
   --parser-options Object        Specify parser options
-  --resolve-plugins-relative-to path::String  A folder where plugins should be resolved from CWD by default
 
-Specifying rules and plugins:
-  --rulesdir [path::String]      Use additional rules from this directory
+Specify Rules and Plugins:
   --plugin [String]              Specify plugins
   --rule Object                  Specify rules
 
-Fixing problems:
+Fix Problems:
   --fix                          Automatically fix problems
   --fix-dry-run                  Automatically fix problems without saving the changes to the file system
-  --fix-type Array               Specify the types of fixes to apply (directive problem, suggestion, layout)
+  --fix-type Array               Specify the types of fixes to apply (directive, problem, suggestion, layout)
 
-Ignoring files:
-  --ignore-path path::String     Specify path of ignore file
+Ignore Files:
   --no-ignore                    Disable use of ignore files and patterns
-  --ignore-pattern [String]      Pattern of files to ignore (in addition to those in .eslintignore)
+  --ignore-pattern [String]      Patterns of files to ignore
 
-Using stdin:
+Use stdin:
   --stdin                        Lint code provided on <STDIN> - default: false
   --stdin-filename String        Specify filename to process STDIN as
 
-Handling warnings:
+Handle Warnings:
   --quiet                        Report errors only - default: false
   --max-warnings Int             Number of warnings to trigger nonzero exit code - default: -1
 
@@ -92,22 +92,27 @@ Output:
 
 Inline configuration comments:
   --no-inline-config             Prevent comments from changing config or rules
-  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable and eslint-enable directives
+  --report-unused-disable-directives-severity String  Chooses severity level for reporting unused
+                                 eslint-disable and eslint-enable directives
 
 Caching:
   --cache                        Only check changed files - default: false
   --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
   --cache-location path::String  Path to the cache file or directory
-  --cache-strategy String        Strategy to use for detecting changed files in the cache - either: metadata or content - default:
-                                 metadata
+  --cache-strategy String        Strategy to use for detecting changed files in the cache - default: metadata
 
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
   --env-info                     Output execution environment information - default: false
   --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched
   --exit-on-fatal-error          Exit with exit code 2 in case of fatal error - default: false
+  --no-warn-ignored              Suppress warnings when the file list includes ignored files
+  --pass-on-no-patterns          Exit with exit code 0 in case no file patterns are passed
   --debug                        Output debugging information
   --print-config path::String    Print the configuration for the given file
+  --stats                        Add statistics to the lint report - default: false
+  --flag [String]                Enable a feature flag
 ```
 
 ### Other Options

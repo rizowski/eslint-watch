@@ -8,7 +8,9 @@ const ignoredPath = /\.git|node_modules|bower_components|\.eslintcache/;
 module.exports = {
   createWatcher(dirs, options = {}) {
     logger.debug('Watching %o %o', dirs, options);
-    const ignored = options.ignored ? new RegExp(`${ignoredPath.source}|${options.ignored.source}`) : ignoredPath;
+    const baseIgnored = options.ignored ? new RegExp(`${ignoredPath.source}|${options.ignored.source}`) : ignoredPath;
+    const ignorePatterns = options.ignorePatterns || [];
+    const ignored = [baseIgnored, ...ignorePatterns];
     const watcher = chokidar.watch(dirs, { ignored });
 
     return {

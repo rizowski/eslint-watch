@@ -21,7 +21,8 @@ async function lint(options = {}, eslintArgs = []) {
 
 module.exports = {
   listen(opts) {
-    const watcher = watch.createWatcher(opts._, { ignored: opts.watchIgnore });
+    const ignorePatterns = opts.ignorePattern || [];
+    const watcher = watch.createWatcher(opts._, { ignored: opts.watchIgnore, ignorePatterns });
     const { flags, dirs } = cli.getCli(opts);
     const cacheLocation = path.relative(process.cwd(), path.resolve(opts.cacheLocation || '.eslintcache'));
 
@@ -44,7 +45,7 @@ module.exports = {
               return;
             }
 
-            if (!opts.ext.includes(path.extname(filePath))) {
+            if (opts.ext && opts.ext.length > 0 && !opts.ext.includes(path.extname(filePath))) {
               logger.debug(`Watch: Skipping ${filePath}`);
               return;
             }
